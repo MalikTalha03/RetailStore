@@ -4,6 +4,10 @@ import './neworder.css'
 const NewOrder = () => {
   return (
     <div className='container'>
+        <header>
+            <button>Add product</button>
+            <button>Remove</button>
+        </header>
         <form>
             <label htmlFor="name">Name</label>
             <input type="text" id="name" name="name" />
