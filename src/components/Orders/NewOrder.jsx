@@ -15,7 +15,7 @@ const NewOrder = () => {
                     <TextField
                         id="outlined-number"
                         label="Contact No."
-                        type="number"
+                        type="string"
                         InputLabelProps={{
                         shrink: true,
                         }}
@@ -69,26 +69,33 @@ const NewOrder = () => {
                 <table>
                     <thead>
                         <tr>
-                            <th>Product</th>
-                            <th>Quantity</th>
+                            <th>Product ID</th>
+                            <th>Product Name</th>
                             <th>Price</th>
+                            <th>Quantity</th>
                             <th>Total</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Product 1</td>
                             <td>1</td>
+                            <td>Product 1</td>
                             <td>100</td>
-                            <td>100</td>
+                            <td>2</td>
+                            <td>200</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Product 2</td>
+                            <td>200</td>
+                            <td>3</td>
+                            <td>600</td>
                         </tr>
                     </tbody>
                 </table>
 
-                <div className='total'>
-                    <h3>Total: 100</h3>
-
-                    <Button variant="contained">Save</Button>
+                <div className='proceed'>
+                    <Button variant="contained">Proceed</Button>
                 </div>
             </div>
         </div>
