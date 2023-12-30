@@ -12,37 +12,48 @@ const NewOrder = () => {
         <div className='neworder'>
             <form>
                 <div className='form-group'>
+                    <TextField
+                        id="outlined-number"
+                        label="Contact No."
+                        type="number"
+                        InputLabelProps={{
+                        shrink: true,
+                        }}
+                    />
+                </div>
+                <div className='form-group'>
+                    <TextField
+                        id="outlined-number"
+                        label="Name"
+                        type="string"
+                        InputLabelProps={{
+                        shrink: true,
+                        }}
+                    />
+                </div>
+                <div className='form-group'>
+                    <TextField
+                        id="outlined-number"
+                        label="Address"
+                        type="string"
+                        InputLabelProps={{
+                        shrink: true,
+                        }}
+                    />
+                </div>
+                <div className="form-group">
                     <Autocomplete
-                        id="combo-box-demo"
+                        id="prod-name"
                         options={top10Films}
+                        getOptionLabel={(option) => option.label}
                         sx={{ width: 300 }}
-                        renderInput={(params) => <TextField {...params} label="Combo box" />}
+                        renderInput={(params) => <TextField {...params} label="Product" />}
                     />
                 </div>
-                <div className='form-group'>
+                <div className="form-group">
                     <TextField
-                        id="outlined-number"
+                        id="prod-qty"
                         label="Quantity"
-                        type="number"
-                        InputLabelProps={{
-                        shrink: true,
-                        }}
-                    />
-                </div>
-                <div className='form-group'>
-                    <TextField
-                        id="outlined-number"
-                        label="Price"
-                        type="number"
-                        InputLabelProps={{
-                        shrink: true,
-                        }}
-                    />
-                </div>
-                <div className='form-group'>
-                    <TextField
-                        id="outlined-number"
-                        label="Total"
                         type="number"
                         InputLabelProps={{
                         shrink: true,
