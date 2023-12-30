@@ -1,39 +1,86 @@
 import React from 'react'
 import './neworder.css'
+import {Button, Autocomplete, TextField} from '@mui/material'
+
 
 const NewOrder = () => {
+    const top10Films = [
+        { label: 'The Shawshank Redemption', year: 1994 },
+    ];
   return (
     <div className='container'>
-        <header>
-            <button>Add product</button>
-            <button>Remove</button>
-        </header>
-        <form>
-            <label htmlFor="name">Name</label>
-            <input type="text" id="name" name="name" />
-            <label htmlFor="contact">Contact</label>
-            <input type="text" id="contact" name="contact" />
-            <label htmlFor="address">Address</label>
-            <input type="text" id="address" name="address" />
-            <label htmlFor="product">Product ID</label>
-            <input type="text" id="product" name="product" />
-            <label htmlFor="quantity">Quantity</label>
-            <input type="number" id="quantity" name="quantity" />
-        </form>
-        <table>
-            <thead>
-                <tr>
-                    <th>Product ID</th>
-                    <th>Product Name</th>
-                    <th>Unit Price</th>
-                    <th>Quantity</th>
-                    <th>Total Price</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-        <button type="submit" >Create Order</button>
+        <div className='neworder'>
+            <form>
+                <div className='form-group'>
+                    <Autocomplete
+                        id="combo-box-demo"
+                        options={top10Films}
+                        sx={{ width: 300 }}
+                        renderInput={(params) => <TextField {...params} label="Combo box" />}
+                    />
+                </div>
+                <div className='form-group'>
+                    <TextField
+                        id="outlined-number"
+                        label="Quantity"
+                        type="number"
+                        InputLabelProps={{
+                        shrink: true,
+                        }}
+                    />
+                </div>
+                <div className='form-group'>
+                    <TextField
+                        id="outlined-number"
+                        label="Price"
+                        type="number"
+                        InputLabelProps={{
+                        shrink: true,
+                        }}
+                    />
+                </div>
+                <div className='form-group'>
+                    <TextField
+                        id="outlined-number"
+                        label="Total"
+                        type="number"
+                        InputLabelProps={{
+                        shrink: true,
+                        }}
+                    />
+                </div>
+                <div className='form-group'>
+                    <Button variant="contained">Add</Button>
+                </div>
+            </form>
+
+            <div className='table'>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Product 1</td>
+                            <td>1</td>
+                            <td>100</td>
+                            <td>100</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div className='total'>
+                    <h3>Total: 100</h3>
+
+                    <Button variant="contained">Save</Button>
+                </div>
+            </div>
+        </div>
     </div>
   )
 }
