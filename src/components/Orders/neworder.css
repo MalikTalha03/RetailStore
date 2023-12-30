@@ -10,14 +10,21 @@ form {
     display: flex;
     flex-direction: row;
     padding: 20px;
+    gap : 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.neworder {
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 0 5px #ccc;
     background: #fff;
-    gap : 20px;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
-    margin: 60px 30px 0 30px
+    flex-direction: column;
+    margin: 60px 30px 0 30px;
 }
 
 form label {
@@ -37,30 +44,37 @@ form input {
     transition: all 0.3s ease;
 }
 
-table {
+.table {
     width: 100%;
     border-collapse: collapse;
-    margin: 10px 30px 0 30px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
-.th{
+.table thead tr,
+.table tbody tr {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: left;
+}
+
+.table thead th,
+.table tbody td {
     padding: 10px;
     text-align: left;
-    border: 2px solid grey;
-    border-radius: 5px ;
+    width:  20%;
 }
 
-table tbody tr td {
-    border: 2px solid grey;
-    padding: 10px;
-    border-radius: 5px;
+.table tbody tr:nth-child(even) {
+    background: #f0f0f0;
 }
 
-table tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
+.table tbody tr:nth-child(odd) {
+    background: #fff;
 }
 
-table tbody tr:hover {
-    background-color: #ddd;
-}
+
+
 
