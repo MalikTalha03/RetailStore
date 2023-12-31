@@ -5,6 +5,7 @@ import Login from './components/Login/Login';
 import Register from './components/Register/Register';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import NewOrder from './components/Orders/NewOrder';
+import OrderDetails from './components/Orders/OrderDetails';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/neworder" element={<NewOrder />} />
+        <Route path="/orderdetail" element={<OrderDetails />} />
       </Routes>
     </BrowserRouter>
   );
