@@ -1,6 +1,5 @@
 import React from 'react'
 import './neworder.css'
-import { useState } from 'react'
 import {Button, Autocomplete, TextField} from '@mui/material'
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material'
 
@@ -9,13 +8,6 @@ const NewOrder = () => {
     const top10Films = [
         { label: 'The Shawshank Redemption', year: 1994 },
     ];
-    const [open, setOpen] = useState(false);
-    const openpoup = () => {
-        setOpen(true);
-    }
-    const closepopup = () => {
-        setOpen(false);
-    }
   return (
     <div className='container'>
         <div className='neworder'>
@@ -115,36 +107,11 @@ const NewOrder = () => {
                     </tbody>
                 </table>
                 <div className='proceed'>
-                    <Button variant="contained" onClick={openpoup}>Proceed</Button>
+                    <Button variant="contained" >Proceed</Button>
                 </div>
             </div>
             
-            <div className='popup' id='popup'>
-                <Dialog
-                    open={open} onClick={closepopup}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                >
-                    <DialogTitle id="alert-dialog-title">{"Order Placed Successfully"}</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                            <Autocomplete 
-                                id='payment'
-                                options={['Cash', 'Bank Account', 'Credit']}
-                                getOptionLabel={(option) => option.label}
-                                sx={{ width: 300 }}
-                                renderInput={(params) => <TextField {...params} label="Payment Method" />}
-                            />
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                    <Button href="/neworder" autoFocus onClick= {closepopup}>
-                        OK
-                    </Button>
-                    </DialogActions>
-                </Dialog>
             </div>
-        </div>
     </div>
   )
 }
