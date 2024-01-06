@@ -3,18 +3,36 @@ import '../Orders/neworder.css'
 import './order.css'
 import {Button, Autocomplete, TextField, Stack} from '@mui/material'
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
 
 const SuppOrder = () => {
+    const suppid = 0
     const [open, setOpen] = useState(false)
     const [supplier, setSupplier] = useState({
         contact: '',
         name: '',
         address: ''
     })
+    const [selsupp, setSelsupp] = useState({
+        name: '',
+        id: 0,
+        contact: 0
+    })
+    const [selProd, setSelProd] = useState({
+        name: '',
+        id: 0,
+        price: 0
+    })
+    const [prod, setProd] = useState({
+        name: '',
+        id: 0,
+        price: 0
+    })
+    
+
     const apiurl = "http://localhost:3001/"
-    const categories = []
+    const suppliers = []
     const token = localStorage.getItem('token')
     function handleOpen() {
         setOpen(!open)
@@ -68,6 +86,85 @@ const SuppOrder = () => {
             console.log(err)
         })
             
+    }
+    fetch(
+        apiurl + 'supplier',
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        }
+    )
+    .then(res => res.json())
+    .then(data => {
+        if (data.message === 'jwt expired') {
+            window.location.href = '/login'
+            localStorage.removeItem('token')
+        }
+        data.map((item) => {
+            const supplier = {
+                name: item.name,
+                id : item.id,
+                contact: item.contact,
+            }
+            suppliers.push(supplier)
+        })
+    })
+    .catch(err => {
+        console.log(err)
+    })
+    const products = []
+    fetch (
+        apiurl + 'product',
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        }
+    )
+    .then(res => res.json())
+    .then(data => {
+        if (data.message === 'jwt expired') {
+            window.location.href = '/login'
+            localStorage.removeItem('token')
+        }
+        data.map((item) => {
+            const product = {
+                label: item.name,
+                id : item.id,
+                price: item.price,
+            }
+            products.push(product)
+        })
+    })
+    .catch(err => {
+        console.log(err)
+    })
+    function setsupp(event, value) {
+        if (value) {
+          const supp = suppliers.find((supp) => supp.name === value.name && supp.id === value.id && supp.contact === value.contact);
+          setSelsupp(supp);
+        }
+        
+    }
+    function setprod(event, value) {
+        if (value) {
+          const prod = products.find((prod) => prod.name === value.name && prod.id === value.id && prod.price === value.price);
+          if(prod) {
+            setSelProd(prod);
+          }
+          else{
+            setSelProd({
+                name: value,
+                id: 0,
+                price: 0
+            })
+          }
+        }
     }
   return (
     <div className='container'>
@@ -128,45 +225,29 @@ const SuppOrder = () => {
                 </DialogContent>
             </Dialog>
             <form className='orderform'>
-                <div className='form-group'>
-                    <TextField
-                        id="outlined-number"
-                        label="Contact No."
-                        type="string"
-                        InputLabelProps={{
-                        shrink: true,
-                        }}
-                    />
-                </div>
-                <div className='form-group'>
-                    <TextField
-                        id="outlined-number"
-                        label="Name"
-                        type="string"
-                        InputLabelProps={{
-                        shrink: true,
-                        }}
-                    />
-                </div>
-                <div className='form-group'>
-                    <TextField
-                        id="outlined-number"
-                        label="Address"
-                        type="string"
-                        InputLabelProps={{
-                        shrink: true,
-                        }}
+                <div className="form-group">
+                    <Autocomplete
+                        id="prod-name"
+                        options={suppliers}
+                        getOptionLabel={(option) => option.name}
+                        sx={{ width: 300 }}
+                        onChange={setsupp}
+                        freeSolo
+                        renderInput={(params) => <TextField {...params} label="Supplier" />}
                     />
                 </div>
                 <div className="form-group">
                     <Autocomplete
                         id="prod-name"
-                        options={categories}
-                        getOptionLabel={(option) => option.label}
+                        options={products}
+                        getOptionLabel={(option) => option.name || selProd.name}
                         sx={{ width: 300 }}
+                        freeSolo
+                        onChange={setprod}
                         renderInput={(params) => <TextField {...params} label="Product" />}
                     />
                 </div>
+                
                 <div className="form-group">
                     <TextField
                         id="prod-qty"
@@ -176,6 +257,30 @@ const SuppOrder = () => {
                         InputLabelProps={{
                         shrink: true,
                         }}
+                    />
+                </div>
+                <div className="form-group">
+                    <TextField
+                        id="price"
+                        label="Price"
+                        type="number"
+                        InputProps={{ inputProps: { min: 0 } }}
+                        InputLabelProps={{
+                        shrink: true,
+                        }}
+                    />
+                </div>
+                <div className="form-group">
+                    <TextField
+                        id="sale-price"
+                        label="Sale Price"
+                        type="number"
+                        value={selProd.price}
+                        InputProps={{ inputProps: { min: 0 } }}
+                        InputLabelProps={{
+                        shrink: true,
+                        }}
+                        onChange={(e) => setSelProd({ ...selProd, price: e.target.valueAsNumber })}
                     />
                 </div>
                 <div className='form-group'>
