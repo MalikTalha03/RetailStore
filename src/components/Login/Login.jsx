@@ -1,11 +1,13 @@
 import React from 'react'
 import './login.css'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
+
 
 
 
 const Login = () => {
-  const apiurl = "https://retail-store-backend.vercel.app/auth/login"
+  const apiurl = "http://localhost:3001/auth/login"
   function handleSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.target);
@@ -15,24 +17,20 @@ const Login = () => {
       username,
       password
     }
-    fetch(apiurl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(user)
-    })
-    .then(res => res.json())
-    .then(data => {
-      const message = data.message
+    axios.post(apiurl, user)
+    .then(res => {
+      const message = res.data.message
       if(message === 'Login Successful') {
         window.location.href = '/neworder'
-        localStorage.setItem('token', data.token)
-      } else {
-        alert(message)
+        localStorage.setItem('token', res.data.token)
       } 
+      else {
+        alert(message)
+      }
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      console.log(err)
+    })
 
   }
   return (
