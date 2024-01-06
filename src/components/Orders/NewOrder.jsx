@@ -5,9 +5,7 @@ import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } 
 
 
 const NewOrder = () => {
-    const top10Films = [
-        { label: 'The Shawshank Redemption', year: 1994 },
-    ];
+    const apiurl = "https://retail-store-backend.vercel.app/"
   return (
     <div className='container'>
         <div className='neworder'>
@@ -45,7 +43,7 @@ const NewOrder = () => {
                 <div className="form-group">
                     <Autocomplete
                         id="prod-name"
-                        options={top10Films}
+                        options={[{label: 'Product 1'}, {label: 'Product 2'}]}
                         getOptionLabel={(option) => option.label}
                         sx={{ width: 300 }}
                         renderInput={(params) => <TextField {...params} label="Product" />}
@@ -110,7 +108,6 @@ const NewOrder = () => {
                     <Button variant="contained" >Proceed</Button>
                 </div>
             </div>
-            
             </div>
     </div>
   )
