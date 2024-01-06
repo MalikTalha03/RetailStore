@@ -1,0 +1,30 @@
+.addsupp Button {
+    background-color: #3ea141;
+    border: none;
+    color: white;
+    margin: 10px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    width: auto;
+}
+
+.addsupp {
+    display: flex;
+    width: 100%;
+    justify-content: end;
+}
+
+.addsupp Button:hover {
+    background-color: #3ea141;
+    opacity: 0.8;
+}
+
+.addsupp Button:active {
+    background-color: #3ea141;
+    transform: translateY(4px);
+}
+
+.dialog {
+    height: 100%;
+}
