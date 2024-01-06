@@ -2,10 +2,38 @@ import React from 'react'
 import './neworder.css'
 import {Button, Autocomplete, TextField} from '@mui/material'
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material'
-
+import { Link } from 'react-router-dom'
 
 const NewOrder = () => {
-    const apiurl = "https://retail-store-backend.vercel.app/"
+    const apiurl = "http://localhost:3001/"
+    const categories = []
+    const token = localStorage.getItem('token')
+    fetch(
+        apiurl + 'category',
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        }
+    )
+    .then(res => res.json())
+    .then(data => {
+        if (data.message === 'Token Expired') {
+            window.location.href = '/login'
+        }
+        data.map((item) => {
+            const category = {
+                label: item.name,
+                id : item.id
+            }
+            categories.push(category)
+        })
+    })
+    .catch(err => {
+        console.log(err)
+    })
   return (
     <div className='container'>
         <div className='neworder'>
@@ -43,7 +71,7 @@ const NewOrder = () => {
                 <div className="form-group">
                     <Autocomplete
                         id="prod-name"
-                        options={[{label: 'Product 1'}, {label: 'Product 2'}]}
+                        options={categories}
                         getOptionLabel={(option) => option.label}
                         sx={{ width: 300 }}
                         renderInput={(params) => <TextField {...params} label="Product" />}
