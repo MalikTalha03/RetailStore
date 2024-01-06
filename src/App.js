@@ -5,6 +5,7 @@ import Register from './components/Register/Register';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import NewOrder from './components/Orders/NewOrder';
 import OrderDetails from './components/Orders/OrderDetails';
+import SuppOrder from './components/Supplier/SuppOrder';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/neworder" element={<NewOrder />} />
         <Route path="/orderdetail" element={<OrderDetails />} />
+        <Route path="/suporder" element={<SuppOrder/>} />
       </Routes>
     </BrowserRouter>
   );
