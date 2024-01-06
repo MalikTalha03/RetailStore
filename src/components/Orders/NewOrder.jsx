@@ -2,7 +2,6 @@ import React from 'react'
 import './neworder.css'
 import {Button, Autocomplete, TextField} from '@mui/material'
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material'
-import { Link } from 'react-router-dom'
 
 const NewOrder = () => {
     const apiurl = "http://localhost:3001/"
