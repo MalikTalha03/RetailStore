@@ -1,41 +1,132 @@
 import React from 'react'
-import '..Orders/neworder.css'
-import {Button, Autocomplete, TextField} from '@mui/material'
+import '../Orders/neworder.css'
+import './order.css'
+import {Button, Autocomplete, TextField, Stack} from '@mui/material'
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material'
+import { useState } from 'react'
+import axios from 'axios'
 
 const SuppOrder = () => {
+    const [open, setOpen] = useState(false)
+    const [supplier, setSupplier] = useState({
+        contact: '',
+        name: '',
+        address: ''
+    })
     const apiurl = "http://localhost:3001/"
     const categories = []
     const token = localStorage.getItem('token')
-    fetch(
-        apiurl + 'category',
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+    function handleOpen() {
+        setOpen(!open)
+    }
+    function handleClose() {
+        setOpen(!open)
+    }
+    function handleChange(event) {
+        const {name, value} = event.target
+        setSupplier(prevValue => {
+            return {
+                ...prevValue,
+                [name]: value
             }
-        }
-    )
-    .then(res => res.json())
-    .then(data => {
-        if (data.message === 'Token Expired') {
-            window.location.href = '/login'
-        }
-        data.map((item) => {
-            const category = {
-                label: item.name,
-                id : item.id
-            }
-            categories.push(category)
         })
-    })
-    .catch(err => {
-        console.log(err)
-    })
+    }
+    async function addsupplier() {
+        if(supplier.contact === '' || supplier.name === '' || supplier.address === '') {
+            alert('Please fill all the fields')
+        }
+        if(supplier.contact.length !== 11) {
+            alert('Invalid Contact Number')
+        }
+        if(supplier.contact.match(/^[0-9]+$/) === null) {
+            alert('Invalid Contact Number')
+        }
+        supplier.contact = parseInt(supplier.contact)
+        await fetch(
+            apiurl + 'supplier',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(supplier)
+            }
+        )
+        .then(res => res.json())
+        .then(data => {
+            if (data.message === 'jwt expired') {
+                window.location.href = '/login'
+                localStorage.removeItem('token')
+            }
+            alert(data.message)
+            if(data.message === 'Supplier Added') {
+                setOpen(!open)
+            }
+        })
+        .catch(err => {
+            console.log(err)
+        })
+            
+    }
   return (
     <div className='container'>
         <div className='neworder'>
+            <div className="addsupp">
+                <Button variant="contained"onClick={handleOpen}>Add Supplier</Button>
+            </div>
+            <Dialog open={open} onClose={handleClose} className='dialog' id = 'dialog'>
+                <DialogTitle>Add Supplier</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        <Stack spacing={2} margin={2}>
+                            <div className='form-group'>
+                                <TextField
+                                    id="outlined-number"
+                                    label="Contact No."
+                                    type="text"
+                                    name = 'contact'
+                                    value= {supplier.contact}
+                                    onChange={handleChange}
+                                    InputLabelProps={{
+                                    shrink: true,
+                                    }}
+                                />
+                            </div>
+                            <div className='form-group'>
+                                <TextField
+                                    id="outlined-number"
+                                    label="Name"
+                                    type="string"
+                                    name = 'name'
+                                    value= {supplier.name}
+                                    onChange={handleChange}
+                                    InputLabelProps={{
+                                    shrink: true,
+                                    }}
+                                />
+                            </div>
+                            <div className='form-group'>
+                                <TextField
+                                    id="outlined-number"
+                                    label="Address"
+                                    type="string"
+                                    name = 'address'
+                                    value= {supplier.address}
+                                    onChange={handleChange}
+                                    InputLabelProps={{
+                                    shrink: true,
+                                    }}
+                                />
+                            </div>
+                        </Stack>
+                    </DialogContentText>
+                    <DialogActions>
+                        <Button onClick={handleClose}>Cancel</Button>
+                        <Button onClick={addsupplier}>Add</Button>
+                    </DialogActions>
+                </DialogContent>
+            </Dialog>
             <form className='orderform'>
                 <div className='form-group'>
                     <TextField
