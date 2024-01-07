@@ -17,15 +17,24 @@ const Login = () => {
       username,
       password
     }
-    axios.post(apiurl, user)
-    .then(res => {
-      const message = res.data.message
-      if(message === 'Login Successful') {
+    fetch (
+      apiurl,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+      }
+    )
+    .then(res => res.json())
+    .then(data => {
+      if (data.message === 'Login Successful') {
         window.location.href = '/neworder'
-        localStorage.setItem('token', res.data.token)
-      } 
+        localStorage.setItem('token', data.token)
+      }
       else {
-        alert(message)
+        alert(data.message)
       }
     })
     .catch(err => {
