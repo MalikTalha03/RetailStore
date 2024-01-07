@@ -6,6 +6,7 @@ import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } 
 import { useState, useEffect } from 'react'
 
 const SuppOrder = () => {
+    const orderid = 0
     useEffect(() => {
         fetchSuppliers()
         fetchProducts()
@@ -195,7 +196,6 @@ const SuppOrder = () => {
             total: selProd.price * selProd.quantity,
             saleprice: selProd.saleprice
         }
-        console.log(tableData)
         setSelProd({
             name: '',
             id: 0,
@@ -229,6 +229,123 @@ const SuppOrder = () => {
         return total + item.total
     }
     , 0)
+
+    function addorder (){
+        const supplierid = parseInt(selsupp.id)
+        const paymentStatus = 'Pending'
+        const orderDate = new Date()
+        const totalAmount = totalPrice
+        const data = {
+            supplierid,
+            paymentStatus,
+            orderDate,
+            totalAmount        
+        }
+        fetch (
+            apiurl + 'supplierorder',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(data)
+            }
+        )
+        .then(res => res.json())
+        .then(data => {
+            if (data.message === 'jwt expired') {
+                window.location.href = '/login'
+                localStorage.removeItem('token')
+            }
+            if(data.message === 'Order Added') {
+                orderid = data.id
+                addorderdetails()
+            }
+            else {
+                alert(data.message)
+            }
+        })
+    }
+
+    function addorderdetails() {
+        tableData.forEach((item) => {
+            if(item.id === 0) {
+                const data = {
+                    name: item.name,
+                    price: item.saleprice,
+                    inventory: item.quantity,
+                    supplierid: selsupp.id,
+                    category : 'Other',
+                }
+                fetch (
+                    apiurl + 'product',
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify(data)
+                    }
+                )
+                .then(res => res.json())
+                .then(data => {
+                    if (data.message === 'jwt expired') {
+                        window.location.href = '/login'
+                        localStorage.removeItem('token')
+                    }
+                    if(data.message === 'Product Added') {
+                        item.id = data.id 
+                        addorderdetails2(item)
+                    }
+                    else {
+                        alert(data.message)
+                    }
+                })
+            }
+            else {
+                addorderdetails2(item)
+            }
+        })
+    }
+
+    function addorderdetails2(item) {
+        const data = {
+            orderid: orderid,
+            productid: item.id,
+            qty: item.quantity,
+            unitPrice: item.price,
+        }
+        fetch (
+            apiurl + 'supplierorderdetails',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.message === 'jwt expired') {
+                    window.location.href = '/login'
+                    localStorage.removeItem('token')
+                }
+                if(data.message === 'Order Details Added') {
+                    alert('Order Added')
+                    window.location.reload()
+                }
+                else {
+                    alert(data.message)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
   return (
     <div className='container'>
         <div className='neworder'>
@@ -410,7 +527,7 @@ const SuppOrder = () => {
                         </DialogContentText>
                         <DialogActions>
                             <Button onClick={handleClose2}>Cancel</Button>
-                            <Button onClick={addsupplier}>Add</Button>
+                            <Button onClick={addorder}>Add</Button>
                         </DialogActions>
                     </DialogContent>
                 </Dialog>
