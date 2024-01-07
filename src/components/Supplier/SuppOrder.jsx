@@ -4,11 +4,16 @@ import './order.css'
 import {Button, Autocomplete, TextField, Stack} from '@mui/material'
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material'
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 
 const SuppOrder = () => {
-    const suppid = 0
+    useEffect(() => {
+        fetchSuppliers()
+        fetchProducts()
+    }, [])
+    const [suppliers, setSuppliers] = useState([])
+    const [products, setProducts] = useState([])
     const [open, setOpen] = useState(false)
+    const [open2, setOpen2] = useState(false)
     const [supplier, setSupplier] = useState({
         contact: '',
         name: '',
@@ -17,28 +22,31 @@ const SuppOrder = () => {
     const [selsupp, setSelsupp] = useState({
         name: '',
         id: 0,
-        contact: 0
+        contact: 0,
     })
     const [selProd, setSelProd] = useState({
         name: '',
         id: 0,
-        price: 0
+        price: 0,
+        saleprice: 0,
+        quantity: 0,
     })
-    const [prod, setProd] = useState({
-        name: '',
-        id: 0,
-        price: 0
-    })
+    const [tableData , setTableData] = useState([])
     
 
     const apiurl = "http://localhost:3001/"
-    const suppliers = []
     const token = localStorage.getItem('token')
     function handleOpen() {
         setOpen(!open)
     }
     function handleClose() {
         setOpen(!open)
+    }
+    function handleOpen2() {
+        setOpen2(!open2)
+    }
+    function handleClose2() {
+        setOpen2(!open2)
     }
     function handleChange(event) {
         const {name, value} = event.target
@@ -87,63 +95,72 @@ const SuppOrder = () => {
         })
             
     }
-    fetch(
-        apiurl + 'supplier',
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-        }
-    )
-    .then(res => res.json())
-    .then(data => {
-        if (data.message === 'jwt expired') {
-            window.location.href = '/login'
-            localStorage.removeItem('token')
-        }
-        data.map((item) => {
-            const supplier = {
-                name: item.name,
-                id : item.id,
-                contact: item.contact,
+    const fetchSuppliers = async () => {
+        try{
+            const data = await fetch(
+                apiurl + 'supplier',
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                }
+            )
+            const res = await data.json()
+            if (res.message === 'jwt expired') {
+                window.location.href = '/login'
+                localStorage.removeItem('token')
             }
-            suppliers.push(supplier)
-        })
-    })
-    .catch(err => {
-        console.log(err)
-    })
-    const products = []
-    fetch (
-        apiurl + 'product',
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-        }
-    )
-    .then(res => res.json())
-    .then(data => {
-        if (data.message === 'jwt expired') {
-            window.location.href = '/login'
-            localStorage.removeItem('token')
-        }
-        data.map((item) => {
-            const product = {
-                label: item.name,
-                id : item.id,
-                price: item.price,
+            const supps = res.map((item) => {
+                const supplier = {
+                    name: item.name,
+                    id : item.id,
+                    contact: item.contact,
+                }
+                return supplier
             }
-            products.push(product)
-        })
-    })
-    .catch(err => {
-        console.log(err)
-    })
+            )
+            setSuppliers(supps)
+        }
+        catch(err) {
+            console.log(err)
+        }
+    }
+    const fetchProducts = async () => {
+        try{
+            const data = await fetch(
+                apiurl + 'product',
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                }
+            )
+            const res = await data.json()
+            if (res.message === 'jwt expired') {
+                window.location.href = '/login'
+                localStorage.removeItem('token')
+            }
+            const prods = res.map((item) => {
+                const product = {
+                    name: item.name,
+                    id : item.id,
+                    price: item.price,
+                    saleprice: item.saleprice,
+                }
+                return product
+            }
+            )
+            setProducts(prods)
+        }
+        catch(err) {
+            console.log(err)
+        }
+    }
+
     function setsupp(event, value) {
         if (value) {
           const supp = suppliers.find((supp) => supp.name === value.name && supp.id === value.id && supp.contact === value.contact);
@@ -153,6 +170,7 @@ const SuppOrder = () => {
     }
     function setprod(event, value) {
         if (value) {
+            console.log(value)
           const prod = products.find((prod) => prod.name === value.name && prod.id === value.id && prod.price === value.price);
           if(prod) {
             setSelProd(prod);
@@ -161,11 +179,56 @@ const SuppOrder = () => {
             setSelProd({
                 name: value,
                 id: 0,
-                price: 0
+                saleprice: 0,
+                price: 0,
+                quantity: 0,
             })
           }
         }
     }
+    function addTableData() {
+        const data = {
+            id: selProd.id,
+            name: selProd.name,
+            price: selProd.price,
+            quantity: selProd.quantity,
+            total: selProd.price * selProd.quantity,
+            saleprice: selProd.saleprice
+        }
+        console.log(tableData)
+        setSelProd({
+            name: '',
+            id: 0,
+            price: 0,
+            saleprice: 0,
+            quantity: 0,
+        })
+        setTableData(prevValue => {
+            return [
+                ...prevValue,
+                data
+            ]
+        })
+    }
+
+    const maptabledata = tableData.map((item) => {
+        console.log(item)
+        return (
+            <tr>
+                <td>{item.name}</td>
+                <td>{item.price}</td>
+                <td contentEditable='true'
+                    suppressContentEditableWarning={true}
+                >{item.quantity}</td>
+                <td>{item.total}</td>
+            </tr>
+        )
+    }
+    )
+    const totalPrice = tableData.reduce((total, item) => {
+        return total + item.total
+    }
+    , 0)
   return (
     <div className='container'>
         <div className='neworder'>
@@ -227,7 +290,7 @@ const SuppOrder = () => {
             <form className='orderform'>
                 <div className="form-group">
                     <Autocomplete
-                        id="prod-name"
+                        id="supplier-name"
                         options={suppliers}
                         getOptionLabel={(option) => option.name}
                         sx={{ width: 300 }}
@@ -253,7 +316,9 @@ const SuppOrder = () => {
                         id="prod-qty"
                         label="Quantity"
                         type="number"
+                        value={selProd.quantity}
                         InputProps={{ inputProps: { min: 0 } }}
+                        onChange={(e) => setSelProd({ ...selProd, quantity: e.target.valueAsNumber })}
                         InputLabelProps={{
                         shrink: true,
                         }}
@@ -264,7 +329,9 @@ const SuppOrder = () => {
                         id="price"
                         label="Price"
                         type="number"
+                        value={selProd.price}
                         InputProps={{ inputProps: { min: 0 } }}
+                        onChange={(e) => setSelProd({ ...selProd, price: e.target.valueAsNumber })}
                         InputLabelProps={{
                         shrink: true,
                         }}
@@ -275,16 +342,16 @@ const SuppOrder = () => {
                         id="sale-price"
                         label="Sale Price"
                         type="number"
-                        value={selProd.price}
+                        value={selProd.saleprice}
                         InputProps={{ inputProps: { min: 0 } }}
                         InputLabelProps={{
                         shrink: true,
                         }}
-                        onChange={(e) => setSelProd({ ...selProd, price: e.target.valueAsNumber })}
+                        onChange={(e) => setSelProd({ ...selProd, saleprice: e.target.valueAsNumber })}
                     />
                 </div>
                 <div className='form-group'>
-                    <Button variant="contained">Add</Button>
+                    <Button variant="contained" onClick={addTableData}>Add</Button>
                 </div>
             </form>
 
@@ -292,7 +359,6 @@ const SuppOrder = () => {
                 <table>
                     <thead>
                         <tr>
-                            <th>Product ID</th>
                             <th>Product Name</th>
                             <th>Price</th>
                             <th>Quantity</th>
@@ -300,22 +366,7 @@ const SuppOrder = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Product 1</td>
-                            <td>100</td>
-                            <td contentEditable='true'
-                                suppressContentEditableWarning={true}
-                            >2</td>
-                            <td>200</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Product 2</td>
-                            <td>200</td>
-                            <td>3</td>
-                            <td>600</td>
-                        </tr>
+                        {maptabledata}
                     </tbody>
                     <tbody>
                         <tr>
@@ -323,13 +374,46 @@ const SuppOrder = () => {
                             <td></td>
                             <td></td>
                             <td className='border'><b>Total</b></td>
-                            <td className='border'>800</td>
+                            <td className='border'>{totalPrice}</td>
                         </tr>
                     </tbody>
                 </table>
                 <div className='proceed'>
-                    <Button variant="contained" >Proceed</Button>
+                    <Button variant="contained" onClick={handleOpen2}>Proceed</Button>
                 </div>
+                <Dialog open={open2} onClose={handleClose2} fullWidth maxWidth="md">
+                    <DialogTitle>Confirm Order</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            <table className='table'>
+                                <thead>
+                                    <tr>
+                                        <th>Product Name</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {maptabledata}
+                                </tbody>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td className='border'><b>Total</b></td>
+                                        <td className='border'>{totalPrice}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </DialogContentText>
+                        <DialogActions>
+                            <Button onClick={handleClose2}>Cancel</Button>
+                            <Button onClick={addsupplier}>Add</Button>
+                        </DialogActions>
+                    </DialogContent>
+                </Dialog>
             </div>
             </div>
     </div>
