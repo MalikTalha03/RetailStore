@@ -38,26 +38,13 @@ const SuppOrder = () => {
 
     const apiurl = "http://localhost:3001/"
     const token = localStorage.getItem('token')
-    function handleOpen() {
-        setOpen(!open)
-    }
-    function handleClose() {
-        setOpen(!open)
-    }
-    function handleOpen2() {
-        setOpen2(!open2)
-    }
-    function handleClose2() {
-        setOpen2(!open2)
-    }
+    const handleOpen = () => { setOpen(!open) }
+    const handleOpen2 = () => { setOpen2(!open2) }
+    const handleClose2 = () => { setOpen2(!open2) }
+    const handleClose = () => { setOpen(!open) }
     function handleChange(event) {
         const {name, value} = event.target
-        setSupplier(prevValue => {
-            return {
-                ...prevValue,
-                [name]: value
-            }
-        })
+        setSupplier(prevValue => ({ ...prevValue, [name]: value }));
     }
     async function addsupplier() {
         if(supplier.contact === '' || supplier.name === '' || supplier.address === '') {
