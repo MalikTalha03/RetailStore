@@ -185,7 +185,6 @@ const SuppOrder = () => {
     }
     function setprod(event, value) {
         if (value) {
-            console.log(value)
           const prod = products.find((prod) => prod.name === value.name && prod.id === value.id && prod.price === value.price);
           if(prod) {
             setSelProd(prod);
@@ -226,7 +225,6 @@ const SuppOrder = () => {
     }
 
     const maptabledata = tableData.map((item) => {
-        console.log(item)
         return (
             <tr>
                 <td>{item.name}</td>
