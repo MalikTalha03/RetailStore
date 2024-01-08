@@ -10,9 +10,10 @@ import { fetchSuppliers } from '../../app/features/supplier'
 
 const SuppOrder = () => {
     const dispatch = useDispatch()
-    const cat = useSelector((state) => state.categories.value)
-    const prod = useSelector((state) => state.products.value)
-    const supp = useSelector((state) => state.supplier.value)
+    const categories = useSelector((state) => state.categories.categories);
+const products = useSelector((state) => state.products.products);
+const suppliers = useSelector((state) => state.suppliers.suppliers);
+
 
     useEffect(() => {
         dispatch(fetchCategories())
@@ -20,11 +21,8 @@ const SuppOrder = () => {
         dispatch(fetchSuppliers())
     }, [dispatch])
 
-    
+
     let orderid = 0
-    const [suppliers, setSuppliers] = useState([])
-    const [products, setProducts] = useState([])
-    const [categories, setCategories] = useState([])
     const [open, setOpen] = useState(false)
     const [open2, setOpen2] = useState(false)
     const [supplier, setSupplier] = useState({
@@ -91,102 +89,6 @@ const SuppOrder = () => {
             console.log(err)
         }     
     }
-    const fetchSuppliers = async () => {
-        try{
-            const data = await fetch(
-                apiurl + 'supplier',
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                }
-            )
-            const res = await data.json()
-            if (res.message === 'jwt expired') {
-                window.location.href = '/login'
-                localStorage.removeItem('token')
-            }
-            const supps = res.map((item) => {
-                const supplier = {
-                    name: item.name,
-                    id : item._id
-                }
-                return supplier
-            }
-            )
-            setSuppliers(supps)
-        }
-        catch(err) {
-            console.log(err)
-        }
-    }
-    const fetchCategories = async () => {
-        try{
-            const data = await fetch(
-                apiurl + 'category',
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                }
-            )
-            const res = await data.json()
-            if (res.message === 'jwt expired') {
-                window.location.href = '/login'
-                localStorage.removeItem('token')
-            }
-            const cats = res.map((item) => {
-                const category = {
-                    category: item.name,
-                    id : item._id
-                }
-                return category
-            }
-            )
-            setCategories(cats)
-        }
-        catch(err) {
-            console.log(err)
-        }
-    }
-    const fetchProducts = async () => {
-        try{
-            const data = await fetch(
-                apiurl + 'products',
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                }
-            )
-            const res = await data.json()
-            if (res.message === 'jwt expired') {
-                window.location.href = '/login'
-                localStorage.removeItem('token')
-            }
-            const prods = res.map((item) => {
-                const product = {
-                    name: item.name,
-                    id : item._id,
-                    price: 0,
-                    saleprice: item.price,
-                }
-                return product
-            }
-            )
-            setProducts(prods)
-        }
-        catch(err) {
-            console.log(err)
-        }
-    }
-
     function setsupp(event, value) {
         if (value) {
           const supp = suppliers.find((supp) => supp.name === value.name);
@@ -451,7 +353,7 @@ const SuppOrder = () => {
                     <Autocomplete
                         id="prod-category"
                         options={categories}
-                        getOptionLabel={(option) => option.category}
+                        getOptionLabel={(option) => option.name}
                         sx={{ width: 300 }}
                         renderInput={(params) => <TextField {...params} label="Category" />}
                     />
