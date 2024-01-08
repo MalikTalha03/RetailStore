@@ -1,8 +1,7 @@
 import React from 'react'
 import '../Orders/neworder.css'
 import './order.css'
-import {Button, Autocomplete, TextField, Stack} from '@mui/material'
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material'
+import {Button, Autocomplete, TextField, Stack, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material'
 import { useState, useEffect } from 'react'
 
 const SuppOrder = () => {
@@ -47,42 +46,39 @@ const SuppOrder = () => {
         setSupplier(prevValue => ({ ...prevValue, [name]: value }));
     }
     async function addsupplier() {
-        if(supplier.contact === '' || supplier.name === '' || supplier.address === '') {
-            alert('Please fill all the fields')
-        }
-        if(supplier.contact.length !== 11) {
-            alert('Invalid Contact Number')
-        }
-        if(supplier.contact.match(/^[0-9]+$/) === null) {
-            alert('Invalid Contact Number')
-        }
-        supplier.contact = parseInt(supplier.contact)
-        await fetch(
-            apiurl + 'supplier',
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(supplier)
+        try{
+            if(supplier.contact === '' || supplier.name === '' || supplier.address === '') {
+                alert('Please fill all the fields')
+                return
             }
-        )
-        .then(res => res.json())
-        .then(data => {
+            if(supplier.contact.length !== 11 || supplier.contact.match(/^[0-9]+$/) === null) {
+                alert('Invalid Contact Number')
+                return
+            }
+            supplier.contact = parseInt(supplier.contact)
+            const response = await fetch(
+                apiurl + 'supplier',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(supplier)
+                })
+            const data = await response.json()
             if (data.message === 'jwt expired') {
                 window.location.href = '/login'
                 localStorage.removeItem('token')
             }
-            else {
+            else{
                 alert(data.message)
                 setOpen(!open)
             }
-        })
-        .catch(err => {
-            alert("error: " + err + "\nmessage: " + err.message)
-        })
-            
+        }
+        catch(err) {
+            console.log(err)
+        }     
     }
     const fetchSuppliers = async () => {
         try{
