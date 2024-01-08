@@ -3,14 +3,25 @@ import '../Orders/neworder.css'
 import './order.css'
 import {Button, Autocomplete, TextField, Stack, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material'
 import { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { fetchCategories } from '../../app/features/categories'
+import { fetchProducts } from '../../app/features/products'
+import { fetchSuppliers } from '../../app/features/supplier'
 
 const SuppOrder = () => {
-    let orderid = 0
+    const dispatch = useDispatch()
+    const cat = useSelector((state) => state.categories.value)
+    const prod = useSelector((state) => state.products.value)
+    const supp = useSelector((state) => state.supplier.value)
+
     useEffect(() => {
-        fetchSuppliers()
-        fetchProducts()
-        fetchCategories()
-    }, [])
+        dispatch(fetchCategories())
+        dispatch(fetchProducts())
+        dispatch(fetchSuppliers())
+    }, [dispatch])
+
+    
+    let orderid = 0
     const [suppliers, setSuppliers] = useState([])
     const [products, setProducts] = useState([])
     const [categories, setCategories] = useState([])
