@@ -10,9 +10,11 @@ const SuppOrder = () => {
     useEffect(() => {
         fetchSuppliers()
         fetchProducts()
+        fetchCategories()
     }, [])
     const [suppliers, setSuppliers] = useState([])
     const [products, setProducts] = useState([])
+    const [categories, setCategories] = useState([])
     const [open, setOpen] = useState(false)
     const [open2, setOpen2] = useState(false)
     const [supplier, setSupplier] = useState({
@@ -126,10 +128,41 @@ const SuppOrder = () => {
             console.log(err)
         }
     }
+    const fetchCategories = async () => {
+        try{
+            const data = await fetch(
+                apiurl + 'category',
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                }
+            )
+            const res = await data.json()
+            if (res.message === 'jwt expired') {
+                window.location.href = '/login'
+                localStorage.removeItem('token')
+            }
+            const cats = res.map((item) => {
+                const category = {
+                    category: item.name,
+                    id : item._id
+                }
+                return category
+            }
+            )
+            setCategories(cats)
+        }
+        catch(err) {
+            console.log(err)
+        }
+    }
     const fetchProducts = async () => {
         try{
             const data = await fetch(
-                apiurl + 'product',
+                apiurl + 'products',
                 {
                     method: 'GET',
                     headers: {
@@ -146,9 +179,9 @@ const SuppOrder = () => {
             const prods = res.map((item) => {
                 const product = {
                     name: item.name,
-                    id : item.id,
-                    price: item.price,
-                    saleprice: item.saleprice,
+                    id : item._id,
+                    price: 0,
+                    saleprice: item.price,
                 }
                 return product
             }
@@ -422,7 +455,15 @@ const SuppOrder = () => {
                         renderInput={(params) => <TextField {...params} label="Product" />}
                     />
                 </div>
-                
+                <div className="form-group">
+                    <Autocomplete
+                        id="prod-category"
+                        options={categories}
+                        getOptionLabel={(option) => option.category}
+                        sx={{ width: 300 }}
+                        renderInput={(params) => <TextField {...params} label="Category" />}
+                    />
+                </div>
                 <div className="form-group">
                     <TextField
                         id="prod-qty"
