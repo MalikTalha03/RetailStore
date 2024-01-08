@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 export const fetchSuppliers = createAsyncThunk(
     'suppliers/fetchSuppliers',
     async () => {
-        const response = await fetch('http://localhost:3001/suppliers',
+        const response = await fetch('http://localhost:3001/supplier',
             {
                 method: 'GET',
                 headers: {
