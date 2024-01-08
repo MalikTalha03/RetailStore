@@ -7,13 +7,16 @@ import { useSelector, useDispatch } from 'react-redux'
 import { fetchCategories } from '../../app/features/categories'
 import { fetchProducts } from '../../app/features/products'
 import { fetchSuppliers } from '../../app/features/supplier'
+import { setDialog1,setDialog2 } from '../../app/features/dialogslice'
 
 const SuppOrder = () => {
+
     const dispatch = useDispatch()
     const categories = useSelector((state) => state.categories.categories);
-const products = useSelector((state) => state.products.products);
-const suppliers = useSelector((state) => state.suppliers.suppliers);
-
+    const products = useSelector((state) => state.products.products);
+    const suppliers = useSelector((state) => state.suppliers.suppliers);
+    const dialog1 = useSelector((state) => state.dialog.dialog1);
+    const dialog2 = useSelector((state) => state.dialog.dialog2);
 
     useEffect(() => {
         dispatch(fetchCategories())
@@ -21,10 +24,7 @@ const suppliers = useSelector((state) => state.suppliers.suppliers);
         dispatch(fetchSuppliers())
     }, [dispatch])
 
-
     let orderid = 0
-    const [open, setOpen] = useState(false)
-    const [open2, setOpen2] = useState(false)
     const [supplier, setSupplier] = useState({
         contact: '',
         name: '',
@@ -46,10 +46,6 @@ const suppliers = useSelector((state) => state.suppliers.suppliers);
 
     const apiurl = "http://localhost:3001/"
     const token = localStorage.getItem('token')
-    const handleOpen = () => { setOpen(!open) }
-    const handleOpen2 = () => { setOpen2(!open2) }
-    const handleClose2 = () => { setOpen2(!open2) }
-    const handleClose = () => { setOpen(!open) }
     function handleChange(event) {
         const {name, value} = event.target
         setSupplier(prevValue => ({ ...prevValue, [name]: value }));
@@ -82,7 +78,7 @@ const suppliers = useSelector((state) => state.suppliers.suppliers);
             }
             else{
                 alert(data.message)
-                setOpen(!open)
+                dispatch(setDialog1(!dialog1))
             }
         }
         catch(err) {
@@ -272,9 +268,9 @@ const suppliers = useSelector((state) => state.suppliers.suppliers);
     <div className='container'>
         <div className='neworder'>
             <div className="addsupp">
-                <Button variant="contained"onClick={handleOpen}>Add Supplier</Button>
+                <Button variant="contained"onClick={ ()=> dispatch(setDialog1(!dialog1))}>Add Supplier</Button>
             </div>
-            <Dialog open={open} onClose={handleClose} className='dialog' id = 'dialog'>
+            <Dialog open={dialog1} onClose={ ()=> dispatch(setDialog1(!dialog1))} className='dialog' id = 'dialog'>
                 <DialogTitle>Add Supplier</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -321,7 +317,7 @@ const suppliers = useSelector((state) => state.suppliers.suppliers);
                         </Stack>
                     </DialogContentText>
                     <DialogActions>
-                        <Button onClick={handleClose}>Cancel</Button>
+                        <Button onClick={()=> dispatch(setDialog1(!dialog1))}>Cancel</Button>
                         <Button onClick={addsupplier}>Add</Button>
                     </DialogActions>
                 </DialogContent>
@@ -426,9 +422,9 @@ const suppliers = useSelector((state) => state.suppliers.suppliers);
                     </tbody>
                 </table>
                 <div className='proceed'>
-                    <Button variant="contained" onClick={handleOpen2}>Proceed</Button>
+                    <Button variant="contained" onClick={ ()=> dispatch(setDialog2(!dialog2))}>Proceed</Button>
                 </div>
-                <Dialog open={open2} onClose={handleClose2} fullWidth maxWidth="md">
+                <Dialog open={dialog2} onClose={ ()=> dispatch(setDialog2(!dialog2))} fullWidth={true} maxWidth='md' >
                     <DialogTitle>Confirm Order</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
@@ -456,7 +452,7 @@ const suppliers = useSelector((state) => state.suppliers.suppliers);
                             </table>
                         </DialogContentText>
                         <DialogActions>
-                            <Button onClick={handleClose2}>Cancel</Button>
+                            <Button onClick={()=> dispatch(setDialog2(!dialog2))}>Cancel</Button>
                             <Button onClick={addorder}>Add</Button>
                         </DialogActions>
                     </DialogContent>
