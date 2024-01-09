@@ -25,6 +25,11 @@ export const productsSlice = createSlice({
         status: 'idle',
         error: null
     },
+    reducers: {
+        setSelectedProduct: (state, action) => {
+            state.selectedProduct = action.payload;
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchProducts.pending, (state) => {
@@ -42,3 +47,4 @@ export const productsSlice = createSlice({
 });
 
 export default productsSlice.reducer;
+export const { setSelectedProduct, updateQuantity } = productsSlice.actions;
