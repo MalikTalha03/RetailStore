@@ -27,7 +27,7 @@ export const suppliersSlice = createSlice({
     },
     reducers: {
         setSelectedSupplier: (state, action) => {
-            const name  = action.payload;
+            const name  = action.payload.name;
             const supplier = state.suppliers.filter(supplier => supplier.name === name);
             state.selectedSupplier = supplier;
         }
