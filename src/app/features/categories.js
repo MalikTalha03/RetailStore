@@ -27,7 +27,7 @@ export const categoriesSlice = createSlice({
     },
     reducers: {
         setSelectedCategory: (state, action) => {
-            const name  = action.payload;
+            const name  = action.payload.name;
             const category = state.categories.filter(category => category.name === name);
             state.selectedCategory = category;
         }
