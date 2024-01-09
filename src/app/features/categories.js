@@ -21,6 +21,7 @@ export const categoriesSlice = createSlice({
     name: 'categories',
     initialState: {
         categories: [],
+        selectedCategory: [],
         status: 'idle',
         error: null
     },
