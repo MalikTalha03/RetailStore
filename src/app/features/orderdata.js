@@ -10,6 +10,7 @@ export const orderdataSlice = createSlice({
     reducers: {
         setOrderdata: (state, action) => {
             state.orderdata = [...state.orderdata, action.payload]
+            console.log(state.orderdata)
         }
     }
 });
