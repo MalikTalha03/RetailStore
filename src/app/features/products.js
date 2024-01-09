@@ -21,6 +21,7 @@ export const productsSlice = createSlice({
     name: 'products',
     initialState: {
         products: [],
+        selectedProduct: [],
         status: 'idle',
         error: null
     },
