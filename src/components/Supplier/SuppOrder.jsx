@@ -4,11 +4,12 @@ import './order.css'
 import {Button, Autocomplete, TextField, Stack, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material'
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchCategories } from '../../app/features/categories'
-import { fetchProducts } from '../../app/features/products'
-import { fetchSuppliers } from '../../app/features/supplier'
+import { fetchCategories,setSelectedCategory } from '../../app/features/categories'
+import { fetchProducts,setSelectedProduct,updateSelectedProduct } from '../../app/features/products'
+import { fetchSuppliers,setSelectedSupplier } from '../../app/features/supplier'
 import { setDialog1,setDialog2 } from '../../app/features/dialogslice'
 import { setOrderdata } from '../../app/features/orderdata'
+import Addsupplier from './Addsupplier'
 
 const SuppOrder = () => {
 
@@ -19,6 +20,9 @@ const SuppOrder = () => {
     const dialog1 = useSelector((state) => state.dialog.dialog1);
     const dialog2 = useSelector((state) => state.dialog.dialog2);
     const orderdata = useSelector((state) => state.orderdata.orderdata);
+    const selectedProd = useSelector((state) => state.products.selectedProduct);
+    const selectedSupp = useSelector((state) => state.suppliers.selectedSupplier);
+    const selectedCat = useSelector((state) => state.categories.selectedCategory);
 
     useEffect(() => {
         dispatch(fetchCategories())
@@ -26,33 +30,32 @@ const SuppOrder = () => {
         dispatch(fetchSuppliers())
     }, [dispatch])
 
-    let orderid = 0
-    const [supplier, setSupplier] = useState({
-        contact: '',
-        name: '',
-        address: ''
-    })
-    const [selsupp, setSelsupp] = useState({
-        name: '',
-        id: 0,
-    })
-    const [selProd, setSelProd] = useState({
-        name: '',
-        id: 0,
-        price: 0,
-        saleprice: 0,
-        quantity: 0,
-    })
-    const [tableData , setTableData] = useState([])
-    
+    function setProduct(target, value) {
+        if(value) {
+            const prod = products.find((prod) => prod.name === value.name );
+            if(prod) {
+               dispatch(setSelectedProduct(prod))
+            }
+            else{
+                dispatch(setSelectedProduct({
+                    name: value,
+                    id: 0,
+                    saleprice: 0,
+                    price: 0,
+                    quantity: 0,
+                }))
+            }
+        }
+    }
+    let orderid = 0    
 
     const apiurl = "http://localhost:3001/"
     const token = localStorage.getItem('token')
     function handleChange(event) {
-        const {name, value} = event.target
-        setSupplier(prevValue => ({ ...prevValue, [name]: value }));
+        const name = event.target.name
+        dispatch(setSelectedSupplier(name))
     }
-    async function addsupplier() {
+    /*async function addsupplier() {
         try{
             if(supplier.contact === '' || supplier.name === '' || supplier.address === '') {
                 alert('Please fill all the fields')
@@ -86,75 +89,38 @@ const SuppOrder = () => {
         catch(err) {
             console.log(err)
         }     
-    }
-    function setsupp(event, value) {
-        if (value) {
-          const supp = suppliers.find((supp) => supp.name === value.name);
-          setSelsupp(supp);
-        }
+    }*/
         
-    }
-    function setprod(event, value) {
-        if (value) {
-          const prod = products.find((prod) => prod.name === value.name && prod.id === value.id && prod.price === value.price);
-          if(prod) {
-            setSelProd(prod);
-          }
-          else{
-            setSelProd({
-                name: value,
-                id: 0,
-                saleprice: 0,
-                price: 0,
-                quantity: 0,
-            })
-          }
-        }
-    }
     function addTableData() {
-        const data = {
-            id: selProd.id,
-            name: selProd.name,
-            price: selProd.price,
-            quantity: selProd.quantity,
-            total: selProd.price * selProd.quantity,
-            saleprice: selProd.saleprice
+        if(selectedProd) {
+            const data = {
+                id: selectedProd.id,
+                name: selectedProd.name,
+                price: selectedProd.price,
+                quantity: selectedProd.quantity,
+                total: selectedProd.price * selectedProd.quantity,
+                saleprice: selectedProd.saleprice
+            }
+            dispatch(setOrderdata(data))
         }
-        dispatch(setOrderdata(data))
-        setSelProd({
-            name: '',
-            id: 0,
-            price: 0,
-            saleprice: 0,
-            quantity: 0,
-        })
-        setTableData(prevValue => {
-            return [
-                ...prevValue,
-                data
-            ]
-        })
     }
 
-    const maptabledata = tableData.map((item) => {
+    const maptabledata = orderdata.map((item) => {
         return (
             <tr>
                 <td>{item.name}</td>
                 <td>{item.price}</td>
-                <td contentEditable='true'
-                    suppressContentEditableWarning={true}
-                >{item.quantity}</td>
+                <td>{item.quantity}</td>
                 <td>{item.total}</td>
             </tr>
         )
-    }
-    )
-    const totalPrice = tableData.reduce((total, item) => {
+    })
+    
+    const totalPrice = orderdata.reduce((total, item) => {
         return total + item.total
-    }
-    , 0)
+    }, 0)
 
-    function addorder (){
+    /*function addorder (){
         const supplierid = selsupp.id;
         const paymentStatus = 'Pending'
         const orderDate = new Date()
@@ -265,66 +231,15 @@ const SuppOrder = () => {
             .catch(err => {
                 console.log(err)
             })
-    }
+    }*/
 
   return (
     <div className='container'>
         <div className='neworder'>
             <div className="addsupp">
-                <Button variant="contained"onClick={ ()=> dispatch(setDialog1(!dialog1))}>Add Supplier</Button>
+                <Button variant="contained"onClick= {()=> dispatch(setDialog1(!dialog1))}>Add Supplier</Button>
             </div>
-            <Dialog open={dialog1} onClose={ ()=> dispatch(setDialog1(!dialog1))} className='dialog' id = 'dialog'>
-                <DialogTitle>Add Supplier</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        <Stack spacing={2} margin={2}>
-                            <div className='form-group'>
-                                <TextField
-                                    id="outlined-number"
-                                    label="Contact No."
-                                    type="text"
-                                    name = 'contact'
-                                    value= {supplier.contact}
-                                    onChange={handleChange}
-                                    InputLabelProps={{
-                                    shrink: true,
-                                    }}
-                                />
-                            </div>
-                            <div className='form-group'>
-                                <TextField
-                                    id="outlined-number"
-                                    label="Name"
-                                    type="string"
-                                    name = 'name'
-                                    value= {supplier.name}
-                                    onChange={handleChange}
-                                    InputLabelProps={{
-                                    shrink: true,
-                                    }}
-                                />
-                            </div>
-                            <div className='form-group'>
-                                <TextField
-                                    id="outlined-number"
-                                    label="Address"
-                                    type="string"
-                                    name = 'address'
-                                    value= {supplier.address}
-                                    onChange={handleChange}
-                                    InputLabelProps={{
-                                    shrink: true,
-                                    }}
-                                />
-                            </div>
-                        </Stack>
-                    </DialogContentText>
-                    <DialogActions>
-                        <Button onClick={()=> dispatch(setDialog1(!dialog1))}>Cancel</Button>
-                        <Button onClick={addsupplier}>Add</Button>
-                    </DialogActions>
-                </DialogContent>
-            </Dialog>
+            <Addsupplier open={dialog1} onClose={ ()=> dispatch(setDialog1(!dialog1))}/>
             <form className='orderform'>
                 <div className="form-group">
                     <Autocomplete
@@ -332,7 +247,7 @@ const SuppOrder = () => {
                         options={suppliers}
                         getOptionLabel={(option) => option.name}
                         sx={{ width: 300 }}
-                        onChange={setsupp}
+                        onChange={(event, value) => dispatch(setSelectedSupplier(value))}
                         freeSolo
                         renderInput={(params) => <TextField {...params} label="Supplier" />}
                     />
@@ -341,10 +256,9 @@ const SuppOrder = () => {
                     <Autocomplete
                         id="prod-name"
                         options={products}
-                        getOptionLabel={(option) => option.name || selProd.name}
+                        getOptionLabel={(option) => option.name || selectedProd.name}
                         sx={{ width: 300 }}
-                        freeSolo
-                        onChange={setprod}
+                        onChange={(event, value) => dispatch(setSelectedProduct(value))}
                         renderInput={(params) => <TextField {...params} label="Product" />}
                     />
                 </div>
@@ -354,6 +268,7 @@ const SuppOrder = () => {
                         options={categories}
                         getOptionLabel={(option) => option.name}
                         sx={{ width: 300 }}
+                        onChange={(event, value) => dispatch(setSelectedCategory(value))}
                         renderInput={(params) => <TextField {...params} label="Category" />}
                     />
                 </div>
@@ -362,9 +277,8 @@ const SuppOrder = () => {
                         id="prod-qty"
                         label="Quantity"
                         type="number"
-                        value={selProd.quantity}
                         InputProps={{ inputProps: { min: 0 } }}
-                        onChange={(e) => setSelProd({ ...selProd, quantity: e.target.valueAsNumber })}
+                        onChange={(e)=> dispatch(updateSelectedProduct({ name: 'quantity', value: e.target.valueAsNumber }))}
                         InputLabelProps={{
                         shrink: true,
                         }}
@@ -375,9 +289,9 @@ const SuppOrder = () => {
                         id="price"
                         label="Price"
                         type="number"
-                        value={selProd.price}
+                        value={selectedProd.price}
                         InputProps={{ inputProps: { min: 0 } }}
-                        onChange={(e) => setSelProd({ ...selProd, price: e.target.valueAsNumber })}
+                        onChange={(e) => dispatch(updateSelectedProduct({ name: 'price', value: e.target.valueAsNumber }))}
                         InputLabelProps={{
                         shrink: true,
                         }}
@@ -388,12 +302,12 @@ const SuppOrder = () => {
                         id="sale-price"
                         label="Sale Price"
                         type="number"
-                        value={selProd.saleprice}
+                        value={selectedProd.saleprice}
                         InputProps={{ inputProps: { min: 0 } }}
                         InputLabelProps={{
                         shrink: true,
                         }}
-                        onChange={(e) => setSelProd({ ...selProd, saleprice: e.target.valueAsNumber })}
+                        onChange={(e) => dispatch(updateSelectedProduct({ name: 'saleprice', value: e.target.valueAsNumber }))}
                     />
                 </div>
                 <div className='form-group'>
@@ -456,7 +370,7 @@ const SuppOrder = () => {
                         </DialogContentText>
                         <DialogActions>
                             <Button onClick={()=> dispatch(setDialog2(!dialog2))}>Cancel</Button>
-                            <Button onClick={addorder}>Add</Button>
+                            <Button >Add</Button>
                         </DialogActions>
                     </DialogContent>
                 </Dialog>
