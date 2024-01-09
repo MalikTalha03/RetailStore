@@ -8,6 +8,7 @@ import { fetchCategories } from '../../app/features/categories'
 import { fetchProducts } from '../../app/features/products'
 import { fetchSuppliers } from '../../app/features/supplier'
 import { setDialog1,setDialog2 } from '../../app/features/dialogslice'
+import { setOrderdata } from '../../app/features/orderdata'
 
 const SuppOrder = () => {
 
@@ -17,6 +18,7 @@ const SuppOrder = () => {
     const suppliers = useSelector((state) => state.suppliers.suppliers);
     const dialog1 = useSelector((state) => state.dialog.dialog1);
     const dialog2 = useSelector((state) => state.dialog.dialog2);
+    const orderdata = useSelector((state) => state.orderdata.orderdata);
 
     useEffect(() => {
         dispatch(fetchCategories())
@@ -118,6 +120,7 @@ const SuppOrder = () => {
             total: selProd.price * selProd.quantity,
             saleprice: selProd.saleprice
         }
+        dispatch(setOrderdata(data))
         setSelProd({
             name: '',
             id: 0,
