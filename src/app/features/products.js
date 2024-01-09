@@ -21,13 +21,27 @@ export const productsSlice = createSlice({
     name: 'products',
     initialState: {
         products: [],
-        selectedProduct: [],
+        selectedProduct: {},
         status: 'idle',
         error: null
     },
     reducers: {
         setSelectedProduct: (state, action) => {
-            state.selectedProduct = action.payload;
+            const product = action.payload;
+            const data = {
+                id: product._id,
+                category: product.category,
+                name: product.name,
+                price: 0,
+                quantity: 0,
+                saleprice: product.price,
+                supplierID: product.supplierID,
+            }
+            state.selectedProduct = data;
+        },
+        updateSelectedProduct: (state, action) => {
+            const { name, value } = action.payload;
+            state.selectedProduct= { ...state.selectedProduct, [name]: value }
         }
     },
     extraReducers: (builder) => {
@@ -47,4 +61,4 @@ export const productsSlice = createSlice({
 });
 
 export default productsSlice.reducer;
-export const { setSelectedProduct, updateQuantity } = productsSlice.actions;
+export const { setSelectedProduct, updateSelectedProduct } = productsSlice.actions;
