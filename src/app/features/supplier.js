@@ -25,6 +25,13 @@ export const suppliersSlice = createSlice({
         status: 'idle',
         error: null
     },
+    reducers: {
+        setSelectedSupplier: (state, action) => {
+            const name  = action.payload;
+            const supplier = state.suppliers.filter(supplier => supplier.name === name);
+            state.selectedSupplier = supplier;
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchSuppliers.pending, (state) => {
@@ -42,3 +49,4 @@ export const suppliersSlice = createSlice({
 });
 
 export default suppliersSlice.reducer;
+export const { setSelectedSupplier } = suppliersSlice.actions;
