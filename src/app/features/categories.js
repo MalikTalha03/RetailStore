@@ -25,6 +25,13 @@ export const categoriesSlice = createSlice({
         status: 'idle',
         error: null
     },
+    reducers: {
+        setSelectedCategory: (state, action) => {
+            const name  = action.payload;
+            const category = state.categories.filter(category => category.name === name);
+            state.selectedCategory = category;
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchCategories.pending, (state) => {
@@ -41,4 +48,5 @@ export const categoriesSlice = createSlice({
     }
 });
 
-export default categoriesSlice.reducer
+export default categoriesSlice.reducer;
+export const { setSelectedCategory } = categoriesSlice.actions;
