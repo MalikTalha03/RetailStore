@@ -21,6 +21,7 @@ export const suppliersSlice = createSlice({
     name: 'suppliers',
     initialState: {
         suppliers: [],
+        selectedSupplier: [],
         status: 'idle',
         error: null
     },
