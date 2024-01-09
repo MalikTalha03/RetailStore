@@ -1,8 +1,8 @@
 import React from 'react'
 import '../Orders/neworder.css'
 import './order.css'
-import {Button, Autocomplete, TextField, Stack, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material'
-import { useState, useEffect } from 'react'
+import {Button, Autocomplete, TextField } from '@mui/material'
+import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchProducts,setSelectedProduct,updateSelectedProduct } from '../../app/features/products'
 import { fetchSuppliers,setSelectedSupplier } from '../../app/features/supplier'
@@ -22,8 +22,6 @@ const SuppOrder = () => {
     const dialog3 = useSelector((state) => state.dialog.dialog3);
     const orderdata = useSelector((state) => state.orderdata.orderdata);
     const selectedProd = useSelector((state) => state.products.selectedProduct);
-    const selectedSupp = useSelector((state) => state.suppliers.selectedSupplier);
-    const selectedCat = useSelector((state) => state.categories.selectedCategory);
 
     useEffect(() => {
         dispatch(fetchProducts())
@@ -33,67 +31,6 @@ const SuppOrder = () => {
             dispatch(fetchSuppliers())
         }
     }, [dispatch, dialog1, dialog3])
-
-    function setProduct(target, value) {
-        if(value) {
-            const prod = products.find((prod) => prod.name === value.name );
-            if(prod) {
-               dispatch(setSelectedProduct(prod))
-            }
-            else{
-                dispatch(setSelectedProduct({
-                    name: value,
-                    id: 0,
-                    saleprice: 0,
-                    price: 0,
-                    quantity: 0,
-                }))
-            }
-        }
-    }
-    let orderid = 0    
-
-    const apiurl = "http://localhost:3001/"
-    const token = localStorage.getItem('token')
-    function handleChange(event) {
-        const name = event.target.name
-        dispatch(setSelectedSupplier(name))
-    }
-    /*async function addsupplier() {
-        try{
-            if(supplier.contact === '' || supplier.name === '' || supplier.address === '') {
-                alert('Please fill all the fields')
-                return
-            }
-            if(supplier.contact.length !== 11 || supplier.contact.match(/^[0-9]+$/) === null) {
-                alert('Invalid Contact Number')
-                return
-            }
-            supplier.contact = parseInt(supplier.contact)
-            const response = await fetch(
-                apiurl + 'supplier',
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify(supplier)
-                })
-            const data = await response.json()
-            if (data.message === 'jwt expired') {
-                window.location.href = '/login'
-                localStorage.removeItem('token')
-            }
-            else{
-                alert(data.message)
-                dispatch(setDialog1(!dialog1))
-            }
-        }
-        catch(err) {
-            console.log(err)
-        }     
-    }*/
         
     function addTableData() {
         if(selectedProd) {
@@ -123,119 +60,6 @@ const SuppOrder = () => {
     const totalPrice = orderdata.reduce((total, item) => {
         return total + item.total
     }, 0)
-
-    /*function addorder (){
-        const supplierid = selsupp.id;
-        const paymentStatus = 'Pending'
-        const orderDate = new Date()
-        const totalAmount = totalPrice
-        const data = {
-            paymentStatus,
-            orderDate,
-            totalAmount        
-        }
-        fetch (
-            apiurl + `supplier/${supplierid}/orders`,
-            {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(data)
-            }
-        )
-        .then(res => res.json())
-        .then(data => {
-            if (data.message === 'jwt expired') {
-                window.location.href = '/login'
-                localStorage.removeItem('token')
-            }
-            else{
-                orderid = data.id
-                addorderdetails()
-            }
-        })
-        .catch (err => {
-            console.log(err)
-        }
-        )
-    }
-
-    function addorderdetails() {
-        tableData.forEach((item) => {
-            if(item.id === 0) {
-                const data = {
-                    name: item.name,
-                    price: item.saleprice,
-                    inventory: item.quantity,
-                    supplierID: selsupp.id,
-                    category : '6598314c83f3a0e6e47f50da',
-                }
-                fetch (
-                    apiurl + 'products',
-                    {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`
-                        },
-                        body: JSON.stringify(data)
-                    }
-                )
-                .then(res => res.json())
-                .then(data => {
-                    if (data.message === 'jwt expired') {
-                        window.location.href = '/login'
-                        localStorage.removeItem('token')
-                    }
-                    else{
-                        item.id = data.id
-                        addorderdetails2(item)
-                    }
-                })
-                .catch (err => {
-                    console.log(err)
-                }
-                )
-            }
-            else {
-                addorderdetails2(item)
-            }
-        })
-    }
-
-    function addorderdetails2(item) {
-        const data = {
-            productid: item.id,
-            qty: item.quantity,
-            unitPrice: item.price,
-        }
-        fetch (
-            apiurl + `supplier/${selsupp.id}/orders/${orderid}/details`,
-            {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(data)
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.message === 'jwt expired') {
-                    window.location.href = '/login'
-                    localStorage.removeItem('token')
-                }
-                else{
-                    alert(data.message)
-                    window.location.reload()
-                }
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    }*/
 
   return (
     <div className='container'>
