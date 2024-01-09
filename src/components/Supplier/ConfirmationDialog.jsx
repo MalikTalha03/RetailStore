@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux'
 const ConfirmationDialog = ({open, onClose, tabledata, totalPrice}) => {
     const selectedSupplier = useSelector(state => state.suppliers.selectedSupplier);
     const orderData = useSelector(state => state.orderdata.orderdata);
-    const supplierid = selectedSupplier[0]._id ;
+    const supplierid = selectedSupplier && selectedSupplier.length > 0 ? selectedSupplier[0]._id : null;
     const token = localStorage.getItem('token');
     const api = 'http://localhost:3001/'
     async function addOrder(){
@@ -55,6 +55,7 @@ const ConfirmationDialog = ({open, onClose, tabledata, totalPrice}) => {
                         }
                         else{
                             alert(response.message)
+                            window.location.reload()
                         }
                     })
                 }
