@@ -4,31 +4,35 @@ import './order.css'
 import {Button, Autocomplete, TextField, Stack, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material'
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchCategories,setSelectedCategory } from '../../app/features/categories'
 import { fetchProducts,setSelectedProduct,updateSelectedProduct } from '../../app/features/products'
 import { fetchSuppliers,setSelectedSupplier } from '../../app/features/supplier'
-import { setDialog1,setDialog2 } from '../../app/features/dialogslice'
+import { setDialog1,setDialog2, setDialog3 } from '../../app/features/dialogslice'
 import { setOrderdata } from '../../app/features/orderdata'
 import Addsupplier from './Addsupplier'
+import AddProduct from './AddProduct'
+import ConfirmationDialog from './ConfirmationDialog'
 
 const SuppOrder = () => {
 
     const dispatch = useDispatch()
-    const categories = useSelector((state) => state.categories.categories);
     const products = useSelector((state) => state.products.products);
     const suppliers = useSelector((state) => state.suppliers.suppliers);
     const dialog1 = useSelector((state) => state.dialog.dialog1);
     const dialog2 = useSelector((state) => state.dialog.dialog2);
+    const dialog3 = useSelector((state) => state.dialog.dialog3);
     const orderdata = useSelector((state) => state.orderdata.orderdata);
     const selectedProd = useSelector((state) => state.products.selectedProduct);
     const selectedSupp = useSelector((state) => state.suppliers.selectedSupplier);
     const selectedCat = useSelector((state) => state.categories.selectedCategory);
 
     useEffect(() => {
-        dispatch(fetchCategories())
         dispatch(fetchProducts())
         dispatch(fetchSuppliers())
-    }, [dispatch])
+        if(!dialog1 || !dialog3) {
+            dispatch(fetchProducts())
+            dispatch(fetchSuppliers())
+        }
+    }, [dispatch, dialog1, dialog3])
 
     function setProduct(target, value) {
         if(value) {
@@ -237,9 +241,11 @@ const SuppOrder = () => {
     <div className='container'>
         <div className='neworder'>
             <div className="addsupp">
+                <Button variant="contained" onClick= {()=> dispatch(setDialog3(!dialog3))}>Add Product</Button>
                 <Button variant="contained"onClick= {()=> dispatch(setDialog1(!dialog1))}>Add Supplier</Button>
             </div>
             <Addsupplier open={dialog1} onClose={ ()=> dispatch(setDialog1(!dialog1))}/>
+            <AddProduct open={dialog3} onClose={ ()=> dispatch(setDialog3(!dialog3))}/>
             <form className='orderform'>
                 <div className="form-group">
                     <Autocomplete
@@ -260,16 +266,6 @@ const SuppOrder = () => {
                         sx={{ width: 300 }}
                         onChange={(event, value) => dispatch(setSelectedProduct(value))}
                         renderInput={(params) => <TextField {...params} label="Product" />}
-                    />
-                </div>
-                <div className="form-group">
-                    <Autocomplete
-                        id="prod-category"
-                        options={categories}
-                        getOptionLabel={(option) => option.name}
-                        sx={{ width: 300 }}
-                        onChange={(event, value) => dispatch(setSelectedCategory(value))}
-                        renderInput={(params) => <TextField {...params} label="Category" />}
                     />
                 </div>
                 <div className="form-group">
@@ -341,39 +337,7 @@ const SuppOrder = () => {
                 <div className='proceed'>
                     <Button variant="contained" onClick={ ()=> dispatch(setDialog2(!dialog2))}>Proceed</Button>
                 </div>
-                <Dialog open={dialog2} onClose={ ()=> dispatch(setDialog2(!dialog2))} fullWidth={true} maxWidth='md' >
-                    <DialogTitle>Confirm Order</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
-                            <table className='table'>
-                                <thead>
-                                    <tr>
-                                        <th>Product Name</th>
-                                        <th>Price</th>
-                                        <th>Quantity</th>
-                                        <th>Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {maptabledata}
-                                </tbody>
-                                <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td className='border'><b>Total</b></td>
-                                        <td className='border'>{totalPrice}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </DialogContentText>
-                        <DialogActions>
-                            <Button onClick={()=> dispatch(setDialog2(!dialog2))}>Cancel</Button>
-                            <Button >Add</Button>
-                        </DialogActions>
-                    </DialogContent>
-                </Dialog>
+                <ConfirmationDialog open={dialog2} onClose={ ()=> dispatch(setDialog2(!dialog2))} tabledata={maptabledata} totalPrice={totalPrice}/>
             </div>
             </div>
     </div>
