@@ -7,6 +7,9 @@ import { fetchSuppliers } from '../../app/features/supplier'
 import { fetchProducts, setProduct, updateSelectedProduct } from '../../app/features/products'
 import { setOrderdata } from '../../app/features/orderdata'
 import { fetchCustomers, setSelectedCustomer } from '../../app/features/customer'
+import { setDialog1 } from '../../app/features/dialogslice'
+import ConfirmDialog from './ConfirmDialog'
+
 
 const NewOrder = () => {
     const apiurl = "http://localhost:3001/"
@@ -15,6 +18,7 @@ const NewOrder = () => {
     const selectedProd = useSelector(state => state.products.selectedProduct)
     const selectedCustomer = useSelector(state => state.customers.selectedCustomer)
     const orderdata = useSelector(state => state.orderdata.orderdata)
+    const dialog1 = useSelector(state => state.dialog.dialog1)
     useEffect(() => {
         dispatch(fetchSuppliers())
         dispatch(fetchProducts())
@@ -52,6 +56,7 @@ const NewOrder = () => {
     
   return (
     <div className='container'>
+        <ConfirmDialog open={dialog1} onClose={() => dispatch(setDialog1(!dialog1))} tabledata={maptabledata} totalPrice={totalPrice}/>
         <div className='neworder'>
             <form className='orderform'>
                 <div className='form-group'>
@@ -127,12 +132,12 @@ const NewOrder = () => {
                             <td></td>
                             <td></td>
                             <td className='border'><b>Total</b></td>
-                            <td className='border'>800</td>
+                            <td className='border'>{totalPrice}</td>
                         </tr>
                     </tbody>
                 </table>
                 <div className='proceed'>
-                    <Button variant="contained" >Proceed</Button>
+                    <Button variant="contained" onClick={() => dispatch(setDialog1(!dialog1))}>Proceed</Button>
                 </div>
             </div>
             </div>
