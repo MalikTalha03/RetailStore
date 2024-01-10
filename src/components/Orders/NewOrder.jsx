@@ -1,38 +1,55 @@
 import React from 'react'
 import './neworder.css'
 import {Button, Autocomplete, TextField} from '@mui/material'
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material'
+import { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { fetchSuppliers } from '../../app/features/supplier'
+import { fetchProducts, setProduct, updateSelectedProduct } from '../../app/features/products'
+import { setOrderdata } from '../../app/features/orderdata'
+import { fetchCustomers, setSelectedCustomer } from '../../app/features/customer'
 
 const NewOrder = () => {
     const apiurl = "http://localhost:3001/"
-    const categories = []
-    const token = localStorage.getItem('token')
-    fetch(
-        apiurl + 'category',
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+    const dispatch = useDispatch()
+    const products = useSelector(state => state.products.products)
+    const selectedProd = useSelector(state => state.products.selectedProduct)
+    const selectedCustomer = useSelector(state => state.customers.selectedCustomer)
+    const orderdata = useSelector(state => state.orderdata.orderdata)
+    useEffect(() => {
+        dispatch(fetchSuppliers())
+        dispatch(fetchProducts())
+        dispatch(fetchCustomers())
+    }, [dispatch])
+
+    function addTableData() {
+        if(selectedProd) {
+            const data = {
+                id: selectedProd.id,
+                name: selectedProd.name,
+                price: selectedProd.price,
+                quantity: selectedProd.quantity,
+                total: selectedProd.price * selectedProd.quantity,
             }
+            dispatch(setOrderdata(data))
         }
+    }
+
+    const maptabledata = orderdata.map((item) => {
+        return (
+            <tr>
+                <td>{item.name}</td>
+                <td>{item.price}</td>
+                <td>{item.quantity}</td>
+                <td>{item.total}</td>
+            </tr>
+        )
+    }
     )
-    .then(res => res.json())
-    .then(data => {
-        if (data.message === 'Token Expired') {
-            window.location.href = '/login'
-        }
-        data.map((item) => {
-            const category = {
-                label: item.name,
-                id : item.id
-            }
-            categories.push(category)
-        })
-    })
-    .catch(err => {
-        console.log(err)
-    })
+
+    const totalPrice = orderdata.reduce((total, item) => {
+        return total + item.total
+    }, 0)
+    
   return (
     <div className='container'>
         <div className='neworder'>
@@ -45,6 +62,12 @@ const NewOrder = () => {
                         InputLabelProps={{
                         shrink: true,
                         }}
+                        onKeyDown={(e) => {
+                            if(e.key === 'Enter'){
+                                dispatch(setSelectedCustomer(e.target.value))
+                            }
+                        }
+                    }
                     />
                 </div>
                 <div className='form-group'>
@@ -52,16 +75,7 @@ const NewOrder = () => {
                         id="outlined-number"
                         label="Name"
                         type="string"
-                        InputLabelProps={{
-                        shrink: true,
-                        }}
-                    />
-                </div>
-                <div className='form-group'>
-                    <TextField
-                        id="outlined-number"
-                        label="Address"
-                        type="string"
+                        value={selectedCustomer && selectedCustomer.length > 0 ? `${selectedCustomer[0].firstname} ${selectedCustomer[0].lastname}` : ''}
                         InputLabelProps={{
                         shrink: true,
                         }}
@@ -70,10 +84,12 @@ const NewOrder = () => {
                 <div className="form-group">
                     <Autocomplete
                         id="prod-name"
-                        options={categories}
-                        getOptionLabel={(option) => option.label}
+                        options={products}
+                        getOptionLabel={(product) => product.name}
+                        isOptionEqualToValue={(option, value) => option.name === value.name}
                         sx={{ width: 300 }}
                         renderInput={(params) => <TextField {...params} label="Product" />}
+                        onChange={(event, value) => dispatch(setProduct(value))}
                     />
                 </div>
                 <div className="form-group">
@@ -85,10 +101,11 @@ const NewOrder = () => {
                         InputLabelProps={{
                         shrink: true,
                         }}
+                        onChange={(e) => dispatch(updateSelectedProduct({ name: 'quantity', value: e.target.valueAsNumber }))}
                     />
                 </div>
                 <div className='form-group'>
-                    <Button variant="contained">Add</Button>
+                    <Button variant="contained" onClick={addTableData}>Add</Button>
                 </div>
             </form>
 
@@ -96,7 +113,6 @@ const NewOrder = () => {
                 <table>
                     <thead>
                         <tr>
-                            <th>Product ID</th>
                             <th>Product Name</th>
                             <th>Price</th>
                             <th>Quantity</th>
@@ -104,26 +120,10 @@ const NewOrder = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Product 1</td>
-                            <td>100</td>
-                            <td contentEditable='true'
-                                suppressContentEditableWarning={true}
-                            >2</td>
-                            <td>200</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Product 2</td>
-                            <td>200</td>
-                            <td>3</td>
-                            <td>600</td>
-                        </tr>
+                        {maptabledata}
                     </tbody>
                     <tbody>
                         <tr>
-                            <td></td>
                             <td></td>
                             <td></td>
                             <td className='border'><b>Total</b></td>
