@@ -13,8 +13,22 @@ export const fetchProducts = createAsyncThunk(
             }
         );
         const data = await response.json();
-        return data;
+        const products = data.map(product => {
+            if(product.price > 0) {
+                return {
+                    id: product._id,
+                    category: product.category,
+                    name: product.name,
+                    price: product.price,
+                    quantity: product.quantity,
+                    supplierID: product.supplierID,
+                }
+            }
+            return null;
+        }).filter(product => product !== null);
+        return products;
     }
+        
 );
 
 export const productsSlice = createSlice({
@@ -42,6 +56,18 @@ export const productsSlice = createSlice({
         updateSelectedProduct: (state, action) => {
             const { name, value } = action.payload;
             state.selectedProduct= { ...state.selectedProduct, [name]: value }
+        },
+        setProduct: (state, action) => {
+            const product = action.payload;
+            const data = {
+                id: product._id,
+                category: product.category,
+                name: product.name,
+                price: product.price,
+                quantity: product.quantity,
+                supplierID: product.supplierID,
+            }
+            state.selectedProduct = data;
         }
     },
     extraReducers: (builder) => {
@@ -61,4 +87,4 @@ export const productsSlice = createSlice({
 });
 
 export default productsSlice.reducer;
-export const { setSelectedProduct, updateSelectedProduct } = productsSlice.actions;
+export const { setSelectedProduct, updateSelectedProduct, setProduct } = productsSlice.actions;
