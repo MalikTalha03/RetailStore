@@ -35,21 +35,18 @@ const OrderDetails = () => {
           <html>
             <head>
               <title>Print Receipt</title>
-              <style>
-                /* Add any additional styles needed for printing */
-              </style>
             </head>
             <body>
-              <h1>${shopname}</h1>
-              <p>${shopaddress}</p>
-              <p>Contact: ${shopcontact}</p>
-              <p>Date: ${datetime}</p>
+                <h1>${shopname}</h1>
+                <p>${shopaddress}</p>
+                <p>Contact: ${shopcontact}</p>
+                <p>Date: ${datetime}</p>
                 <p>Order ID: ${orderid}</p>
                 <p>Total Amount: ${totalamount}</p>
                 <p>Amount Paid: ${amountpaid}</p>
-                <p>Amount Due: ${amountdue}</p>
-                
-              ${printContent}
+                <p>Amount Due: ${amountdue}</p>            
+                ${printContent}
+                <p>Thank you for shopping with us!</p>
             </body>
           </html>
         `);
