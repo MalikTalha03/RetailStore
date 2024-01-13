@@ -11,8 +11,32 @@ const ConfirmationDialog = ({open, onClose, tabledata, totalPrice}) => {
     const customerid = selectedCustomer && selectedCustomer.length > 0 ? selectedCustomer[0]._id : null;
     const token = localStorage.getItem('token');
     const api = 'http://localhost:3001/'
+    const [employee, setEmployeeid] = React.useState(null)
+    const emp= async ()=>{
+            try{
+                const data = await fetch(api +`employee/token/${localStorage.getItem('token')}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },                })
+                const response = await data.json()
+                if(response.message === 'jwt expired'){
+                    localStorage.removeItem('token')
+                    window.location.reload()
+                }
+                else{
+                    localStorage.setItem('employeeid', response.id)
+                }
+            }
+            catch(err){
+                console.log(err)
+            }
+    }
+    emp()
     async function addOrder(){
         try{
+            console.log(api +`customer/${customerid}/orders`)
             const data = await fetch(api +`customer/${customerid}/orders`, {
                 method: 'PATCH',
                 headers: {
@@ -22,6 +46,7 @@ const ConfirmationDialog = ({open, onClose, tabledata, totalPrice}) => {
                 body: JSON.stringify({
                     orderDate: new Date(),
                     paymentStatus: 'Pending',
+                    employeeid : localStorage.getItem('employeeid')
                 })
             })
             const response = await data.json()
@@ -67,6 +92,7 @@ const ConfirmationDialog = ({open, onClose, tabledata, totalPrice}) => {
             console.log(err)
         }
     }
+        
   return (
     <div>
         <Dialog open={open} onClose={onClose} fullWidth={true} maxWidth='md' >
