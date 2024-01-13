@@ -14,7 +14,15 @@ import ConfirmDialog from './ConfirmDialog'
 const NewOrder = () => {
     const apiurl = "http://localhost:3001/"
     const dispatch = useDispatch()
-    const products = useSelector(state => state.products.products)
+    const products = useSelector(state => state.products.products.filter((product) => product.inventory > 0).map((product) => ({
+        id: product._id,
+        name: product.name,
+        price: product.price,
+        quantity: product.inventory
+    })));
+    
+    console.log("Products: " +  products)
+    console.log(products)
     const selectedProd = useSelector(state => state.products.selectedProduct)
     const selectedCustomer = useSelector(state => state.customers.selectedCustomer)
     const orderdata = useSelector(state => state.orderdata.orderdata)
