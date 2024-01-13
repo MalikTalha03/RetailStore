@@ -47,7 +47,7 @@ export const productsSlice = createSlice({
         setProduct: (state, action) => {
             const product = action.payload;
             const data = {
-                id: product._id,
+                id: product.id,
                 category: product.category,
                 name: product.name,
                 price: product.price,
