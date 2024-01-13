@@ -13,20 +13,7 @@ export const fetchProducts = createAsyncThunk(
             }
         );
         const data = await response.json();
-        const products = data.map(product => {
-            if(product.price > 0) {
-                return {
-                    id: product._id,
-                    category: product.category,
-                    name: product.name,
-                    price: product.price,
-                    quantity: product.quantity,
-                    supplierID: product.supplierID,
-                }
-            }
-            return null;
-        }).filter(product => product !== null);
-        return products;
+        return data;
     }
         
 );
