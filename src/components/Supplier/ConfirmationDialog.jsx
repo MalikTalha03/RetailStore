@@ -27,7 +27,7 @@ const ConfirmationDialog = ({open, onClose, tabledata, totalPrice}) => {
             })
             const response = await data.json()
             const orderid = response.id
-            console.log(response)
+            console.log("Response: " + response)
             if(response.message === 'jwt expired'){
                 localStorage.removeItem('token')
                 window.location.reload()
@@ -36,6 +36,7 @@ const ConfirmationDialog = ({open, onClose, tabledata, totalPrice}) => {
                 try{
                     orderData.forEach(async (item) => {
                         console.log(item)
+                        console.log(api +`supplier/${supplierid}/orders/${orderid}/details`)
                         const data = await fetch(api +`supplier/${supplierid}/orders/${orderid}/details`, {
                             method: 'PATCH',
                             headers: {
