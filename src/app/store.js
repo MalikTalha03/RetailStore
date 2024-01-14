@@ -5,6 +5,7 @@ import { dialogSlice } from "./features/dialogslice";
 import { orderdataSlice } from "./features/orderdata";
 import { categoriesSlice } from "./features/categories";
 import { customersSlice } from "./features/customer";
+import { ordersSlice } from "./features/orders";
 
 export const store = configureStore({
     reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
         orderdata: orderdataSlice.reducer,
         categories: categoriesSlice.reducer,
         customers: customersSlice.reducer,
+        orders: ordersSlice.reducer,
     },
 });
 
