@@ -15,9 +15,9 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import './navbar.css'
 import { Link } from 'react-router-dom';
+import * as FaIcons from 'react-icons/fa';
 
 
 const drawerWidth = 240;
@@ -104,65 +104,76 @@ export default function MiniDrawer() {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <Box sx={{ marginLeft: open ? '240px' : '0', transition: 'margin 0.3s' }}>
-        <div>
+      <Box sx={{ marginLeft: open ? '240px' : '66px', transition: 'margin 0.3s'}} >
             <nav>
                 <h1>Sufi Traders</h1>
-                <ul>
-                <Link to='/'>Home</Link>
-                <Link to='/login'>Login</Link>
-                <Link to='/register'>Register</Link>
-                </ul>
             </nav> 
-        </div>
         <Drawer variant="permanent" open={open} onMouseEnter={handleDrawerOpen} onMouseLeave={handleDrawerClose}> 
             <List>
-            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-                <ListItemButton
-                    sx={{
-                    minHeight: 48,
-                    justifyContent: open ? 'initial' : 'center',
-                    px: 2.5,
-                    }}
-                >
-                    <ListItemIcon
-                    sx={{
-                        minWidth: 0,
-                        mr: open ? 3 : 'auto',
-                        justifyContent: 'center',
-                    }}
-                    >
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                    </ListItemIcon>
-                    <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                </ListItemButton>
+                <ListItem disablePadding>
+                    <ListItemButton component={Link} to='/dashboard'>
+                        <ListItemIcon>
+                            <FaIcons.FaHome />
+                        </ListItemIcon>
+                        <ListItemText primary="Dashboard" />
+                    </ListItemButton>
                 </ListItem>
-            ))}
-            </List>
-            <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-                <ListItemButton
-                    sx={{
-                    minHeight: 48,
-                    justifyContent: open ? 'initial' : 'center',
-                    px: 2.5,
-                    }}
-                >
-                    <ListItemIcon
-                    sx={{
-                        minWidth: 0,
-                        mr: open ? 3 : 'auto',
-                        justifyContent: 'center',
-                    }}
-                    >
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                    </ListItemIcon>
-                    <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                </ListItemButton>
+                <ListItem disablePadding>
+                    <ListItemButton component={Link} to='/orders'>
+                        <ListItemIcon>
+                            <FaIcons.FaCartPlus />
+                        </ListItemIcon>
+                        <ListItemText primary="Orders" />
+                    </ListItemButton>
                 </ListItem>
-            ))}
+                <ListItem disablePadding>
+                    <ListItemButton component={Link} to='/products'>
+                        <ListItemIcon>
+                            <FaIcons.FaProductHunt />
+                        </ListItemIcon>
+                        <ListItemText primary="Products" />
+                    </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                    <ListItemButton component={Link} to='/customers'>
+                        <ListItemIcon>
+                            <FaIcons.FaUsers />
+                        </ListItemIcon>
+                        <ListItemText primary="Customers" />
+                    </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                    <ListItemButton component={Link} to='/suppliers'>
+                        <ListItemIcon>
+                            <FaIcons.FaUserTie />
+                        </ListItemIcon>
+                        <ListItemText primary="Suppliers" />
+                    </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                    <ListItemButton component={Link} to='/employees'>
+                        <ListItemIcon>
+                            <FaIcons.FaUser />
+                        </ListItemIcon>
+                        <ListItemText primary="Employees" />
+                    </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                    <ListItemButton component={Link} to='/reports'>
+                        <ListItemIcon>
+                            <FaIcons.FaChartBar />
+                        </ListItemIcon>
+                        <ListItemText primary="Reports" />
+                    </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                    <ListItemButton component={Link} to='/settings'>
+                        <ListItemIcon>
+                            <FaIcons.FaCog />
+                        </ListItemIcon>
+                        <ListItemText primary="Settings" />
+                    </ListItemButton>
+                </ListItem>
             </List>
         </Drawer>
       </Box>
