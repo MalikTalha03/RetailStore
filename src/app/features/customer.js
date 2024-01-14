@@ -21,16 +21,41 @@ export const customersSlice = createSlice({
     name: 'customers',
     initialState: {
         customers: [],
-        selectedCustomer: [],
+        selectedCustomer: {},
         status: 'idle',
-        error: null
+        error: null,
+        inselected: "no"
     },
     reducers: {
         setSelectedCustomer: (state, action) => {
-            const contact  = action.payload;
-            const customer = state.customers.filter(customer => customer.contact === contact);
-            state.selectedCustomer = customer;
-        }
+            const contact = action.payload;
+            const customer = state.customers.find(cust => cust.contact === contact);
+            if (!customer) {
+                return {
+                    ...state,
+                    selectedCustomer: { firstname: '', lastname:'', contact: contact},
+                    inselected: "false"
+                };
+            } else {
+                return {
+                    ...state,
+                    selectedCustomer: customer,
+                    inselected: "true"
+                };
+            }
+        },
+        
+        updateSelectedCustomer: (state, action) => {
+            const { name, value } = action.payload;
+            if (name === 'name') {
+                const firstname = value.split(' ')[0];
+                const lastname = value.split(' ')[1];
+                state.selectedCustomer = { ...state.selectedCustomer, firstname: firstname ||'',lastname: lastname||'' , inselected: "false"};
+            }
+            state.selectedCustomer = { ...state.selectedCustomer, [name]: value, inselected: "false" }
+
+        },
+        
     },
     extraReducers: (builder) => {
         builder
@@ -49,4 +74,4 @@ export const customersSlice = createSlice({
 });
 
 export default customersSlice.reducer;
-export const { setSelectedCustomer } = customersSlice.actions;
+export const { setSelectedCustomer,updateSelectedCustomer } = customersSlice.actions;
