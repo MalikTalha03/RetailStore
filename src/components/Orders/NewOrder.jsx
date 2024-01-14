@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { fetchSuppliers } from '../../app/features/supplier'
 import { fetchProducts, setProduct, updateSelectedProduct } from '../../app/features/products'
 import { setOrderdata } from '../../app/features/orderdata'
-import { fetchCustomers, setSelectedCustomer } from '../../app/features/customer'
+import { fetchCustomers, setSelectedCustomer, updateSelectedCustomer } from '../../app/features/customer'
 import { setDialog1 } from '../../app/features/dialogslice'
 import ConfirmDialog from './ConfirmDialog'
 
@@ -20,13 +20,14 @@ const NewOrder = () => {
         price: product.price,
         quantity: product.inventory
     })));
-    
-    console.log("Products: " +  products)
-    console.log(products)
     const selectedProd = useSelector(state => state.products.selectedProduct)
     const selectedCustomer = useSelector(state => state.customers.selectedCustomer)
     const orderdata = useSelector(state => state.orderdata.orderdata)
     const dialog1 = useSelector(state => state.dialog.dialog1)
+    useEffect(() => {   
+        console.log(selectedCustomer)
+
+    }, [selectedCustomer])
     useEffect(() => {
         dispatch(fetchSuppliers())
         dispatch(fetchProducts())
@@ -85,13 +86,14 @@ const NewOrder = () => {
                 </div>
                 <div className='form-group'>
                     <TextField
-                        id="outlined-number"
+                        id="name-customer"
                         label="Name"
-                        type="string"
-                        value={selectedCustomer && selectedCustomer.length > 0 ? `${selectedCustomer[0].firstname} ${selectedCustomer[0].lastname}` : ''}
+                        type="text"
+                        value={selectedCustomer && Object.keys(selectedCustomer).length > 0 ? `${selectedCustomer.name}` : ''}
                         InputLabelProps={{
                         shrink: true,
                         }}
+                        onChange={(e) => dispatch(updateSelectedCustomer({ name: 'name', value: e.target.value }))}
                     />
                 </div>
                 <div className="form-group">
