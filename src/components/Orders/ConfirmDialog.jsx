@@ -5,13 +5,46 @@ import '../Orders/neworder.css'
 import { useSelector } from 'react-redux'
 
 
+
 const ConfirmationDialog = ({open, onClose, tabledata, totalPrice}) => {
     const selectedCustomer = useSelector(state => state.customers.selectedCustomer);
     const orderData = useSelector(state => state.orderdata.orderdata);
-    const customerid = selectedCustomer && selectedCustomer.length > 0 ? selectedCustomer[0]._id : null;
+    const isSelected = useSelector(state => state.customers.inselected)
+    let customerid = selectedCustomer && Object.keys(selectedCustomer).length > 0 ? selectedCustomer._id : null
     const token = localStorage.getItem('token');
     const api = 'http://localhost:3001/'
     const [employee, setEmployeeid] = React.useState(null)
+    async function addCust(){
+        console.log("in func")
+        try{
+            const data = await fetch('http://localhost:3001/customer',
+            {
+                method: 'POST',
+                headers : {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body : JSON.stringify({
+                    firstname : selectedCustomer.firstname,
+                    lastname : selectedCustomer.lastname,
+                    contact : selectedCustomer.contact,
+                })
+            })
+            const response = await data.json()
+            console.log(response)
+            if(response.message === 'jwt expired'){
+                localStorage.removeItem('token')
+                window.location.reload()
+            }
+            else if (response.message === 'Customer Added'){
+                localStorage.setItem('customerid', response.id)
+                console.log("in else if" + response.id)
+            }
+        }
+        catch(err){
+            console.log("error"+ err)
+        }
+    }
     const emp= async ()=>{
             try{
                 const data = await fetch(api +`employee/token/${localStorage.getItem('token')}`, {
@@ -36,8 +69,10 @@ const ConfirmationDialog = ({open, onClose, tabledata, totalPrice}) => {
     emp()
     async function addOrder(){
         try{
-            console.log(api +`customer/${customerid}/orders`)
-            const data = await fetch(api +`customer/${customerid}/orders`, {
+            if(isSelected === "false" ){
+                await addCust()
+            }
+            const data = await fetch(api +`customer/${localStorage.getItem('customerid')}/orders`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -51,7 +86,6 @@ const ConfirmationDialog = ({open, onClose, tabledata, totalPrice}) => {
             })
             const response = await data.json()
             const orderid = response.id
-            console.log(response)
             if(response.message === 'jwt expired'){
                 localStorage.removeItem('token')
                 window.location.reload()
@@ -59,8 +93,7 @@ const ConfirmationDialog = ({open, onClose, tabledata, totalPrice}) => {
             else{
                 try{
                     orderData.forEach(async (item) => {
-                        console.log(item)
-                        const data = await fetch(api +`customer/${customerid}/orders/${orderid}/details`, {
+                        const data = await fetch(api +`customer/${localStorage.getItem('customerid')}/orders/${orderid}/details`, {
                             method: 'PATCH',
                             headers: {
                                 'Content-Type': 'application/json',
