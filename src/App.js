@@ -6,6 +6,7 @@ import NewOrder from './components/Orders/NewOrder';
 import OrderDetails from './components/Orders/OrderDetails';
 import SuppOrder from './components/Supplier/SuppOrder';
 import Drawer from './components/Dashboard/Drawer';
+import Orders from './components/Orders/Orders';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/neworder" element={<NewOrder />} />
         <Route path="/orderdetail" element={<OrderDetails />} />
         <Route path="/suporder" element={<SuppOrder/>} />
+        <Route path="/orders" element={<Orders />} />
       </Routes>
     </BrowserRouter>
   );
