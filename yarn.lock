@@ -1781,6 +1781,13 @@
   resolved "https://registry.yarnpkg.com/@mui/core-downloads-tracker/-/core-downloads-tracker-5.15.4.tgz#c9430f1786ff604c2afaa00508b5bc45c9726c13"
   integrity sha512-0OZN9O6hAtBpx70mMNFOPaAIol/ytwZYPY+z7Rf9dK3+1Xlzwvj5/IeShJKvtp76S1qJyhPuvZg0+BGqQaUnUw==
 
+"@mui/icons-material@^5.15.4":
+  version "5.15.4"
+  resolved "https://registry.yarnpkg.com/@mui/icons-material/-/icons-material-5.15.4.tgz#fb8a5e4be2cd656c5d5b1bbad7618b3fadf8d37b"
+  integrity sha512-q/Yk7aokN8qGMpR7bwoDpBSeaNe6Bv7vaY9yHYodP37c64TM6ime05ueb/wgksOVszrKkNXC67E/XYbRWOoUFA==
+  dependencies:
+    "@babel/runtime" "^7.23.7"
+
 "@mui/material@^5.15.2":
   version "5.15.4"
   resolved "https://registry.yarnpkg.com/@mui/material/-/material-5.15.4.tgz#354e0972fc89207926e9e53cc9cb349049873517"
@@ -8178,6 +8185,11 @@ react-fast-compare@^2.0.1:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
   integrity sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==
+
+react-icons@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-5.0.1.tgz#1694e11bfa2a2888cab47dcc30154ce90485feee"
+  integrity sha512-WqLZJ4bLzlhmsvme6iFdgO8gfZP17rfjYEJ2m9RsZjZ+cc4k1hTzknEz63YS1MeT50kVzoa1Nz36f4BEx+Wigw==
 
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
