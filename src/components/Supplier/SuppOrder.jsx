@@ -67,6 +67,8 @@ const SuppOrder = () => {
             <div className="addsupp">
                 <Button variant="contained" onClick= {()=> dispatch(setDialog3(!dialog3))}>Add Product</Button>
                 <Button variant="contained"onClick= {()=> dispatch(setDialog1(!dialog1))}>Add Supplier</Button>
+                <Button variant="contained">Add Category</Button>
+                <Button variant="contained">Pay Supplier </Button>
             </div>
             <Addsupplier open={dialog1} onClose={ ()=> dispatch(setDialog1(!dialog1))}/>
             <AddProduct open={dialog3} onClose={ ()=> dispatch(setDialog3(!dialog3))}/>
