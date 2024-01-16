@@ -1,0 +1,78 @@
+.container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column
+}
+.orderform {
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    gap : 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.neworder {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #ccc;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 60px 30px 0 30px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.table thead tr,
+.table tbody tr {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: left;
+}
+
+.table thead tr {
+    background: #ccc;
+}
+
+.table thead th,
+.table tbody td {
+    padding: 10px;
+    text-align: center;
+    width:  20%;
+}
+
+.table tbody tr:nth-child(even) {
+    background: #f0f0f0;
+}
+
+.table tbody tr:nth-child(odd) {
+    background: #fff;
+}
+
+.proceed {
+    width: 10%;
+    align-self: flex-end;
+    margin: 20px;
+}
+
+.total {
+    align-self: flex-end;
+    margin-right: 80px;
+}
+
+.border {
+    border-top: 2px solid grey;
+}
