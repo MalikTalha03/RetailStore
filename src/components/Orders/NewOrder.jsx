@@ -9,9 +9,10 @@ import { setOrderdata } from '../../app/features/orderdata'
 import { fetchCustomers, setSelectedCustomer, updateSelectedCustomer } from '../../app/features/customer'
 import { setDialog1 } from '../../app/features/dialogslice'
 import ConfirmDialog from './ConfirmDialog'
-
+import checkToken from './components/loggedin';
 
 const NewOrder = () => {
+    checkToken();
     const apiurl = "http://localhost:3001/"
     const dispatch = useDispatch()
     const products = useSelector(state => state.products.products.filter((product) => product.inventory > 0).map((product) => ({
