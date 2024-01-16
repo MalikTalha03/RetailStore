@@ -12,12 +12,12 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<><Drawer /><Login /></>} />
-        <Route path="/register" element={<><Drawer /><Register /></>} />
-        <Route path="/neworder" element={<NewOrder />} />
-        <Route path="/orderdetail" element={<OrderDetails />} />
-        <Route path="/suporder" element={<SuppOrder/>} />
-        <Route path="/orders" element={<Orders />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/neworder" element={<><Drawer /><NewOrder /></>} />
+        <Route path="/orderdetail" element={<><Drawer /><OrderDetails /></>} />
+        <Route path="/suporder" element={<><Drawer /><SuppOrder/></>} />
+        <Route path="/orders" element={<><Drawer /><Orders /></>} />
       </Routes>
     </BrowserRouter>
   );
