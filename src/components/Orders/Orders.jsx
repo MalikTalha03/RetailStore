@@ -4,8 +4,10 @@ import { fetchTodayOrders } from '../../app/features/orders';
 import * as FaIcons from 'react-icons/fa';
 import './orders.css'; // Import the CSS file
 import Pdf from './Pdf';
+import checkToken from './components/loggedin';
 
 const Orders = () => {
+  checkToken();
   const [open, setOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const dispatch = useDispatch();
