@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogTitle, Stack, TextField,Autocomplete, Dial
 import { useState,useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import './order.css'
-import '../Orders/neworder.css'
+import '../Orders/css/neworder.css'
 import { fetchCategories } from '../../app/features/categories'
 import { fetchSuppliers } from '../../app/features/supplier'
 

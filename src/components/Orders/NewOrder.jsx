@@ -1,7 +1,7 @@
 import React from 'react'
-import './neworder.css'
+import './css/neworder.css'
 import {Button, Autocomplete, TextField} from '@mui/material'
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchSuppliers } from '../../app/features/supplier'
 import { fetchProducts, setProduct, updateSelectedProduct } from '../../app/features/products'
@@ -9,11 +9,10 @@ import { setOrderdata } from '../../app/features/orderdata'
 import { fetchCustomers, setSelectedCustomer, updateSelectedCustomer } from '../../app/features/customer'
 import { setDialog1 } from '../../app/features/dialogslice'
 import ConfirmDialog from './ConfirmDialog'
-import checkToken from './components/loggedin';
+import checkToken from '../loggedin';
 
 const NewOrder = () => {
     checkToken();
-    const apiurl = "http://localhost:3001/"
     const dispatch = useDispatch()
     const products = useSelector(state => state.products.products.filter((product) => product.inventory > 0).map((product) => ({
         id: product._id,

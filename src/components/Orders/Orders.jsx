@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTodayOrders } from '../../app/features/orders';
 import * as FaIcons from 'react-icons/fa';
-import './orders.css'; // Import the CSS file
+import './css/orders.css'; 
 import Pdf from './Pdf';
-import checkToken from './components/loggedin';
+import checkToken from '../loggedin';
 
 const Orders = () => {
   checkToken();

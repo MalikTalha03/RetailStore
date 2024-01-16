@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import './order.css'
-import '../Orders/neworder.css'
+import '../Orders/css/neworder.css'
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack, TextField } from '@mui/material'
 
 const Addsupplier = ({open, onClose}) => {

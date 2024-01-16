@@ -1,7 +1,7 @@
 import React from 'react'
 import { Dialog, DialogContent, DialogTitle, DialogContentText, DialogActions, Button } from '@mui/material'
 import '../Supplier/order.css'
-import '../Orders/neworder.css'
+import './css/neworder.css'
 import { useSelector } from 'react-redux'
 
 
@@ -10,10 +10,8 @@ const ConfirmationDialog = ({open, onClose, tabledata, totalPrice}) => {
     const selectedCustomer = useSelector(state => state.customers.selectedCustomer);
     const orderData = useSelector(state => state.orderdata.orderdata);
     const isSelected = useSelector(state => state.customers.inselected)
-    let customerid = selectedCustomer && Object.keys(selectedCustomer).length > 0 ? selectedCustomer._id : null
     const token = localStorage.getItem('token');
     const api = 'http://localhost:3001/'
-    const [employee, setEmployeeid] = React.useState(null)
     async function addCust(){
         console.log("in func")
         try{

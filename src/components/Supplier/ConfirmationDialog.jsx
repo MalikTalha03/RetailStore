@@ -1,7 +1,7 @@
 import React from 'react'
 import { Dialog, DialogContent, DialogTitle, DialogContentText, DialogActions, Button } from '@mui/material'
 import './order.css'
-import '../Orders/neworder.css'
+import '../Orders/css/neworder.css'
 import { useSelector } from 'react-redux'
 
 

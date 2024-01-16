@@ -1,6 +1,6 @@
 import React from 'react'
-import './details.css'
-import './neworder.css'
+import './css/details.css'
+import './css/neworder.css'
 import { useState } from 'react'
 import {Autocomplete, Button, TextField, Typography} from '@mui/material'
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material'

@@ -1,5 +1,5 @@
 import React from 'react'
-import '../Orders/neworder.css'
+import '../Orders/css/neworder.css'
 import './order.css'
 import {Button, Autocomplete, TextField } from '@mui/material'
 import { useEffect } from 'react'
@@ -11,7 +11,7 @@ import { setOrderdata } from '../../app/features/orderdata'
 import Addsupplier from './Addsupplier'
 import AddProduct from './AddProduct'
 import ConfirmationDialog from './ConfirmationDialog'
-import checkToken from './components/loggedin';
+import checkToken from '../loggedin';
 
 const SuppOrder = () => {
     checkToken();
