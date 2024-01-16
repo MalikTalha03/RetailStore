@@ -3,21 +3,20 @@ import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import './navbar.css'
-import { Link } from 'react-router-dom';
+import './navbar.css';
 import * as FaIcons from 'react-icons/fa';
+import { useState } from 'react';
+import Collapse from '@mui/material/Collapse';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import { Divider } from '@mui/material';
+import { useEffect } from 'react';
 
 
 const drawerWidth = 240;
@@ -48,26 +47,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'flex-end',
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
-}));
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
-  zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(['width', 'margin'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
 }));
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -89,94 +69,169 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export default function MiniDrawer() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [activeSubMenu, setActiveSubMenu] = useState(null);
+  const [isCollapse, setIsCollapse] = useState(false);
+
+  useEffect(() => {
+    console.log(activeSubMenu);
+  }, [activeSubMenu]);
+
+  useEffect(() => {
+    console.log(isCollapse);
+  }
+  , [isCollapse]);
+
+  const [openSubmenus, setOpenSubmenus] = useState({});
+
+  const handleSubMenuClick = (item) => {
+    const submenuKey = item.title;
+
+    // Toggle the submenu state
+    setOpenSubmenus((prevOpenSubmenus) => ({
+      ...prevOpenSubmenus,
+      [submenuKey]: !prevOpenSubmenus[submenuKey],
+    }));
+  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
-    console.log('hello0')
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
-    console.log('hello')
+    setActiveSubMenu(null);
+    setOpenSubmenus({});
   };
+
+  const handleCollapse = () => {
+    setIsCollapse(!isCollapse);
+  };
+
+  
+
+  const sidebarItems = [
+    {
+      title: 'Dashboard',
+      path: '/dashboard',
+      icon: <FaIcons.FaHome />,
+      cName: 'nav-text',
+      subOptions: [],
+    },
+    {
+      title: 'Orders',
+      path: '#',
+      icon: <FaIcons.FaCartPlus />,
+      cName: 'nav-text',
+      subOptions: [
+        { title: 'New Order', path: '/orders', icon: <FaIcons.FaCartPlus /> },
+        { title: 'Open an Order', path: '/orders/open', icon: <FaIcons.FaCartArrowDown /> },
+        { title: 'Refund an Order', path: '/orders/refund', icon: <FaIcons.FaCartArrowDown /> },
+        { title: 'Add a Payment', path: '/orders/payment', icon: <FaIcons.FaCartArrowDown /> },
+        { title: 'All Orders', path: '/orders/all', icon: <FaIcons.FaCartArrowDown /> },
+      ],
+    },
+    {
+      title: 'Products',
+      path: '#',
+      icon: <FaIcons.FaProductHunt />,
+      cName: 'nav-text',
+      subOptions: [
+        { title: 'Add Product', path: '/products/add', icon: <FaIcons.FaPlus /> },
+        { title: 'All Products', path: '/products/all', icon: <FaIcons.FaList /> },
+        { title: 'Categories', path: '/products/categories', icon: <FaIcons.FaList /> },
+      ],
+    },
+    {
+      title: 'Customers',
+      path: '#',
+      icon: <FaIcons.FaUsers />,
+      cName: 'nav-text',
+      subOptions: [
+        { title: 'Add Customer', path: '/customers/add', icon: <FaIcons.FaUserPlus /> },
+        { title: 'All Customers', path: '/customers/all', icon: <FaIcons.FaList /> },
+        { title: 'Update Customer', path: '/customers/update', icon: <FaIcons.FaUserEdit /> },
+      ],
+    },
+    {
+      title: 'Suppliers',
+      path: '#',
+      icon: <FaIcons.FaUserTie />,
+      cName: 'nav-text',
+      subOptions: [
+        { title: 'Add Supplier', path: '/suppliers/add', icon: <FaIcons.FaUserPlus /> },
+        { title: 'All Suppliers', path: '/suppliers/all', icon: <FaIcons.FaList /> },
+        { title: 'Update Supplier', path: '/suppliers/update', icon: <FaIcons.FaUserEdit /> },
+      ],
+    },
+    {
+      title: 'Employees',
+      path: '#',
+      icon: <FaIcons.FaUser />,
+      cName: 'nav-text',
+      subOptions: [
+        { title: 'Add Employee', path: '/employees/add', icon: <FaIcons.FaUserPlus /> },
+        { title: 'All Employees', path: '/employees/all', icon: <FaIcons.FaList /> },
+        { title: 'Update Employee', path: '/employees/update', icon: <FaIcons.FaUserEdit /> },
+      ],
+    },
+    {
+      title: 'Reports',
+      path: '#',
+      icon: <FaIcons.FaChartBar />,
+      cName: 'nav-text',
+      subOptions: [],
+    },
+    {
+      title: 'Settings',
+      path: '/settings',
+      icon: <FaIcons.FaCog />,
+      cName: 'nav-text',
+      subOptions: [],
+    },
+  ];
+
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <Box sx={{ marginLeft: open ? '240px' : '66px', transition: 'margin 0.3s'}} >
-            <nav>
-                <h1>Sufi Traders</h1>
-            </nav> 
-        <Drawer variant="permanent" open={open} onMouseEnter={handleDrawerOpen} onMouseLeave={handleDrawerClose}> 
-            <List>
-                <ListItem disablePadding>
-                    <ListItemButton component={Link} to='/dashboard'>
-                        <ListItemIcon>
-                            <FaIcons.FaHome />
+      <div className="nav" style={{marginLeft: '66px'}}>
+        <h1>Sufi Traders</h1>
+      </div>
+      <Drawer variant="permanent" open={open}>
+        <DrawerHeader />
+        <Divider />
+        <List onMouseLeave={handleDrawerClose} onMouseEnter={handleDrawerOpen}>
+          {sidebarItems.map((item, index) => (
+            <React.Fragment key={index}>
+              <ListItem disablePadding sx={{ display: 'block' }} onClick={() => handleSubMenuClick(item)}>
+                <ListItemButton sx={{ minHeight: 48, px: 2.5 }}>
+                  <ListItemIcon sx={{ minWidth: 0, mr: 5 }}>
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText primary={item.title} />
+                  {item.subOptions.length > 0 && (
+                    openSubmenus[item.title] ? <ExpandLess /> : <ExpandMore />
+                  )}
+                </ListItemButton>
+              </ListItem>
+              <Collapse in={openSubmenus[item.title]} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding sx={{ ml: 3 }}>
+                  {item.subOptions.map((subOption, subIndex) => (
+                    <ListItem key={subIndex} disablePadding sx={{ display: 'block' }}>
+                      <ListItemButton sx={{ minHeight: 48, px: 2.5 }}>
+                        <ListItemIcon sx={{ minWidth: 0, mr: 5 }}>
+                          {subOption.icon}
                         </ListItemIcon>
-                        <ListItemText primary="Dashboard" />
-                    </ListItemButton>
-                </ListItem>
-                <ListItem disablePadding>
-                    <ListItemButton component={Link} to='/orders'>
-                        <ListItemIcon>
-                            <FaIcons.FaCartPlus />
-                        </ListItemIcon>
-                        <ListItemText primary="Orders" />
-                    </ListItemButton>
-                </ListItem>
-                <ListItem disablePadding>
-                    <ListItemButton component={Link} to='/products'>
-                        <ListItemIcon>
-                            <FaIcons.FaProductHunt />
-                        </ListItemIcon>
-                        <ListItemText primary="Products" />
-                    </ListItemButton>
-                </ListItem>
-                <ListItem disablePadding>
-                    <ListItemButton component={Link} to='/customers'>
-                        <ListItemIcon>
-                            <FaIcons.FaUsers />
-                        </ListItemIcon>
-                        <ListItemText primary="Customers" />
-                    </ListItemButton>
-                </ListItem>
-                <ListItem disablePadding>
-                    <ListItemButton component={Link} to='/suppliers'>
-                        <ListItemIcon>
-                            <FaIcons.FaUserTie />
-                        </ListItemIcon>
-                        <ListItemText primary="Suppliers" />
-                    </ListItemButton>
-                </ListItem>
-                <ListItem disablePadding>
-                    <ListItemButton component={Link} to='/employees'>
-                        <ListItemIcon>
-                            <FaIcons.FaUser />
-                        </ListItemIcon>
-                        <ListItemText primary="Employees" />
-                    </ListItemButton>
-                </ListItem>
-                <ListItem disablePadding>
-                    <ListItemButton component={Link} to='/reports'>
-                        <ListItemIcon>
-                            <FaIcons.FaChartBar />
-                        </ListItemIcon>
-                        <ListItemText primary="Reports" />
-                    </ListItemButton>
-                </ListItem>
-                <ListItem disablePadding>
-                    <ListItemButton component={Link} to='/settings'>
-                        <ListItemIcon>
-                            <FaIcons.FaCog />
-                        </ListItemIcon>
-                        <ListItemText primary="Settings" />
-                    </ListItemButton>
-                </ListItem>
-            </List>
-        </Drawer>
-      </Box>
+                        <ListItemText primary={subOption.title} />
+                      </ListItemButton>
+                    </ListItem>
+                  ))}
+                </List>
+              </Collapse>
+            </React.Fragment>
+          ))}
+        </List>
+      </Drawer>
     </Box>
   );
 }
