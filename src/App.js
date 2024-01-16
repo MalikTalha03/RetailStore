@@ -12,9 +12,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Drawer />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<><Drawer /><Login /></>} />
+        <Route path="/register" element={<><Drawer /><Register /></>} />
         <Route path="/neworder" element={<NewOrder />} />
         <Route path="/orderdetail" element={<OrderDetails />} />
         <Route path="/suporder" element={<SuppOrder/>} />
