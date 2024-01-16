@@ -11,9 +11,10 @@ import { setOrderdata } from '../../app/features/orderdata'
 import Addsupplier from './Addsupplier'
 import AddProduct from './AddProduct'
 import ConfirmationDialog from './ConfirmationDialog'
+import checkToken from './components/loggedin';
 
 const SuppOrder = () => {
-
+    checkToken();
     const dispatch = useDispatch()
     const products = useSelector((state) => state.products.products);
     const suppliers = useSelector((state) => state.suppliers.suppliers);
