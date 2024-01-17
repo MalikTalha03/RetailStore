@@ -36,7 +36,6 @@ const ConfirmationDialog = ({open, onClose, tabledata, totalPrice}) => {
                 try{
                     orderData.forEach(async (item) => {
                         console.log(item)
-                        console.log(api +`supplier/${supplierid}/orders/${orderid}/details`)
                         const data = await fetch(api +`supplier/${supplierid}/orders/${orderid}/details`, {
                             method: 'PATCH',
                             headers: {
@@ -46,7 +45,8 @@ const ConfirmationDialog = ({open, onClose, tabledata, totalPrice}) => {
                             body: JSON.stringify({
                                 productid: item.id,
                                 qty: item.quantity,
-                                unitPrice: item.price
+                                unitPrice: item.price,
+                                saleprice: item.saleprice
                             })
                         })
                         const response = await data.json()
@@ -54,11 +54,9 @@ const ConfirmationDialog = ({open, onClose, tabledata, totalPrice}) => {
                             localStorage.removeItem('token')
                             window.location.reload()
                         }
-                        else{
-                            alert(response.message)
-                            window.location.reload()
-                        }
                     })
+                    alert(response.message)
+                    window.location.reload()
                 }
                 catch(err){
                     console.log(err)
