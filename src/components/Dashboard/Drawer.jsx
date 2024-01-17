@@ -18,10 +18,11 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import { Divider } from '@mui/material';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { setDialog1,setDialog2, setDialog3 } from '../../app/features/dialogslice'
+import { setDialog1,setDialog4, setDialog3 } from '../../app/features/dialogslice'
 import { useDispatch, useSelector } from 'react-redux';
 import Addsupplier from '../Supplier/Addsupplier';
 import AddProduct from '../Supplier/AddProduct';
+import AddCategory from '../Supplier/AddCategory';
 
 
 const drawerWidth = 240;
@@ -75,6 +76,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function MiniDrawer() {
   const dialog1 = useSelector((state) => state.dialog.dialog1);
   const dialog3 = useSelector((state) => state.dialog.dialog3);
+  const dialog4 = useSelector((state) => state.dialog.dialog4);
   const navigate = useNavigate();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -147,6 +149,7 @@ export default function MiniDrawer() {
       cName: 'nav-text',
       subOptions: [
         { title: 'Add Product', icon: <FaIcons.FaPlus />, onClick: ()=> dispatch(setDialog3(!dialog3)) },
+        { title: 'Add Category', icon: <FaIcons.FaPlus />, onClick: ()=> dispatch(setDialog4(!dialog4))},
         { title: 'All Products', path: '/products/all', icon: <FaIcons.FaList /> },
         { title: 'Categories', path: '/products/categories', icon: <FaIcons.FaList /> },
       ],
@@ -239,6 +242,7 @@ export default function MiniDrawer() {
       </Drawer>
       <Addsupplier open={dialog1} onClose={ ()=> dispatch(setDialog1(!dialog1))}/>
       <AddProduct open={dialog3} onClose={ ()=> dispatch(setDialog3(!dialog3))}/>
+      <AddCategory open={dialog4} onClose={ ()=> dispatch(setDialog4(!dialog4))}/>
     </Box>
   );
 }
