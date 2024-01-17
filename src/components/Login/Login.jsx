@@ -1,13 +1,35 @@
 import React from 'react'
 import './login.css'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
-
-
-
 
 const Login = () => {
   const apiurl = "http://localhost:3001/auth/login"
+  const tokenCheck = async () => {
+    try {
+      if(!localStorage.getItem('token')) {
+        return
+      }
+      const data = await fetch(apiurl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+      })
+      const response = await data.json()
+      if (response.message === 'jwt expired') {
+        localStorage.removeItem('token')
+        window.location.reload()
+      }
+      else {
+        window.location.href = '/dashboard'
+      }
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
+  tokenCheck()
   function handleSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.target);
