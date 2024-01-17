@@ -37,6 +37,9 @@ const Addsupplier = ({open, onClose}) => {
             else{
                 alert(response.message)
             }
+            onClose()
+            setSupplier({name: '', address: '', contact: ''})
+
         }
         catch(err){
             console.log(err)
