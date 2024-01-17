@@ -7,6 +7,7 @@ import OrderDetails from './components/Orders/OrderDetails';
 import SuppOrder from './components/Supplier/SuppOrder';
 import Drawer from './components/Dashboard/Drawer';
 import Orders from './components/Orders/Orders';
+import AllProducts from './components/Supplier/AllProducts';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/orderdetail" element={<><Drawer /><OrderDetails /></>} />
         <Route path="/suporder" element={<><Drawer /><SuppOrder/></>} />
         <Route path="/orders" element={<><Drawer /><Orders /></>} />
+        <Route path="/" element={<AllProducts />} />
       </Routes>
     </BrowserRouter>
   );
