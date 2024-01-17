@@ -17,6 +17,11 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { Divider } from '@mui/material';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { setDialog1,setDialog2, setDialog3 } from '../../app/features/dialogslice'
+import { useDispatch, useSelector } from 'react-redux';
+import Addsupplier from '../Supplier/Addsupplier';
+import AddProduct from '../Supplier/AddProduct';
 
 
 const drawerWidth = 240;
@@ -68,10 +73,14 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 export default function MiniDrawer() {
+  const dialog1 = useSelector((state) => state.dialog.dialog1);
+  const dialog3 = useSelector((state) => state.dialog.dialog3);
+  const navigate = useNavigate();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [activeSubMenu, setActiveSubMenu] = useState(null);
   const [isCollapse, setIsCollapse] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     console.log(activeSubMenu);
@@ -86,12 +95,14 @@ export default function MiniDrawer() {
 
   const handleSubMenuClick = (item) => {
     const submenuKey = item.title;
-
-    // Toggle the submenu state
     setOpenSubmenus((prevOpenSubmenus) => ({
       ...prevOpenSubmenus,
       [submenuKey]: !prevOpenSubmenus[submenuKey],
     }));
+
+    if(item.path){
+      navigate(item.path);
+    }
   };
 
   const handleDrawerOpen = () => {
@@ -120,7 +131,6 @@ export default function MiniDrawer() {
     },
     {
       title: 'Orders',
-      path: '#',
       icon: <FaIcons.FaCartPlus />,
       cName: 'nav-text',
       subOptions: [
@@ -133,40 +143,36 @@ export default function MiniDrawer() {
     },
     {
       title: 'Products',
-      path: '#',
       icon: <FaIcons.FaProductHunt />,
       cName: 'nav-text',
       subOptions: [
-        { title: 'Add Product', path: '/products/add', icon: <FaIcons.FaPlus /> },
+        { title: 'Add Product', icon: <FaIcons.FaPlus />, onClick: ()=> dispatch(setDialog3(!dialog3)) },
         { title: 'All Products', path: '/products/all', icon: <FaIcons.FaList /> },
         { title: 'Categories', path: '/products/categories', icon: <FaIcons.FaList /> },
       ],
     },
     {
       title: 'Customers',
-      path: '#',
       icon: <FaIcons.FaUsers />,
       cName: 'nav-text',
       subOptions: [
-        { title: 'Add Customer', path: '/customers/add', icon: <FaIcons.FaUserPlus /> },
+        { title: 'Find Customer', path: '/customers/add', icon: <FaIcons.FaUserPlus /> },
         { title: 'All Customers', path: '/customers/all', icon: <FaIcons.FaList /> },
         { title: 'Update Customer', path: '/customers/update', icon: <FaIcons.FaUserEdit /> },
       ],
     },
     {
       title: 'Suppliers',
-      path: '#',
       icon: <FaIcons.FaUserTie />,
       cName: 'nav-text',
       subOptions: [
-        { title: 'Add Supplier', path: '/suppliers/add', icon: <FaIcons.FaUserPlus /> },
+        { title: 'Add Supplier', icon: <FaIcons.FaUserPlus />, onClick: ()=> dispatch(setDialog1(!dialog1)) },
         { title: 'All Suppliers', path: '/suppliers/all', icon: <FaIcons.FaList /> },
         { title: 'Update Supplier', path: '/suppliers/update', icon: <FaIcons.FaUserEdit /> },
       ],
     },
     {
       title: 'Employees',
-      path: '#',
       icon: <FaIcons.FaUser />,
       cName: 'nav-text',
       subOptions: [
@@ -177,7 +183,6 @@ export default function MiniDrawer() {
     },
     {
       title: 'Reports',
-      path: '#',
       icon: <FaIcons.FaChartBar />,
       cName: 'nav-text',
       subOptions: [],
@@ -218,7 +223,7 @@ export default function MiniDrawer() {
                 <List component="div" disablePadding sx={{ ml: 3 }}>
                   {item.subOptions.map((subOption, subIndex) => (
                     <ListItem key={subIndex} disablePadding sx={{ display: 'block' }}>
-                      <ListItemButton sx={{ minHeight: 48, px: 2.5 }}>
+                      <ListItemButton sx={{ minHeight: 48, px: 2.5 }} onClick={subOption.onClick ? subOption.onClick : undefined}>
                         <ListItemIcon sx={{ minWidth: 0, mr: 5 }}>
                           {subOption.icon}
                         </ListItemIcon>
@@ -232,6 +237,8 @@ export default function MiniDrawer() {
           ))}
         </List>
       </Drawer>
+      <Addsupplier open={dialog1} onClose={ ()=> dispatch(setDialog1(!dialog1))}/>
+      <AddProduct open={dialog3} onClose={ ()=> dispatch(setDialog3(!dialog3))}/>
     </Box>
   );
 }
