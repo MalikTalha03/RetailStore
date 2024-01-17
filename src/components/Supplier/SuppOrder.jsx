@@ -44,12 +44,15 @@ const SuppOrder = () => {
   }, [selectedSupplier]);
 
   const filteredProducts = () => {
-    setSuppProducts(
-      products.filter((product) => {
-        return product.supplierID._id === selectedSupplier[0]._id;
-      })
-    );
+    if (selectedSupplier && selectedSupplier.length > 0) {
+      setSuppProducts(
+        products.filter((product) => {
+          return product.supplierID && product.supplierID._id === selectedSupplier[0]._id;
+        })
+      );
+    }
   };
+  
 
   function addTableData() {
     if (selectedProd) {
