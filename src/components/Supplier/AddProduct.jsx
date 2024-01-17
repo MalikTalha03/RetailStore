@@ -49,6 +49,8 @@ const AddProduct = ({open, onClose}) => {
             else{
                 alert(response.message)
             }
+            onClose()
+            setProduct({name: '', price: 0, inventory: 0, category: '', supplierID: ''})
         }
         catch(err){
             console.log(err)
