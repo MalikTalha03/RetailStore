@@ -18,12 +18,12 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import { Divider } from '@mui/material';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { setDialog1,setDialog4, setDialog3 } from '../../app/features/dialogslice'
+import { setDialog5,setDialog4, setDialog3 } from '../../app/features/dialogslice'
 import { useDispatch, useSelector } from 'react-redux';
 import Addsupplier from '../Supplier/Addsupplier';
 import AddProduct from '../Supplier/AddProduct';
 import AddCategory from '../Supplier/AddCategory';
-
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -74,7 +74,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 export default function MiniDrawer() {
-  const dialog1 = useSelector((state) => state.dialog.dialog1);
+  const dialog5 = useSelector((state) => state.dialog.dialog5);
   const dialog3 = useSelector((state) => state.dialog.dialog3);
   const dialog4 = useSelector((state) => state.dialog.dialog4);
   const navigate = useNavigate();
@@ -169,7 +169,8 @@ export default function MiniDrawer() {
       icon: <FaIcons.FaUserTie />,
       cName: 'nav-text',
       subOptions: [
-        { title: 'Add Supplier', icon: <FaIcons.FaUserPlus />, onClick: ()=> dispatch(setDialog1(!dialog1)) },
+        { title: 'New Order', path: '/suporder', icon: <FaIcons.FaCartPlus /> },
+        { title: 'Add Supplier', icon: <FaIcons.FaUserPlus />, onClick: ()=> dispatch(setDialog5(!dialog5)) },
         { title: 'All Suppliers', path: '/suppliers/all', icon: <FaIcons.FaList /> },
         { title: 'Update Supplier', path: '/suppliers/update', icon: <FaIcons.FaUserEdit /> },
       ],
@@ -223,24 +224,35 @@ export default function MiniDrawer() {
                 </ListItemButton>
               </ListItem>
               <Collapse in={openSubmenus[item.title]} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding sx={{ ml: 3 }}>
-                  {item.subOptions.map((subOption, subIndex) => (
-                    <ListItem key={subIndex} disablePadding sx={{ display: 'block' }}>
+              <List component="div" disablePadding sx={{ ml: 3 }}>
+                {item.subOptions.map((subOption, subIndex) => (
+                  <ListItem key={subIndex} disablePadding sx={{ display: 'block' }}> 
+                    {subOption.path ? (
+                      <Link to={subOption.path} style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <ListItemButton sx={{ minHeight: 48, px: 2.5 }}>
+                          <ListItemIcon sx={{ minWidth: 0, mr: 5 }}>
+                            {subOption.icon}
+                          </ListItemIcon>
+                          <ListItemText primary={subOption.title} />
+                        </ListItemButton>
+                      </Link>
+                    ) : (
                       <ListItemButton sx={{ minHeight: 48, px: 2.5 }} onClick={subOption.onClick ? subOption.onClick : undefined}>
                         <ListItemIcon sx={{ minWidth: 0, mr: 5 }}>
                           {subOption.icon}
                         </ListItemIcon>
                         <ListItemText primary={subOption.title} />
                       </ListItemButton>
-                    </ListItem>
-                  ))}
-                </List>
+                    )}
+                  </ListItem>
+                ))}
+              </List>
               </Collapse>
             </React.Fragment>
           ))}
         </List>
       </Drawer>
-      <Addsupplier open={dialog1} onClose={ ()=> dispatch(setDialog1(!dialog1))}/>
+      <Addsupplier open={dialog5} onClose={ ()=> dispatch(setDialog5(!dialog5))}/>
       <AddProduct open={dialog3} onClose={ ()=> dispatch(setDialog3(!dialog3))}/>
       <AddCategory open={dialog4} onClose={ ()=> dispatch(setDialog4(!dialog4))}/>
     </Box>
