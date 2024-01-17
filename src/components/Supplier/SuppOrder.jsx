@@ -18,20 +18,14 @@ const SuppOrder = () => {
     const dispatch = useDispatch()
     const products = useSelector((state) => state.products.products);
     const suppliers = useSelector((state) => state.suppliers.suppliers);
-    const dialog1 = useSelector((state) => state.dialog.dialog1);
     const dialog2 = useSelector((state) => state.dialog.dialog2);
-    const dialog3 = useSelector((state) => state.dialog.dialog3);
     const orderdata = useSelector((state) => state.orderdata.orderdata);
     const selectedProd = useSelector((state) => state.products.selectedProduct);
 
     useEffect(() => {
         dispatch(fetchProducts())
         dispatch(fetchSuppliers())
-        if(!dialog1 || !dialog3) {
-            dispatch(fetchProducts())
-            dispatch(fetchSuppliers())
-        }
-    }, [dispatch, dialog1, dialog3])
+    }, [dispatch])
         
     function addTableData() {
         if(selectedProd) {
@@ -66,13 +60,9 @@ const SuppOrder = () => {
     <div className='container'>
         <div className='neworder'>
             <div className="addsupp">
-                <Button variant="contained" onClick= {()=> dispatch(setDialog3(!dialog3))}>Add Product</Button>
-                <Button variant="contained"onClick= {()=> dispatch(setDialog1(!dialog1))}>Add Supplier</Button>
                 <Button variant="contained">Add Category</Button>
                 <Button variant="contained">Pay Supplier </Button>
             </div>
-            <Addsupplier open={dialog1} onClose={ ()=> dispatch(setDialog1(!dialog1))}/>
-            <AddProduct open={dialog3} onClose={ ()=> dispatch(setDialog3(!dialog3))}/>
             <form className='orderform'>
                 <div className="form-group">
                     <Autocomplete
