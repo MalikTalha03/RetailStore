@@ -10,9 +10,13 @@ const checkToken = async () => {
     },
   })
   const response = await data.json();
-  if (response.status !== 200) {
-    localStorage.removeItem('token');
+  if (response.status === 200 || response.message === 'JWT OK') {
+    return true;
+  }
+  else {
     window.location.href = '/login';
+    localStorage.removeItem('token');
+    return false;
   }
 };
 
