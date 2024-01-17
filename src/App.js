@@ -8,6 +8,7 @@ import SuppOrder from './components/Supplier/SuppOrder';
 import Drawer from './components/Dashboard/Drawer';
 import Orders from './components/Orders/Orders';
 import AllProducts from './components/Supplier/AllProducts';
+import SupplierPayment from './components/Supplier/SupplierPayment';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/suporder" element={<><Drawer /><SuppOrder/></>} />
         <Route path="/orders" element={<><Drawer /><Orders /></>} />
         <Route path="/" element={<AllProducts />} />
+        <Route path="/suppay" element={<><Drawer /><SupplierPayment /></>} />
       </Routes>
     </BrowserRouter>
   );
