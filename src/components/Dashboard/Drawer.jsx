@@ -154,11 +154,6 @@ export default function MiniDrawer() {
           onClick: () => dispatch(setDialog8(!dialog8)),
         },
         {
-          title: "Open an Order",
-          path: "/orders/open",
-          icon: <FaIcons.FaCartArrowDown />,
-        },
-        {
           title: "Refund an Order",
           path: "/orders/refund",
           icon: <FaIcons.FaCartArrowDown />,
@@ -170,7 +165,7 @@ export default function MiniDrawer() {
         },
         {
           title: "All Orders",
-          path: "/orders/all",
+          path: "/allorders",
           icon: <FaIcons.FaCartArrowDown />,
         },
       ],
