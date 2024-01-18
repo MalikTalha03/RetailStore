@@ -159,11 +159,6 @@ export default function MiniDrawer() {
           icon: <FaIcons.FaCartArrowDown />,
         },
         {
-          title: "Add a Payment",
-          path: "/orders/payment",
-          icon: <FaIcons.FaCartArrowDown />,
-        },
-        {
           title: "All Orders",
           path: "/allorders",
           icon: <FaIcons.FaCartArrowDown />,
