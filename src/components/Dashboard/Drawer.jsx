@@ -23,6 +23,7 @@ import {
   setDialog4,
   setDialog3,
   setDialog6,
+  setDialog8,
 } from "../../app/features/dialogslice";
 import { useDispatch, useSelector } from "react-redux";
 import Addsupplier from "../Supplier/Addsupplier";
@@ -30,6 +31,7 @@ import AddProduct from "../Supplier/AddProduct";
 import AddCategory from "../Supplier/AddCategory";
 import { Link } from "react-router-dom";
 import SupplierPayment from "../Supplier/SupplierPayment";
+import GetPaid from "../Orders/GetPaid";
 
 const drawerWidth = 240;
 
@@ -84,6 +86,7 @@ export default function MiniDrawer() {
   const dialog3 = useSelector((state) => state.dialog.dialog3);
   const dialog4 = useSelector((state) => state.dialog.dialog4);
   const dialog6 = useSelector((state) => state.dialog.dialog6);
+  const dialog8 = useSelector((state) => state.dialog.dialog8);
   const navigate = useNavigate();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -144,6 +147,11 @@ export default function MiniDrawer() {
           title: "New Order",
           path: "/neworder",
           icon: <FaIcons.FaCartPlus />,
+        },
+        {
+          title: "Get Paid",
+          icon: <FaIcons.FaCartArrowDown />,
+          onClick: () => dispatch(setDialog8(!dialog8)),
         },
         {
           title: "Open an Order",
@@ -374,6 +382,10 @@ export default function MiniDrawer() {
       <SupplierPayment
         open={dialog6}
         onClose={() => dispatch(setDialog6(!dialog6))}
+      />
+      <GetPaid 
+        open={dialog8}
+        onClose={() => dispatch(setDialog8(!dialog8))}
       />
     </Box>
   );
