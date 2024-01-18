@@ -10,11 +10,22 @@ import {
 import "../Supplier/order.css";
 import "./css/neworder.css";
 import { useSelector } from "react-redux";
+import { setDialog7 } from "../../app/features/dialogslice";
+import { useDispatch } from "react-redux";
+import Payment from "./Payment";
+import { useEffect } from "react";
 
 const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
   const selectedCustomer = useSelector(
     (state) => state.customers.selectedCustomer
   );
+  
+  const dispatch = useDispatch();
+  const dialog7 = useSelector((state) => state.dialog.dialog7);
+  useEffect(() => {
+    console.log(dialog7)
+    }, [dialog7])
+  let orderid = "";
   const orderData = useSelector((state) => state.orderdata.orderdata);
   const isSelected = useSelector((state) => state.customers.inselected);
   const token = localStorage.getItem("token");
@@ -62,7 +73,7 @@ const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
       const response = await data.json();
       if (response.message === "jwt expired") {
         localStorage.removeItem("token");
-        window.location.reload();
+        window.location = "/login";
       } else {
         localStorage.setItem("employeeid", response.id);
       }
@@ -92,7 +103,8 @@ const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
         }
       );
       const response = await data.json();
-      const orderid = response.id;
+      orderid = response.id;
+      localStorage.setItem("orderid", response.id); 
       if (response.message === "jwt expired") {
         localStorage.removeItem("token");
         window.location.reload();
@@ -120,10 +132,10 @@ const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
             const response = await data.json();
             if (response.message === "jwt expired") {
               localStorage.removeItem("token");
-              window.location.reload();
+              window.location = "/login";
             } else {
               alert(response.message);
-              window.location.reload();
+              dispatch(setDialog7(true));
             }
           });
         } catch (err) {
@@ -137,7 +149,17 @@ const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
 
   return (
     <div>
-      <Dialog open={open} onClose={onClose} fullWidth={true} maxWidth="md">
+      <Payment
+        onClose={() => dispatch(setDialog7(false))}
+        open={dialog7}
+        totalAmount={totalPrice}
+      />
+      <Dialog
+        open={open}
+        onClose={onClose}
+        fullWidth={true}
+        maxWidth="md"
+      >
         <DialogTitle>Confirm Order</DialogTitle>
         <DialogContent>
           <DialogContentText>
