@@ -89,9 +89,6 @@ const SuppOrder = () => {
   return (
     <div className="container">
       <div className="neworder">
-        <div className="addsupp">
-          <Button variant="contained">Pay Supplier </Button>
-        </div>
         <form className="orderform">
           <div className="form-group">
             <Autocomplete
