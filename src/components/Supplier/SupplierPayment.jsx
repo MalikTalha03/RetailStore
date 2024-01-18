@@ -28,6 +28,7 @@ const SupplierPayment = ({ open, onClose }) => {
   const [selectedOrder, setSelectedOrder] = useState("");
   const [paymentAmount, setPaymentAmount] = useState(0);
   const [remainingAmount, setRemainingAmount] = useState(0);
+  const [totrem, setTotrem] = useState(0);
 
   const handleSupplierChange = (event) => {
     const selectedSupplier = suppliers.find(
@@ -37,6 +38,7 @@ const SupplierPayment = ({ open, onClose }) => {
     setSelectedOrder("");
     setPaymentAmount(0);
     setRemainingAmount(0);
+    setTotrem(0)
   };
 
   const handleOrderChange = (event) => {
@@ -52,12 +54,13 @@ const SupplierPayment = ({ open, onClose }) => {
         0
       );
     setRemainingAmount(rem);
+    setTotrem(rem)
   };
 
   const handlePaymentAmountChange = (event) => {
     const amount = event.target.valueAsNumber || 0;
     setPaymentAmount(amount);
-    setRemainingAmount(selectedOrder.totalAmount - amount);
+    setRemainingAmount(totrem - amount);
   };
 
   const paySupplier = async () => {
@@ -132,11 +135,13 @@ const SupplierPayment = ({ open, onClose }) => {
                   onChange={handleOrderChange}
                   label="Order"
                 >
-                  {selectedSupplier.orders.map((order) => (
-                    <MenuItem key={order._id} value={order._id}>
-                      {`Order ${order._id} - Total Amount: ${order.totalAmount}`}
-                    </MenuItem>
-                  ))}
+                  {selectedSupplier.orders
+                    .filter((order) => order.paymentStatus === "Pending")
+                    .map((order) => (
+                      <MenuItem key={order._id} value={order._id}>
+                        {`Order ${order._id} - Total Amount: ${order.totalAmount}`}
+                      </MenuItem>
+                    ))}
                 </Select>
               </FormControl>
 
