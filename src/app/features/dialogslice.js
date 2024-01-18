@@ -9,6 +9,7 @@ export const dialogSlice = createSlice({
     dialog4: false,
     dialog5: false,
     dialog6: false,
+    dialog7: false,
   },
   reducers: {
     setDialog1: (state, action) => {
@@ -29,6 +30,9 @@ export const dialogSlice = createSlice({
     setDialog6: (state, action) => {
       state.dialog6 = action.payload;
     },
+    setDialog7: (state, action) => {
+      state.dialog7 = action.payload;
+    },
   },
 });
 
@@ -39,5 +43,6 @@ export const {
   setDialog4,
   setDialog5,
   setDialog6,
+  setDialog7,
 } = dialogSlice.actions;
 export default dialogSlice.reducer;
