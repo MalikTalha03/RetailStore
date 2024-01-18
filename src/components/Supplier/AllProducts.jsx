@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -7,10 +7,55 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
+import TextField from "@mui/material/TextField";
+import { makeStyles } from "@mui/styles";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchProducts } from "../../app/features/products";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: '4rem',
+  },
+  tableContainer: {
+    width: '89%',
+    '& th:first-child': {
+        borderRadius: '1em 0 0 1em'
+      },
+      '& th:last-child': {
+        borderRadius: '0 1em 1em 0'
+      },
+  },
+  thead: {
+    '& th:first-child': {
+      borderRadius: '1em 0 0 1em'
+    },
+    '& th:last-child': {
+      borderRadius: '0 1em 1em 0'
+    }
+  },
+  oddRow: {
+    backgroundColor: '#f9f9f9', 
+  },
+  evenRow: {
+    backgroundColor: '#ffffff', 
+  },
+  searchBarContainer: {
+    width: '89%',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    marginBottom: '1rem',
+  },
+  searchBar: {
+    width: '20%',
+  },
+}));
 
 const columns = [
   { id: "name", label: "Name", minWidth: 170 },
-  { id: "price", label: "Price", minWidth: 100 },
+  { id: "price", label: "Unit Price", minWidth: 100 },
   {
     id: "inventory",
     label: "Inventory",
@@ -19,32 +64,18 @@ const columns = [
   },
 ];
 
-const rows = [
-  { name: "Product 1", price: 100, inventory: 100 },
-  { name: "Product 2", price: 200, inventory: 200 },
-  { name: "Product 3", price: 300, inventory: 300 },
-  { name: "Product 4", price: 400, inventory: 400 },
-  { name: "Product 5", price: 500, inventory: 500 },
-  { name: "Product 6", price: 600, inventory: 600 },
-  { name: "Product 7", price: 700, inventory: 700 },
-  { name: "Product 8", price: 800, inventory: 800 },
-  { name: "Product 9", price: 900, inventory: 900 },
-  { name: "Product 10", price: 1000, inventory: 1000 },
-  { name: "Product 11", price: 1100, inventory: 1100 },
-  { name: "Product 12", price: 1200, inventory: 1200 },
-  { name: "Product 13", price: 1300, inventory: 1300 },
-  { name: "Product 14", price: 1400, inventory: 1400 },
-  { name: "Product 15", price: 1500, inventory: 1500 },
-  { name: "Product 16", price: 1600, inventory: 1600 },
-  { name: "Product 17", price: 1700, inventory: 1700 },
-  { name: "Product 18", price: 1800, inventory: 1800 },
-  { name: "Product 19", price: 1900, inventory: 1900 },
-  { name: "Product 20", price: 2000, inventory: 2000 },
-];
+const AllProducts = () => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [searchTerm, setSearchTerm] = useState('');
+  
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
-export default function ColumnGroupingTable() {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const products = useSelector((state) => state.products.products);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -55,54 +86,73 @@ export default function ColumnGroupingTable() {
     setPage(0);
   };
 
+  const filteredProducts = products.filter((product) => {
+    const searchTermLower = searchTerm.toLowerCase();
+    return (
+      product.name.toLowerCase().includes(searchTermLower) ||
+      product.price.toString().includes(searchTermLower) ||
+      product.inventory.toString().includes(searchTermLower)
+    );
+  });
+
   return (
-    <Paper sx={{ width: "100%" }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ top: 57, minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === "number"
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })}
+    <div className={classes.root}>
+      <Paper className={classes.tableContainer}>
+        <div className={classes.searchBarContainer}>
+          <TextField
+            className={classes.searchBar}
+            label="Search Product"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+        <TableContainer>
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead className={classes.thead}>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align="left"
+                    style={{ minWidth: column.minWidth, fontWeight: "bold", backgroundColor: "#9f9f9f", color: "#000000" }}
+                  >
+                    {column.label}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {filteredProducts
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((product, index) => (
+                  <TableRow
+                    key={product._id}
+                    className={index % 2 === 0 ? classes.evenRow : classes.oddRow}
+                  >
+                    {columns.map((column) => (
+                      <TableCell key={column.id} align="left">
+                        {column.format && typeof product[column.id] === "number"
+                          ? column.format(product[column.id])
+                          : product[column.id]}
+                      </TableCell>
+                    ))}
                   </TableRow>
-                );
-              })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </Paper>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component="div"
+          count={filteredProducts.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+    </div>
   );
-}
+};
+
+export default AllProducts;
