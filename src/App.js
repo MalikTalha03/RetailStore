@@ -8,6 +8,7 @@ import SuppOrder from "./components/Supplier/SuppOrder";
 import Drawer from "./components/Dashboard/Drawer";
 import Orders from "./components/Orders/Orders";
 import AllProducts from "./components/Supplier/AllProducts";
+import AllOrders from "./components/Orders/AllOrders";
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
             </>
           }
         />
+        <Route path="/allorders" element={<AllOrders />} />
         <Route path="/" element={<AllProducts />} />
       </Routes>
     </BrowserRouter>
