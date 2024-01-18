@@ -6,7 +6,6 @@ import NewOrder from "./components/Orders/NewOrder";
 import OrderDetails from "./components/Orders/OrderDetails";
 import SuppOrder from "./components/Supplier/SuppOrder";
 import Drawer from "./components/Dashboard/Drawer";
-import Orders from "./components/Orders/Orders";
 import AllProducts from "./components/Supplier/AllProducts";
 import AllOrders from "./components/Orders/AllOrders";
 
@@ -43,18 +42,20 @@ function App() {
             </>
           }
         />
-        <Route
-          path="/orders"
-          element={
-            <>
-              <Drawer />
-              <Orders />
-            </>
-          }
-        />
-        <Route path="/allorders" element={<AllOrders />} />
-        <Route path="/" element={<AllProducts />} />
+        <Route path="/allorders" element={
+          <>
+            <Drawer />
+            <AllOrders />
+          </>
+        } />
+        <Route path="/products" element={
+          <>
+            <Drawer />
+            <AllProducts />
+          </>
+        } />
       </Routes>
+      
     </BrowserRouter>
   );
 }
