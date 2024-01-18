@@ -1,19 +1,19 @@
-import {createSlice} from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 export const orderdataSlice = createSlice({
-    name: 'orderdata',
-    initialState: {
-        orderdata: [],
-        status: 'idle',
-        error: null
+  name: "orderdata",
+  initialState: {
+    orderdata: [],
+    status: "idle",
+    error: null,
+  },
+  reducers: {
+    setOrderdata: (state, action) => {
+      state.orderdata = [...state.orderdata, action.payload];
+      console.log(state.orderdata);
     },
-    reducers: {
-        setOrderdata: (state, action) => {
-            state.orderdata = [...state.orderdata, action.payload]
-            console.log(state.orderdata)
-        }
-    }
+  },
 });
 
-export const {setOrderdata} = orderdataSlice.actions;
+export const { setOrderdata } = orderdataSlice.actions;
 export default orderdataSlice.reducer;

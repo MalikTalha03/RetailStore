@@ -14,15 +14,15 @@ export const fetchTodayOrders = createAsyncThunk(
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          'Authorization': "Bearer " + localStorage.getItem("token"),
+          Authorization: "Bearer " + localStorage.getItem("token"),
         },
       });
-      console.log(response)
+      console.log(response);
 
       const data = await response.json();
       return data;
     } catch (error) {
-        console.log(error);
+      console.log(error);
       throw error;
     }
   }

@@ -8,14 +8,13 @@ import { customersSlice } from "./features/customer";
 import { ordersSlice } from "./features/orders";
 
 export const store = configureStore({
-    reducer: {
-        products: productsSlice.reducer,
-        suppliers: suppliersSlice.reducer,
-        dialog: dialogSlice.reducer,
-        orderdata: orderdataSlice.reducer,
-        categories: categoriesSlice.reducer,
-        customers: customersSlice.reducer,
-        orders: ordersSlice.reducer,
-    },
+  reducer: {
+    products: productsSlice.reducer,
+    suppliers: suppliersSlice.reducer,
+    dialog: dialogSlice.reducer,
+    orderdata: orderdataSlice.reducer,
+    categories: categoriesSlice.reducer,
+    customers: customersSlice.reducer,
+    orders: ordersSlice.reducer,
+  },
 });
-

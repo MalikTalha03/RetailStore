@@ -1,18 +1,18 @@
 .nav {
-    background-color: #fff;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
-    height: 60px;
-    position: fixed;
-    top: 0;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
+  background-color: #fff;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  height: 60px;
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .nav h1 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #333;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
 }

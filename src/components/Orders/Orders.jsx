@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchTodayOrders } from '../../app/features/orders';
-import * as FaIcons from 'react-icons/fa';
-import './css/orders.css'; 
-import Pdf from './Pdf';
-import checkToken from '../loggedin';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTodayOrders } from "../../app/features/orders";
+import * as FaIcons from "react-icons/fa";
+import "./css/orders.css";
+import Pdf from "./Pdf";
+import checkToken from "../loggedin";
 
 const Orders = () => {
   checkToken();
@@ -16,7 +16,6 @@ const Orders = () => {
   const error = useSelector((state) => state.orders.error);
 
   useEffect(() => {
-    // Fetch today's orders when the component mounts
     dispatch(fetchTodayOrders());
   }, [dispatch]);
 
@@ -25,11 +24,11 @@ const Orders = () => {
     setOpen(true);
   };
 
-  if (status === 'loading') {
+  if (status === "loading") {
     return <div>Loading...</div>;
   }
 
-  if (status === 'failed') {
+  if (status === "failed") {
     return <div>Error: {error}</div>;
   }
 
@@ -46,7 +45,7 @@ const Orders = () => {
               <td>
                 <FaIcons.FaFilePdf
                   size={20}
-                  style={{ color: 'red', cursor: 'pointer' }}
+                  style={{ color: "red", cursor: "pointer" }}
                   onClick={() => handleOrderClick(order)}
                 />
               </td>
@@ -54,8 +53,6 @@ const Orders = () => {
           ))}
         </tbody>
       </table>
-
-      {/* Display the PDF component when open is true */}
       {open && <Pdf order={selectedOrder} setOpen={setOpen} />}
     </div>
   );

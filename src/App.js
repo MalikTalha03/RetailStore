@@ -1,14 +1,14 @@
-import './App.css';
-import Login from './components/Login/Login';
-import Register from './components/Register/Register';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import NewOrder from './components/Orders/NewOrder';
-import OrderDetails from './components/Orders/OrderDetails';
-import SuppOrder from './components/Supplier/SuppOrder';
-import Drawer from './components/Dashboard/Drawer';
-import Orders from './components/Orders/Orders';
-import AllProducts from './components/Supplier/AllProducts';
-import SupplierPayment from './components/Supplier/SupplierPayment';
+import "./App.css";
+import Login from "./components/Login/Login";
+import Register from "./components/Register/Register";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import NewOrder from "./components/Orders/NewOrder";
+import OrderDetails from "./components/Orders/OrderDetails";
+import SuppOrder from "./components/Supplier/SuppOrder";
+import Drawer from "./components/Dashboard/Drawer";
+import Orders from "./components/Orders/Orders";
+import AllProducts from "./components/Supplier/AllProducts";
+import SupplierPayment from "./components/Supplier/SupplierPayment";
 
 function App() {
   return (
@@ -16,12 +16,52 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/neworder" element={<><Drawer /><NewOrder /></>} />
-        <Route path="/orderdetail" element={<><Drawer /><OrderDetails /></>} />
-        <Route path="/suporder" element={<><Drawer /><SuppOrder/></>} />
-        <Route path="/orders" element={<><Drawer /><Orders /></>} />
+        <Route
+          path="/neworder"
+          element={
+            <>
+              <Drawer />
+              <NewOrder />
+            </>
+          }
+        />
+        <Route
+          path="/orderdetail"
+          element={
+            <>
+              <Drawer />
+              <OrderDetails />
+            </>
+          }
+        />
+        <Route
+          path="/suporder"
+          element={
+            <>
+              <Drawer />
+              <SuppOrder />
+            </>
+          }
+        />
+        <Route
+          path="/orders"
+          element={
+            <>
+              <Drawer />
+              <Orders />
+            </>
+          }
+        />
         <Route path="/" element={<AllProducts />} />
-        <Route path="/suppay" element={<><Drawer /><SupplierPayment /></>} />
+        <Route
+          path="/suppay"
+          element={
+            <>
+              <Drawer />
+              <SupplierPayment />
+            </>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
