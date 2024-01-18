@@ -43,7 +43,7 @@ const Payment = ({ onClose, open, totalAmount }) => {
       window.location = "/neworder";
       onClose();
     } else {
-      alert("Payment Failed : ", + response.message);
+      alert("Payment Failed : ", +response.message);
       console.log(response);
     }
   };
