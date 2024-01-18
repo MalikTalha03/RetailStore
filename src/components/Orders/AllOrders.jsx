@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: '3rem',
+    marginTop: '4rem',
   },
   tableContainer: {
     width: '89%',
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
       },
       '& th:last-child': {
         borderRadius: '0 1em 1em 0'
-      }
+      },
   },
   thead: {
     '& th:first-child': {
@@ -47,11 +47,20 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#ffffff', 
   },
   button: {
-    backgroundColor: '#4caf50', // Choose your desired color
-    color: '#ffffff', // Choose your desired color
+    backgroundColor: '#4caf50', 
+    color: '#ffffff', 
     padding: '8px 16px',
     borderRadius: '4px',
     cursor: 'pointer',
+  },
+  searchBarContainer: {
+    width: '89%',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    marginBottom: '1rem',
+    },
+  searchBar: {
+    width: '20%',
   },
 }));
 
@@ -102,16 +111,18 @@ const AllOrders = () => {
     )
   );
 
-  // Sort orders by orderDate in descending order
   sortedOrders.sort((a, b) => new Date(b.orderDate.$date) - new Date(a.orderDate.$date));
 
   return (
     <div className={classes.root}>
-      <TextField
-        label="Search Order"
+        <div className={classes.searchBarContainer}>
+        <TextField className={classes.searchBar}
+        label="Search Order by Customer"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
+        </div>
+      
       <Paper className={classes.tableContainer}>
         <TableContainer>
           <Table stickyHeader aria-label="sticky table">
