@@ -25,14 +25,16 @@ const OrderDetail = ({ open, onClose, orderId }) => {
     dispatch(fetchCustOrders());
   }, [dispatch]);
   const customers = useSelector((state) => state.customers.custOrders);
-  customerName =
-    customers.find((customer) =>
-      customer.orders.find((order) => order._id === orderId)
-    ).firstname +
-    " " +
-    customers.find((customer) =>
-      customer.orders.find((order) => order._id === orderId)
-    ).lastname;
+  const orderCustomer = customers.find((customer) =>
+  customer.orders.find((order) => order._id === orderId)
+);
+
+if (orderCustomer) {
+  customerName = orderCustomer.firstname + " " + orderCustomer.lastname;
+} else {
+  // Handle the case where the customer is not found
+  customerName = "Customer Not Found";
+}
 
   const order = useSelector((state) => {
     const customers = state.customers.custOrders;
@@ -52,8 +54,6 @@ const OrderDetail = ({ open, onClose, orderId }) => {
     const product = products.find((product) => product._id === id);
     return product.name;
   }
-
-  console.log(order);
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
