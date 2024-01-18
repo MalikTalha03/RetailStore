@@ -140,7 +140,11 @@ export default function MiniDrawer() {
       icon: <FaIcons.FaCartPlus />,
       cName: "nav-text",
       subOptions: [
-        { title: "New Order", path: "/orders", icon: <FaIcons.FaCartPlus /> },
+        {
+          title: "New Order",
+          path: "/neworder",
+          icon: <FaIcons.FaCartPlus />,
+        },
         {
           title: "Open an Order",
           path: "/orders/open",
@@ -217,7 +221,16 @@ export default function MiniDrawer() {
       icon: <FaIcons.FaUserTie />,
       cName: "nav-text",
       subOptions: [
-        { title: "New Order", path: "/suporder", icon: <FaIcons.FaCartPlus /> },
+        {
+          title: "New Order",
+          path: "/suporder",
+          icon: <FaIcons.FaCartPlus />,
+        },
+        {
+          title: "Pay Supplier",
+          icon: <FaIcons.FaCartPlus />,
+          onClick: () => dispatch(setDialog6(!dialog6)),
+        },
         {
           title: "Add Supplier",
           icon: <FaIcons.FaUserPlus />,
