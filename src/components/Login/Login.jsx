@@ -9,6 +9,7 @@ const Login = () => {
       if (!localStorage.getItem("token")) {
         return;
       }
+
       const data = await fetch(apiurl, {
         method: "POST",
         headers: {
@@ -16,7 +17,9 @@ const Login = () => {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       });
+
       const response = await data.json();
+
       if (response.message === "jwt expired") {
         localStorage.removeItem("token");
         window.location.reload();
@@ -24,7 +27,7 @@ const Login = () => {
         window.location.href = "/dashboard";
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
   tokenCheck();
