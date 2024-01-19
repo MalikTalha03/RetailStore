@@ -10,10 +10,17 @@ export const orderdataSlice = createSlice({
   reducers: {
     setOrderdata: (state, action) => {
       state.orderdata = [...state.orderdata, action.payload];
-      console.log(state.orderdata);
+    },
+    updateOrderdata: (state, action) => {
+      const updatedData = state.orderdata.map((item) =>
+        item.id === action.payload.id
+          ? { ...item, ...action.payload, total: action.payload.price * action.payload.quantity }
+          : item
+      );
+      state.orderdata = updatedData;
     },
   },
 });
 
-export const { setOrderdata } = orderdataSlice.actions;
+export const { setOrderdata,updateOrderdata } = orderdataSlice.actions;
 export default orderdataSlice.reducer;
