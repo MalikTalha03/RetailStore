@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchCustOrders } from '../../app/features/customer'; // Replace with your correct path
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchCustOrders } from "../../app/features/customer"; // Replace with your correct path
 
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -12,80 +12,102 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import TextField from "@mui/material/TextField";
 import { makeStyles } from "@mui/styles";
-import OrderDetail from './OrderDetail';
-
+import OrderDetail from "./OrderDetail";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from "@mui/material";
+import { Label } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginTop: '4rem',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    marginTop: "4rem",
   },
   tableContainer: {
-    width: '89%',
-    '& th:first-child': {
-        borderRadius: '1em 0 0 1em'
-      },
-      '& th:last-child': {
-        borderRadius: '0 1em 1em 0'
-      },
+    width: "89%",
+    "& th:first-child": {
+      borderRadius: "1em 0 0 1em",
+    },
+    "& th:last-child": {
+      borderRadius: "0 1em 1em 0",
+    },
   },
   thead: {
-    '& th:first-child': {
-      borderRadius: '1em 0 0 1em'
+    "& th:first-child": {
+      borderRadius: "1em 0 0 1em",
     },
-    '& th:last-child': {
-      borderRadius: '0 1em 1em 0'
-    }
+    "& th:last-child": {
+      borderRadius: "0 1em 1em 0",
+    },
   },
   oddRow: {
-    backgroundColor: '#f9f9f9', 
+    backgroundColor: "#f9f9f9",
   },
 
   evenRow: {
-    backgroundColor: '#ffffff', 
+    backgroundColor: "#ffffff",
   },
   button: {
-    backgroundColor: '#4caf50', 
-    color: '#ffffff', 
-    padding: '8px 16px',
-    borderRadius: '4px',
-    cursor: 'pointer',
+    backgroundColor: "#4caf50",
+    color: "#ffffff",
+    padding: "8px 16px",
+    borderRadius: "4px",
+    cursor: "pointer",
   },
   searchBarContainer: {
-    width: '89%',
-    display: 'flex',
-    justifyContent: 'flex-end',
-    marginBottom: '1rem',
-    },
+    width: "89%",
+    display: "flex",
+    justifyContent: "space-between",
+    marginBottom: "1rem",
+  },
   searchBar: {
-    width: '20%',
+    width: "20%",
+  },
+  formControl: {
+    minWidth: 120,
+    alignSelf: "flex-end",
   },
 }));
 
+// ... (import statements)
+
 const columns = [
-  { id: 'customerName', label: 'Customer Name', minWidth: 170 },
-  { id: 'orderDate', label: 'Order Date', minWidth: 170 },
-  { id: 'totalAmount', label: 'Total Amount', minWidth: 100 },
-  { id: 'paymentStatus', label: 'Payment Status', minWidth: 170 },
+  { id: "customerName", label: "Customer Name", minWidth: 170 },
+  { id: "orderDate", label: "Order Date", minWidth: 170 },
+  { id: "totalAmount", label: "Total Amount", minWidth: 100 },
+  { id: "paymentStatus", label: "Payment Status", minWidth: 170 },
+];
+
+const sortOptions = [
+  { value: "orderDate", label: "Order Date" },
+  { value: "customerName", label: "Customer Name" },
+  { value: "totalAmount", label: "Total Amount" },
+  { value: "paymentStatus", label: "Payment Status" },
 ];
 
 const AllOrders = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const customers = useSelector((state) => state.customers.custOrders);
-    const [open, setOpen] = useState(false);
-    const [orderid, setOrderid] = useState('');
-
+  const [open, setOpen] = useState(false);
+  const [orderid, setOrderid] = useState("");
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortCriteria, setSortCriteria] = useState({
+    column: "orderDate",
+    order: "desc",
+  });
 
   useEffect(() => {
     dispatch(fetchCustOrders());
   }, [dispatch]);
-
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [searchTerm, setSearchTerm] = useState('');
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -94,6 +116,16 @@ const AllOrders = () => {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
+  };
+
+  const handleSort = (columnId) => {
+    setSortCriteria((prevSortCriteria) => ({
+      column: columnId,
+      order:
+        prevSortCriteria.column === columnId && prevSortCriteria.order === "asc"
+          ? "desc"
+          : "asc",
+    }));
   };
 
   const filteredRows = customers.filter((customer) => {
@@ -107,38 +139,96 @@ const AllOrders = () => {
   const sortedOrders = [].concat.apply(
     [],
     filteredRows.map((customer) =>
-      customer.orders.map((order) => ({ ...order, customerName: `${customer.firstname} ${customer.lastname}` }))
+      customer.orders.map((order) => ({
+        ...order,
+        customerName: `${customer.firstname} ${customer.lastname}`,
+      }))
     )
   );
 
-  sortedOrders.sort((a, b) => new Date(b.orderDate.$date) - new Date(a.orderDate.$date));
+  sortedOrders.sort((a, b) => {
+    const columnA = a[sortCriteria.column];
+    const columnB = b[sortCriteria.column];
+
+    if (columnA < columnB) {
+      return sortCriteria.order === "asc" ? -1 : 1;
+    }
+    if (columnA > columnB) {
+      return sortCriteria.order === "asc" ? 1 : -1;
+    }
+    return 0;
+  });
 
   return (
     <div className={classes.root}>
-        <div className={classes.searchBarContainer}>
-        <TextField className={classes.searchBar}
-        label="Search Order by Customer"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
+      <div className={classes.searchBarContainer}>
+        <TextField
+          className={classes.searchBar}
+          label="Search Order by Customer"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "20%",
+          }}
+        >
+          <Typography
+            sx={{ fontWeight: "bold", fontSize: "1.2rem", marginRight: "1rem" }}
+          >
+            Sort By:{" "}
+          </Typography>
+          <FormControl className={classes.formControl}>
+            <Select
+              value={sortCriteria.column}
+              onChange={(e) => handleSort(e.target.value)}
+              displayEmpty
+            >
+              {sortOptions.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </div>
-      
+      </div>
+
       <Paper className={classes.tableContainer}>
         <TableContainer>
           <Table stickyHeader aria-label="sticky table">
-            <TableHead className = {classes.thead}>
+            <TableHead className={classes.thead}>
               <TableRow>
                 {columns.map((column) => (
                   <TableCell
                     key={column.id}
                     align="left"
-                    style={{ minWidth: column.minWidth }}
-                    sx={{ fontWeight: "bold", backgroundColor : "#9f9f9f", color: "#000000" }}
+                    style={{ minWidth: column.minWidth, cursor: "pointer" }}
+                    sx={{
+                      fontWeight: "bold",
+                      backgroundColor: "#9f9f9f",
+                      color: "#000000",
+                    }}
+                    onClick={() => handleSort(column.id)}
                   >
                     {column.label}
+                    {sortCriteria.column === column.id && (
+                      <span>{sortCriteria.order === "asc" ? " ▲" : " ▼"}</span>
+                    )}
                   </TableCell>
                 ))}
-                <TableCell align="left" style={{ minWidth: 100, fontWeight: 'bold', backgroundColor: '#9f9f9f', color: '#000000' }}>
+                <TableCell
+                  align="left"
+                  style={{
+                    minWidth: 100,
+                    fontWeight: "bold",
+                    backgroundColor: "#9f9f9f",
+                    color: "#000000",
+                  }}
+                >
                   Actions
                 </TableCell>
               </TableRow>
@@ -146,24 +236,30 @@ const AllOrders = () => {
             <TableBody>
               {sortedOrders
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((order,index) => (
-                  <TableRow key={order._id}
-                  className={index % 2 === 0 ? classes.evenRow : classes.oddRow}> 
+                .map((order, index) => (
+                  <TableRow
+                    key={order._id}
+                    className={
+                      index % 2 === 0 ? classes.evenRow : classes.oddRow
+                    }
+                  >
                     {columns.map((column) => (
                       <TableCell key={column.id} align="left">
-                        {column.id === 'orderDate'
+                        {column.id === "orderDate"
                           ? new Date(order.orderDate).toLocaleDateString()
-                          : column.id === 'customerName'
+                          : column.id === "customerName"
                           ? order[column.id]
                           : order[column.id] || order[column.id]}
                       </TableCell>
-                      
                     ))}
                     <TableCell align="left">
                       <button
                         className={classes.button}
-                        onClick={() => { setOpen(true); setOrderid(order._id);}}
-                        >
+                        onClick={() => {
+                          setOpen(true);
+                          setOrderid(order._id);
+                        }}
+                      >
                         Open Details
                       </button>
                     </TableCell>
@@ -182,7 +278,11 @@ const AllOrders = () => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      <OrderDetail open={open} onClose={() => setOpen(false)} orderId = {orderid}/>
+      <OrderDetail
+        open={open}
+        onClose={() => setOpen(false)}
+        orderId={orderid}
+      />
     </div>
   );
 };
