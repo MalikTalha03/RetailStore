@@ -19,19 +19,14 @@ const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
   const selectedCustomer = useSelector(
     (state) => state.customers.selectedCustomer
   );
-  
   const dispatch = useDispatch();
   const dialog7 = useSelector((state) => state.dialog.dialog7);
-  useEffect(() => {
-    console.log(dialog7)
-    }, [dialog7])
   let orderid = "";
   const orderData = useSelector((state) => state.orderdata.orderdata);
   const isSelected = useSelector((state) => state.customers.inselected);
   const token = localStorage.getItem("token");
   const api = "http://localhost:3001/";
   async function addCust() {
-    console.log("in func");
     try {
       const data = await fetch("http://localhost:3001/customer", {
         method: "POST",
@@ -46,16 +41,14 @@ const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
         }),
       });
       const response = await data.json();
-      console.log(response);
       if (response.message === "jwt expired") {
         localStorage.removeItem("token");
         window.location.reload();
       } else if (response.message === "Customer Added") {
         localStorage.setItem("customerid", response.id);
-        console.log("in else if" + response.id);
       }
     } catch (err) {
-      console.log("error" + err);
+      alert(err);
     }
   }
   const emp = async () => {
@@ -78,7 +71,7 @@ const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
         localStorage.setItem("employeeid", response.id);
       }
     } catch (err) {
-      console.log(err);
+      alert(err);
     }
   };
   emp();
@@ -104,7 +97,7 @@ const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
       );
       const response = await data.json();
       orderid = response.id;
-      localStorage.setItem("orderid", response.id); 
+      localStorage.setItem("orderid", response.id);
       if (response.message === "jwt expired") {
         localStorage.removeItem("token");
         window.location.reload();
@@ -139,11 +132,11 @@ const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
             }
           });
         } catch (err) {
-          console.log(err);
+          alert(err);
         }
       }
     } catch (err) {
-      console.log(err);
+      alert(err);
     }
   }
 
@@ -154,12 +147,7 @@ const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
         open={dialog7}
         totalAmount={totalPrice}
       />
-      <Dialog
-        open={open}
-        onClose={onClose}
-        fullWidth={true}
-        maxWidth="md"
-      >
+      <Dialog open={open} onClose={onClose} fullWidth={true} maxWidth="md">
         <DialogTitle>Confirm Order</DialogTitle>
         <DialogContent>
           <DialogContentText>
