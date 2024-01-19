@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchCustOrders } from "../../app/features/customer"; // Replace with your correct path
-
+import { fetchCustOrders } from "../../app/features/customer"; 
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -15,12 +14,10 @@ import { makeStyles } from "@mui/styles";
 import OrderDetail from "./OrderDetail";
 import {
   FormControl,
-  InputLabel,
   MenuItem,
   Select,
   Typography,
 } from "@mui/material";
-import { Label } from "@mui/icons-material";
 import RefundOrder from "./RefundOrder";
 
 const useStyles = makeStyles((theme) => ({
@@ -60,9 +57,9 @@ const useStyles = makeStyles((theme) => ({
     padding: "8px 16px",
     borderRadius: "4px",
     cursor: "pointer",
-    width: '50%',
-    marginLeft: '1rem',
-    fontSize: '0.9rem',
+    width: "50%",
+    marginLeft: "1rem",
+    fontSize: "0.9rem",
   },
   searchBarContainer: {
     width: "89%",
@@ -81,7 +78,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#f44336",
   },
 }));
-
 
 const columns = [
   { id: "customerName", label: "Customer Name", minWidth: 170 },
@@ -270,8 +266,7 @@ const AllOrders = () => {
                         Open Details
                       </button>
                       <button
-                      
-                        className={classes.button + ' ' + classes.refund}
+                        className={classes.button + " " + classes.refund}
                         onClick={() => {
                           setOpen2(true);
                           setOrderid(order._id);
@@ -300,7 +295,7 @@ const AllOrders = () => {
         onClose={() => setOpen(false)}
         orderId={orderid}
       />
-      <RefundOrder  
+      <RefundOrder
         open={open2}
         onClose={() => setOpen2(false)}
         orderId={orderid}
