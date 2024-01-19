@@ -35,13 +35,11 @@ const GetPaid = ({ open, onClose }) => {
       (customer) =>
         customer.firstname + " " + customer.lastname === event.target.value
     );
-    console.log(event.target.value);
     setSelectedCustomers(selectedCustomers);
     setSelectedOrder("");
     setPaymentAmount(0);
     setRemainingAmount(0);
     setTotrem(0);
-    console.log(selectedCustomers);
   };
 
   const handleOrderChange = (event) => {
@@ -88,7 +86,6 @@ const GetPaid = ({ open, onClose }) => {
       localStorage.removeItem("token");
       window.location.reload();
     }
-    console.log(response);
     if (status === 200) {
       alert("Payment Successful : " + response.message);
       onClose();
@@ -112,7 +109,13 @@ const GetPaid = ({ open, onClose }) => {
             <Select
               labelId="customer-select-label"
               id="customer-select"
-              value={selectedCustomers ? selectedCustomers.firstname + " " + selectedCustomers.lastname : ""}
+              value={
+                selectedCustomers
+                  ? selectedCustomers.firstname +
+                    " " +
+                    selectedCustomers.lastname
+                  : ""
+              }
               onChange={(event) => handleCustomerChange(event)}
               label="Customer"
             >
