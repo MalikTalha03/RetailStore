@@ -15,7 +15,7 @@ import Paper from "@mui/material/Paper";
 import { fetchProducts } from "../../app/features/products";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import customer, { fetchCustOrders } from "../../app/features/customer";
+import { fetchCustOrders } from "../../app/features/customer";
 
 const OrderDetail = ({ open, onClose, orderId }) => {
   let customerName = "";
@@ -26,15 +26,14 @@ const OrderDetail = ({ open, onClose, orderId }) => {
   }, [dispatch]);
   const customers = useSelector((state) => state.customers.custOrders);
   const orderCustomer = customers.find((customer) =>
-  customer.orders.find((order) => order._id === orderId)
-);
+    customer.orders.find((order) => order._id === orderId)
+  );
 
-if (orderCustomer) {
-  customerName = orderCustomer.firstname + " " + orderCustomer.lastname;
-} else {
-  // Handle the case where the customer is not found
-  customerName = "Customer Not Found";
-}
+  if (orderCustomer) {
+    customerName = orderCustomer.firstname + " " + orderCustomer.lastname;
+  } else {
+    customerName = "Customer Not Found";
+  }
 
   const order = useSelector((state) => {
     const customers = state.customers.custOrders;
