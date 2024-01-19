@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import "./order.css";
-import "../Orders/css/neworder.css";
+import "../Customer/css/neworder.css";
 import {
   Button,
   Dialog,

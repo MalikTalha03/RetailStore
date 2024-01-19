@@ -2,13 +2,13 @@ import "./App.css";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import NewOrder from "./components/Orders/NewOrder";
-import OrderDetails from "./components/Orders/OrderDetails";
+import NewOrder from "./components/Customer/NewOrder";
+import OrderDetails from "./components/Customer/OrderDetails";
 import SuppOrder from "./components/Supplier/SuppOrder";
 import Drawer from "./components/Dashboard/Drawer";
 import AllProducts from "./components/Supplier/AllProducts";
-import AllOrders from "./components/Orders/AllOrders";
-import RefundOrder from "./components/Orders/RefundOrder";
+import AllOrders from "./components/Customer/AllOrders";
+import RefundOrder from "./components/Customer/RefundOrder";
 
 function App() {
   return (

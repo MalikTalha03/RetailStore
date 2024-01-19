@@ -13,7 +13,7 @@ import {
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./order.css";
-import "../Orders/css/neworder.css";
+import "../Customer/css/neworder.css";
 import { fetchCategories } from "../../app/features/categories";
 
 const AddCategory = ({ open, onClose }) => {

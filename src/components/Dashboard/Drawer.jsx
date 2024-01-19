@@ -28,7 +28,7 @@ import AddProduct from "../Supplier/AddProduct";
 import AddCategory from "../Supplier/AddCategory";
 import { Link } from "react-router-dom";
 import SupplierPayment from "../Supplier/SupplierPayment";
-import GetPaid from "../Orders/GetPaid";
+import GetPaid from "../Customer/GetPaid";
 
 const drawerWidth = 240;
 
@@ -164,11 +164,6 @@ export default function MiniDrawer() {
         {
           title: "All Products",
           path: "/products",
-          icon: <FaIcons.FaList />,
-        },
-        {
-          title: "Categories",
-          path: "/categories",
           icon: <FaIcons.FaList />,
         },
       ],
