@@ -21,6 +21,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Label } from "@mui/icons-material";
+import RefundOrder from "./RefundOrder";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,6 +60,9 @@ const useStyles = makeStyles((theme) => ({
     padding: "8px 16px",
     borderRadius: "4px",
     cursor: "pointer",
+    width: '50%',
+    marginLeft: '1rem',
+    fontSize: '0.9rem',
   },
   searchBarContainer: {
     width: "89%",
@@ -73,9 +77,11 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 120,
     alignSelf: "flex-end",
   },
+  refund: {
+    backgroundColor: "#f44336",
+  },
 }));
 
-// ... (import statements)
 
 const columns = [
   { id: "customerName", label: "Customer Name", minWidth: 170 },
@@ -96,6 +102,7 @@ const AllOrders = () => {
   const dispatch = useDispatch();
   const customers = useSelector((state) => state.customers.custOrders);
   const [open, setOpen] = useState(false);
+  const [open2, setOpen2] = useState(false);
   const [orderid, setOrderid] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -252,7 +259,7 @@ const AllOrders = () => {
                           : order[column.id] || order[column.id]}
                       </TableCell>
                     ))}
-                    <TableCell align="left">
+                    <TableCell align="left" sx={{ display: "flex" }}>
                       <button
                         className={classes.button}
                         onClick={() => {
@@ -261,6 +268,16 @@ const AllOrders = () => {
                         }}
                       >
                         Open Details
+                      </button>
+                      <button
+                      
+                        className={classes.button + ' ' + classes.refund}
+                        onClick={() => {
+                          setOpen2(true);
+                          setOrderid(order._id);
+                        }}
+                      >
+                        Refund
                       </button>
                     </TableCell>
                   </TableRow>
@@ -281,6 +298,11 @@ const AllOrders = () => {
       <OrderDetail
         open={open}
         onClose={() => setOpen(false)}
+        orderId={orderid}
+      />
+      <RefundOrder  
+        open={open2}
+        onClose={() => setOpen2(false)}
         orderId={orderid}
       />
     </div>
