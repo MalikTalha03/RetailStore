@@ -8,7 +8,7 @@ import {
   Button,
 } from "@mui/material";
 import "./order.css";
-import "../Orders/css/neworder.css";
+import "../Customer/css/neworder.css";
 import { useSelector } from "react-redux";
 
 const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {

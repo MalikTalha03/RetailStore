@@ -8,7 +8,6 @@ import SuppOrder from "./components/Supplier/SuppOrder";
 import Drawer from "./components/Dashboard/Drawer";
 import AllProducts from "./components/Supplier/AllProducts";
 import AllOrders from "./components/Customer/AllOrders";
-import RefundOrder from "./components/Customer/RefundOrder";
 
 function App() {
   return (
@@ -43,20 +42,25 @@ function App() {
             </>
           }
         />
-        <Route path="/allorders" element={
-          <>
-            <Drawer />
-            <AllOrders />
-          </>
-        } />
-        <Route path="/products" element={
-          <>
-            <Drawer />
-            <AllProducts />
-          </>
-        } />
+        <Route
+          path="/allorders"
+          element={
+            <>
+              <Drawer />
+              <AllOrders />
+            </>
+          }
+        />
+        <Route
+          path="/products"
+          element={
+            <>
+              <Drawer />
+              <AllProducts />
+            </>
+          }
+        />
       </Routes>
-      
     </BrowserRouter>
   );
 }
