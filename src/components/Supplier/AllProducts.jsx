@@ -14,47 +14,53 @@ import { fetchProducts } from "../../app/features/products";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginTop: '4rem',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    marginTop: "4rem",
   },
   tableContainer: {
-    width: '89%',
-    '& th:first-child': {
-        borderRadius: '1em 0 0 1em'
-      },
-      '& th:last-child': {
-        borderRadius: '0 1em 1em 0'
-      },
+    width: "89%",
+    "& th:first-child": {
+      borderRadius: "1em 0 0 1em",
+    },
+    "& th:last-child": {
+      borderRadius: "0 1em 1em 0",
+    },
   },
   thead: {
-    '& th:first-child': {
-      borderRadius: '1em 0 0 1em'
+    "& th:first-child": {
+      borderRadius: "1em 0 0 1em",
     },
-    '& th:last-child': {
-      borderRadius: '0 1em 1em 0'
-    }
+    "& th:last-child": {
+      borderRadius: "0 1em 1em 0",
+    },
   },
   oddRow: {
-    backgroundColor: '#f9f9f9', 
+    backgroundColor: "#f9f9f9",
   },
   evenRow: {
-    backgroundColor: '#ffffff', 
+    backgroundColor: "#ffffff",
   },
   searchBarContainer: {
-    width: '89%',
-    display: 'flex',
-    justifyContent: 'flex-end',
-    marginBottom: '1rem',
+    width: "89%",
+    display: "flex",
+    justifyContent: "flex-end",
+    marginBottom: "1rem",
   },
   searchBar: {
-    width: '20%',
+    width: "20%",
   },
 }));
 
 const columns = [
   { id: "name", label: "Name", minWidth: 170 },
+  {
+    id: "supplier",
+    label: "Supplier",
+    minWidth: 170,
+    format: (value) => value.supplierID.name,
+  },
   { id: "price", label: "Unit Price", minWidth: 100 },
   {
     id: "inventory",
@@ -69,8 +75,8 @@ const AllProducts = () => {
   const dispatch = useDispatch();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [searchTerm, setSearchTerm] = useState('');
-  
+  const [searchTerm, setSearchTerm] = useState("");
+
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
@@ -114,7 +120,12 @@ const AllProducts = () => {
                   <TableCell
                     key={column.id}
                     align="left"
-                    style={{ minWidth: column.minWidth, fontWeight: "bold", backgroundColor: "#9f9f9f", color: "#000000" }}
+                    style={{
+                      minWidth: column.minWidth,
+                      fontWeight: "bold",
+                      backgroundColor: "#9f9f9f",
+                      color: "#000000",
+                    }}
                   >
                     {column.label}
                   </TableCell>
@@ -127,12 +138,16 @@ const AllProducts = () => {
                 .map((product, index) => (
                   <TableRow
                     key={product._id}
-                    className={index % 2 === 0 ? classes.evenRow : classes.oddRow}
+                    className={
+                      index % 2 === 0 ? classes.evenRow : classes.oddRow
+                    }
                   >
                     {columns.map((column) => (
                       <TableCell key={column.id} align="left">
                         {column.format && typeof product[column.id] === "number"
                           ? column.format(product[column.id])
+                          : column.format
+                          ? column.format(product)
                           : product[column.id]}
                       </TableCell>
                     ))}
