@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./css/neworder.css";
 import { Button, Autocomplete, TextField } from "@mui/material";
-import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchSuppliers } from "../../app/features/supplier";
 import {
@@ -38,9 +37,22 @@ const NewOrder = () => {
   );
   const orderdata = useSelector((state) => state.orderdata.orderdata);
   const dialog1 = useSelector((state) => state.dialog.dialog1);
+
+  const [isCustomerSelected, setIsCustomerSelected] = useState(false);
+  const [isProductSelected, setIsProductSelected] = useState(false);
+
   useEffect(() => {
-    console.log(selectedCustomer);
+    setIsCustomerSelected(
+      selectedCustomer && Object.keys(selectedCustomer).length > 0
+    );
   }, [selectedCustomer]);
+
+  useEffect(() => {
+    setIsProductSelected(
+      selectedProd !== null && Object.keys(selectedProd).length > 0
+    );
+  }, [selectedProd]);
+
   useEffect(() => {
     dispatch(fetchSuppliers());
     dispatch(fetchProducts());
@@ -74,11 +86,12 @@ const NewOrder = () => {
         dispatch(setOrderdata(data));
       }
     }
+    setIsProductSelected(true);
   }
 
   const maptabledata = orderdata.map((item) => {
     return (
-      <tr>
+      <tr key={item.id}>
         <td>{item.name}</td>
         <td>{item.price}</td>
         <td>{item.quantity}</td>
@@ -206,6 +219,7 @@ const NewOrder = () => {
             <Button
               variant="contained"
               onClick={() => dispatch(setDialog1(!dialog1))}
+              disabled={!isCustomerSelected || !isProductSelected}
             >
               Proceed
             </Button>
