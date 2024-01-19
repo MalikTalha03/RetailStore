@@ -39,20 +39,25 @@ export const productsSlice = createSlice({
     },
     updateSelectedProduct: (state, action) => {
       const { name, value } = action.payload;
-      state.selectedProduct = { ...state.selectedProduct, [name]: value };
+      state.selectedProduct = {
+        ...state.selectedProduct,
+        [name]: value,
+      };
     },
+    
     setProduct: (state, action) => {
       const product = action.payload;
-      const data = {
+      const existingQuantity = state.selectedProduct?.quantity || 0;
+      state.selectedProduct = {
         id: product.id,
         category: product.category,
         name: product.name,
         price: product.price,
-        quantity: product.quantity,
+        quantity: existingQuantity,
         supplierID: product.supplierID,
       };
-      state.selectedProduct = data;
     },
+    
   },
   extraReducers: (builder) => {
     builder
