@@ -29,7 +29,7 @@ const OrderDetails = () => {
     const amountdue = "200";
     const date = new Date();
     const day = date.getDate();
-    const month = date.getMonth() + 1; // Months are zero-based
+    const month = date.getMonth() + 1;
     const year = date.getFullYear();
     const hour = date.getHours();
     const minute = date.getMinutes();
@@ -38,7 +38,6 @@ const OrderDetails = () => {
 
     const printContent = document.getElementById("table").outerHTML;
 
-    // Create a new window for printing
     const printWindow = window.open("", "_blank");
     printWindow.document.write(`
           <html>
@@ -60,7 +59,6 @@ const OrderDetails = () => {
           </html>
         `);
 
-    // Trigger the print dialog
     printWindow.print();
 
     setOpen(!open);
