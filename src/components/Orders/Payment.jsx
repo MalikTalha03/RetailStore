@@ -44,7 +44,6 @@ const Payment = ({ onClose, open, totalAmount }) => {
       onClose();
     } else {
       alert("Payment Failed : ", +response.message);
-      console.log(response);
     }
   };
 
