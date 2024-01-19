@@ -20,7 +20,6 @@ import { fetchProducts } from "../../app/features/products";
 const OrderDetail = ({ open, onClose, orderId }) => {
   const dispatch = useDispatch();
   const customers = useSelector((state) => state.customers.custOrders);
-  console.log(customers);
   const order = useSelector((state) => {
     const customers = state.customers.custOrders;
     const allOrders = [].concat.apply(
@@ -29,8 +28,8 @@ const OrderDetail = ({ open, onClose, orderId }) => {
     );
     return allOrders.find((order) => order._id === orderId);
   });
-  let custid = ''
-  
+  let custid = "";
+
   const products = useSelector((state) => state.products.products);
 
   const [editableOrderDetails, setEditableOrderDetails] = useState([]);
@@ -45,13 +44,12 @@ const OrderDetail = ({ open, onClose, orderId }) => {
     dispatch(fetchProducts());
     dispatch(fetchCustOrders());
   }, [dispatch]);
-    custid = customers.find((customer) =>
+  custid = customers.find((customer) =>
     customer.orders.find((order) => order._id === orderId)
-    );
-    if(custid){
-        custid = custid._id
-    }
-    console.log("custid", custid)
+  );
+  if (custid) {
+    custid = custid._id;
+  }
 
   const handleQuantityChange = (index, value) => {
     const updatedOrderDetailsCopy = [...editableOrderDetails];
@@ -92,7 +90,7 @@ const OrderDetail = ({ open, onClose, orderId }) => {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
-            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            Authorization: "Bearer " + localStorage.getItem("token"),
           },
           body: JSON.stringify(refundData),
         }
@@ -112,7 +110,7 @@ const OrderDetail = ({ open, onClose, orderId }) => {
         alert(`Error: ${errorData.message}`);
       }
     } catch (error) {
-      console.error("Refund error:", error);
+      alert(`Error: ${error.message}`);
     }
   };
 
@@ -131,7 +129,9 @@ const OrderDetail = ({ open, onClose, orderId }) => {
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle>Order Details</DialogTitle>
       <DialogContent>
-        <p>Customer Name: {order ? order.customerName : "Customer Not Found"}</p>
+        <p>
+          Customer Name: {order ? order.customerName : "Customer Not Found"}
+        </p>
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
@@ -151,10 +151,14 @@ const OrderDetail = ({ open, onClose, orderId }) => {
                     <TextField
                       type="number"
                       value={orderDetail.qty}
-                      onChange={(e) => handleQuantityChange(index, e.target.value)}
+                      onChange={(e) =>
+                        handleQuantityChange(index, e.target.value)
+                      }
                     />
                   </TableCell>
-                  <TableCell>{orderDetail.unitPrice * orderDetail.qty}</TableCell>
+                  <TableCell>
+                    {orderDetail.unitPrice * orderDetail.qty}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
