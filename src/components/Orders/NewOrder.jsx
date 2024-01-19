@@ -9,7 +9,7 @@ import {
   setProduct,
   updateSelectedProduct,
 } from "../../app/features/products";
-import { setOrderdata } from "../../app/features/orderdata";
+import { setOrderdata, updateOrderdata } from "../../app/features/orderdata";
 import {
   fetchCustomers,
   setSelectedCustomer,
@@ -48,15 +48,31 @@ const NewOrder = () => {
   }, [dispatch]);
 
   function addTableData() {
+    const data = {
+      id: selectedProd.id,
+      name: selectedProd.name,
+      price: selectedProd.price,
+      quantity: selectedProd.quantity,
+      total: selectedProd.price * selectedProd.quantity,
+    };
+    const inv = products.find((item) => item.id === selectedProd.id).quantity;
+    if (data.quantity > inv) {
+      alert("Quantity exceeds Stock. Remaining Stock: " + inv);
+      return;
+    }
     if (selectedProd) {
-      const data = {
-        id: selectedProd.id,
-        name: selectedProd.name,
-        price: selectedProd.price,
-        quantity: selectedProd.quantity,
-        total: selectedProd.price * selectedProd.quantity,
-      };
-      dispatch(setOrderdata(data));
+      if (orderdata.find((item) => item.id === selectedProd.id)) {
+        data.quantity += orderdata.find(
+          (item) => item.id === selectedProd.id
+        ).quantity;
+        if (data.quantity > inv) {
+          alert("Quantity exceeds Stock. Remaining Stock: " + inv);
+          return;
+        }
+        dispatch(updateOrderdata(data));
+      } else {
+        dispatch(setOrderdata(data));
+      }
     }
   }
 
