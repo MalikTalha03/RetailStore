@@ -1,10 +1,8 @@
 import * as React from "react";
-import { styled, useTheme } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
-import MuiAppBar from "@mui/material/AppBar";
 import List from "@mui/material/List";
-import CssBaseline from "@mui/material/CssBaseline";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -16,7 +14,6 @@ import Collapse from "@mui/material/Collapse";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import { Divider } from "@mui/material";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   setDialog5,
@@ -88,19 +85,8 @@ export default function MiniDrawer() {
   const dialog6 = useSelector((state) => state.dialog.dialog6);
   const dialog8 = useSelector((state) => state.dialog.dialog8);
   const navigate = useNavigate();
-  const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const [activeSubMenu, setActiveSubMenu] = useState(null);
-  const [isCollapse, setIsCollapse] = useState(false);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    console.log(activeSubMenu);
-  }, [activeSubMenu]);
-
-  useEffect(() => {
-    console.log(isCollapse);
-  }, [isCollapse]);
 
   const [openSubmenus, setOpenSubmenus] = useState({});
 
@@ -122,12 +108,7 @@ export default function MiniDrawer() {
 
   const handleDrawerClose = () => {
     setOpen(false);
-    setActiveSubMenu(null);
     setOpenSubmenus({});
-  };
-
-  const handleCollapse = () => {
-    setIsCollapse(!isCollapse);
   };
 
   const sidebarItems = [
@@ -155,7 +136,7 @@ export default function MiniDrawer() {
         },
         {
           title: "Refund an Order",
-          path: "/orders/refund",
+          path: "/allorders",
           icon: <FaIcons.FaCartArrowDown />,
         },
         {
@@ -182,12 +163,12 @@ export default function MiniDrawer() {
         },
         {
           title: "All Products",
-          path: "/products/all",
+          path: "/products",
           icon: <FaIcons.FaList />,
         },
         {
           title: "Categories",
-          path: "/products/categories",
+          path: "/categories",
           icon: <FaIcons.FaList />,
         },
       ],
@@ -373,10 +354,7 @@ export default function MiniDrawer() {
         open={dialog6}
         onClose={() => dispatch(setDialog6(!dialog6))}
       />
-      <GetPaid 
-        open={dialog8}
-        onClose={() => dispatch(setDialog8(!dialog8))}
-      />
+      <GetPaid open={dialog8} onClose={() => dispatch(setDialog8(!dialog8))} />
     </Box>
   );
 }
