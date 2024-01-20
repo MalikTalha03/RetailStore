@@ -2,6 +2,10 @@
 const checkToken = async () => {
   const url = process.env.REACT_APP_API_URL + 'auth/login/'
   const token = localStorage.getItem('token');
+  if (token === null) {
+    window.location.href = '/login';
+    return false;
+  }
   const data = await fetch(url, {
     method: 'GET',
     headers: {
