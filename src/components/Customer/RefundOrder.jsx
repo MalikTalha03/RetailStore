@@ -85,7 +85,7 @@ const OrderDetail = ({ open, onClose, orderId }) => {
       };
 
       const response = await fetch(
-        `http://localhost:3001/customer/${custid}/orders/${orderId}/refund`,
+        process.env.REACT_APP_API_URL + `customer/${custid}/orders/${orderId}/refund`,
         {
           method: "PATCH",
           headers: {

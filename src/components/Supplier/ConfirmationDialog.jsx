@@ -21,7 +21,7 @@ const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
       ? selectedSupplier[0]._id
       : null;
   const token = localStorage.getItem("token");
-  const api = "http://localhost:3001/";
+  const api = process.env.REACT_APP_API_URL;
   async function addOrder() {
     try {
       const data = await fetch(api + `supplier/${supplierid}/orders`, {

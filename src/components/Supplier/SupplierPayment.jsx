@@ -65,7 +65,7 @@ const SupplierPayment = ({ open, onClose }) => {
 
   const paySupplier = async () => {
     let status = "";
-    const url = `http://localhost:3001/supplier/${selectedSupplier._id}/orders/${selectedOrder._id}/transactions`;
+    const url = process.env.REACT_APP_API_URL + `supplier/${selectedSupplier._id}/orders/${selectedOrder._id}/transactions`;
 
     const data = await fetch(url, {
       method: "PATCH",

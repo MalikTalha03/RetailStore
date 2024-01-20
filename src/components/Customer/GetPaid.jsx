@@ -66,7 +66,7 @@ const GetPaid = ({ open, onClose }) => {
 
   const getPayment = async () => {
     let status = "";
-    const url = `http://localhost:3001/customer/${selectedCustomers._id}/orders/${selectedOrder._id}/transactions`;
+    const url = process.env.REACT_APP_API_URL + `customer/${selectedCustomers._id}/orders/${selectedOrder._id}/transactions`;
 
     const data = await fetch(url, {
       method: "PATCH",

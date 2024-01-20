@@ -40,7 +40,7 @@ const AddCategory = ({ open, onClose }) => {
 
   async function addcategory() {
     try {
-      const data = await fetch("http://localhost:3001/category", {
+      const data = await fetch(process.env.REACT_APP_API_URL + "category", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -54,7 +54,6 @@ const AddCategory = ({ open, onClose }) => {
         window.location.reload();
       } else {
         alert(response.message);
-        // Fetch categories after successfully adding a new category
         await dispatch(fetchCategories());
       }
       onClose();

@@ -18,9 +18,10 @@ const Payment = ({ onClose, open, totalAmount }) => {
     setPaymentAmount(amount);
   };
   const orderid = localStorage.getItem("orderid");
+  const api = process.env.REACT_APP_API_URL;
   const processPayment = async () => {
     const data = await fetch(
-      `http://localhost:3001/customer/${customerid}/orders/${orderid}/transactions`,
+      api + `customer/${customerid}/orders/${orderid}/transactions`,
       {
         method: "PATCH",
         headers: {

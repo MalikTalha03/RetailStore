@@ -30,7 +30,7 @@ const Addsupplier = ({ open, onClose }) => {
 
   async function addsupplier() {
     try {
-      const data = await fetch("http://localhost:3001/supplier", {
+      const data = await fetch(process.env.REACT_APP_API_URL + "supplier", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -25,10 +25,10 @@ const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
   const orderData = useSelector((state) => state.orderdata.orderdata);
   const isSelected = useSelector((state) => state.customers.inselected);
   const token = localStorage.getItem("token");
-  const api = "http://localhost:3001/";
+  const api = process.env.REACT_APP_API_URL;
   async function addCust() {
     try {
-      const data = await fetch("http://localhost:3001/customer", {
+      const data = await fetch(api + "customer", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -129,6 +129,8 @@ const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
             } else {
               alert(response.message);
               dispatch(setDialog7(true));
+              localStorage.removeItem("customerid");
+              localStorage.removeItem("employeeid");
             }
           });
         } catch (err) {

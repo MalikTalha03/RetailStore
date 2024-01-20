@@ -44,7 +44,7 @@ const AddProduct = ({ open, onClose }) => {
   async function addproduct() {
     try {
       console.log(product);
-      const data = await fetch("http://localhost:3001/products", {
+      const data = await fetch(process.env.REACT_APP_API_URL + "products", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
