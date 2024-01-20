@@ -8,6 +8,7 @@ import SuppOrder from "./components/Supplier/SuppOrder";
 import Drawer from "./components/Dashboard/Drawer";
 import AllProducts from "./components/Supplier/AllProducts";
 import AllOrders from "./components/Customer/AllOrders";
+import NotFound from "./components/404/NotFound";
 
 function App() {
   return (
@@ -60,6 +61,8 @@ function App() {
             </>
           }
         />
+        <Route path="/" element={<NewOrder />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
