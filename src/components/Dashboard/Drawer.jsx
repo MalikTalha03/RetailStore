@@ -262,12 +262,14 @@ export default function MiniDrawer() {
   return (
     <Box sx={{ display: "flex" }}>
       <div className="nav" style={{ marginLeft: "66px" }}>
-        <h1>Sufi Traders</h1>
+        <h1 style={{ marginLeft: "20px" }}>Sufi Traders</h1>
       </div>
       <Drawer variant="permanent" open={open}>
-        <DrawerHeader />
-        <Divider />
-        <List onMouseLeave={handleDrawerClose} onMouseEnter={handleDrawerOpen}>
+        <List
+          onMouseLeave={handleDrawerClose}
+          onMouseEnter={handleDrawerOpen}
+          sx={{ marginTop: "36px" }}
+        >
           {sidebarItems.map((item, index) => (
             <React.Fragment key={index}>
               <ListItem
