@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 export const fetchCustomers = createAsyncThunk(
   "customers/fetchCustomers",
   async () => {
-    const response = await fetch("http://localhost:3001/customer", {
+    const response = await fetch(process.env.REACT_APP_API_URL + "customer", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -18,7 +18,7 @@ export const fetchCustomers = createAsyncThunk(
 export const fetchCustOrders = createAsyncThunk(
   "customers/fetchCustOrders",
   async () => {
-    const response = await fetch("http://localhost:3001/customer/orders", {
+    const response = await fetch(process.env.REACT_APP_API_URL + "customer/orders", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

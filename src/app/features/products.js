@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async () => {
-    const response = await fetch("http://localhost:3001/products", {
+    const response = await fetch(process.env.REACT_APP_API_URL + "products", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
