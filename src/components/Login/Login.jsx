@@ -3,7 +3,7 @@ import "./login.css";
 import { Link } from "react-router-dom";
 
 const Login = () => {
-  const apiurl = "http://localhost:3001/auth/login";
+  const apiurl = process.env.REACT_APP_API_URL + "auth/login";
   const tokenCheck = async () => {
     try {
       if (!localStorage.getItem("token")) {
