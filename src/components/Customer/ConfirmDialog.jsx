@@ -54,6 +54,10 @@ const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
   }
   const emp = async () => {
     try {
+      if (!localStorage.getItem("token")) {
+        window.location = "/login";
+        return;
+      }
       const data = await fetch(
         api + `employee/token/${localStorage.getItem("token")}`,
         {
