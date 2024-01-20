@@ -9,10 +9,10 @@ import {
   TextField,
 } from "@mui/material";
 
-const Payment = ({ onClose, open, totalAmount }) => {
+const Payment = ({ onClose, open, totalAmount, custid }) => {
   const [paymentAmount, setPaymentAmount] = useState(0);
   const [payMethod, setPayMethod] = useState("Cash");
-  const customerid = localStorage.getItem("customerid");
+  const customerid = custid;
   const handlePaymentAmountChange = (event) => {
     const amount = event.target.valueAsNumber || 0;
     setPaymentAmount(amount);
