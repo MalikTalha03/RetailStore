@@ -46,6 +46,7 @@ const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
         window.location.reload();
       } else if (response.message === "Customer Added") {
         localStorage.setItem("customerid", response.id);
+        selectedCustomer._id = response.id;
       }
     } catch (err) {
       alert(err);
@@ -81,7 +82,7 @@ const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
         await addCust();
       }
       const data = await fetch(
-        api + `customer/${localStorage.getItem("customerid")}/orders`,
+        api + `customer/${selectedCustomer._id}/orders`,
         {
           method: "PATCH",
           headers: {
@@ -106,9 +107,7 @@ const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
           orderData.forEach(async (item) => {
             const data = await fetch(
               api +
-                `customer/${localStorage.getItem(
-                  "customerid"
-                )}/orders/${orderid}/details`,
+                `customer/${selectedCustomer._id}/orders/${orderid}/details`,
               {
                 method: "PATCH",
                 headers: {
@@ -129,8 +128,7 @@ const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
             } else {
               alert(response.message);
               dispatch(setDialog7(true));
-              localStorage.removeItem("customerid");
-              localStorage.removeItem("employeeid");
+             
             }
           });
         } catch (err) {
@@ -148,6 +146,7 @@ const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
         onClose={() => dispatch(setDialog7(false))}
         open={dialog7}
         totalAmount={totalPrice}
+        custid = {selectedCustomer._id}
       />
       <Dialog open={open} onClose={onClose} fullWidth={true} maxWidth="md">
         <DialogTitle>Confirm Order</DialogTitle>
