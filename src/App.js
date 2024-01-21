@@ -9,6 +9,7 @@ import Drawer from "./components/Dashboard/Drawer";
 import AllProducts from "./components/Supplier/AllProducts";
 import AllOrders from "./components/Customer/AllOrders";
 import NotFound from "./components/404/NotFound";
+import AllCustomers from "./components/Customer/AllCustomers";
 
 function App() {
   return (
@@ -61,6 +62,15 @@ function App() {
             </>
           }
         />
+        <Route 
+          path="/customers"
+          element={
+            <>
+              <Drawer />
+              <AllCustomers />
+            </>
+          }
+          />
         <Route path="/" element={<NewOrder />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
