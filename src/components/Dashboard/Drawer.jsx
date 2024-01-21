@@ -175,17 +175,17 @@ export default function MiniDrawer() {
       subOptions: [
         {
           title: "Find Customer",
-          path: "/customers/add",
+          path: "/customers",
           icon: <FaIcons.FaUserPlus />,
         },
         {
           title: "All Customers",
-          path: "/customers/all",
+          path: "/customers",
           icon: <FaIcons.FaList />,
         },
         {
           title: "Update Customer",
-          path: "/customers/update",
+          path: "/customers",
           icon: <FaIcons.FaUserEdit />,
         },
       ],
