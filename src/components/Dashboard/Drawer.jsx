@@ -212,12 +212,12 @@ export default function MiniDrawer() {
         },
         {
           title: "All Suppliers",
-          path: "/suppliers/all",
+          path: "/suppliers",
           icon: <FaIcons.FaList />,
         },
         {
           title: "Update Supplier",
-          path: "/suppliers/update",
+          path: "/suppliers",
           icon: <FaIcons.FaUserEdit />,
         },
       ],
