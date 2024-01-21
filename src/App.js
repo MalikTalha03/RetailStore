@@ -10,6 +10,7 @@ import AllProducts from "./components/Supplier/AllProducts";
 import AllOrders from "./components/Customer/AllOrders";
 import NotFound from "./components/404/NotFound";
 import AllCustomers from "./components/Customer/AllCustomers";
+import AllSuppliers from "./components/Supplier/AllSuppliers.jsx";
 
 function App() {
   return (
@@ -68,6 +69,15 @@ function App() {
             <>
               <Drawer />
               <AllCustomers />
+            </>
+          }
+          />
+          <Route
+          path="/suppliers"
+          element={
+            <>
+              <Drawer />
+              <AllSuppliers />
             </>
           }
           />
