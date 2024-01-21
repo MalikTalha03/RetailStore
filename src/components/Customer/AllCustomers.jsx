@@ -99,9 +99,9 @@ const AllCustomers = () => {
   const filteredCustomers = customers.filter((customer) => {
     const searchTermLower = searchTerm.toLowerCase();
     return (
-      customer.name.toLowerCase().includes(searchTermLower) ||
-      customer.price.toString().includes(searchTermLower) ||
-      customer.inventory.toString().includes(searchTermLower)
+      customer.firstname.toLowerCase().includes(searchTermLower) ||
+      customer.lastname.toLowerCase().includes(searchTermLower) ||
+      customer.contact.toLowerCase().includes(searchTermLower)
     );
   });
 
@@ -111,7 +111,7 @@ const AllCustomers = () => {
         <div className={classes.searchBarContainer}>
           <TextField
             className={classes.searchBar}
-            label="Search Product"
+            label="Search Customer"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
