@@ -13,7 +13,7 @@ import {
   TextField,
 } from "@mui/material";
 
-const Addsupplier = ({ open, onClose }) => {
+const Addsupplier = (props) => {
   const [supplier, setSupplier] = useState({
     name: "",
     address: "",
@@ -45,7 +45,7 @@ const Addsupplier = ({ open, onClose }) => {
       } else {
         alert(response.message);
       }
-      onClose();
+      props.onClose();
       setSupplier({ name: "", address: "", contact: "" });
     } catch (err) {
       console.log(err);
@@ -54,7 +54,7 @@ const Addsupplier = ({ open, onClose }) => {
 
   return (
     <div>
-      <Dialog className="dialog" id="dialog" open={open} onClose={onClose}>
+      <Dialog className="dialog" id="dialog" open={props.open} onClose={props.onClose}>
         <DialogTitle>Add Supplier</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -101,7 +101,7 @@ const Addsupplier = ({ open, onClose }) => {
             </Stack>
           </DialogContentText>
           <DialogActions>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={props.onClose}>Cancel</Button>
             <Button onClick={addsupplier}>Add</Button>
           </DialogActions>
         </DialogContent>

@@ -17,7 +17,7 @@ import { fetchCustOrders } from "../../app/features/customer";
 import { useEffect } from "react";
 import checkToken from "../loggedin";
 
-const GetPaid = ({ open, onClose }) => {
+const GetPaid = (props) => {
   checkToken();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -88,7 +88,7 @@ const GetPaid = ({ open, onClose }) => {
     }
     if (status === 200) {
       alert("Payment Successful : " + response.message);
-      onClose();
+      props.onClose();
       setPaymentAmount(0);
       setRemainingAmount(0);
       setSelectedOrder("");
@@ -100,7 +100,7 @@ const GetPaid = ({ open, onClose }) => {
 
   return (
     <>
-      <Dialog open={open} onClose={onClose}>
+      <Dialog open={props.open} onClose={props.onClose}>
         <DialogTitle>{`Get Paid`}</DialogTitle>
         <DialogContent>
           <Typography variant="body1">Select the Customer:</Typography>
@@ -175,7 +175,7 @@ const GetPaid = ({ open, onClose }) => {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={onClose} variant="outlined">
+          <Button onClick={props.onClose} variant="outlined">
             Cancel
           </Button>
           <Button

@@ -17,7 +17,7 @@ import Paper from "@mui/material/Paper";
 import { fetchCustOrders } from "../../app/features/customer";
 import { fetchProducts } from "../../app/features/products";
 
-const OrderDetail = ({ open, onClose, orderId }) => {
+const OrderDetail = (props) => {
   const dispatch = useDispatch();
   const customers = useSelector((state) => state.customers.custOrders);
   const order = useSelector((state) => {
@@ -26,7 +26,7 @@ const OrderDetail = ({ open, onClose, orderId }) => {
       [],
       customers.map((customer) => customer.orders)
     );
-    return allOrders.find((order) => order._id === orderId);
+    return allOrders.find((order) => order._id === props.orderId);
   });
   let custid = "";
 
@@ -45,7 +45,7 @@ const OrderDetail = ({ open, onClose, orderId }) => {
     dispatch(fetchCustOrders());
   }, [dispatch]);
   custid = customers.find((customer) =>
-    customer.orders.find((order) => order._id === orderId)
+    customer.orders.find((order) => order._id === props.orderId)
   );
   if (custid) {
     custid = custid._id;
@@ -85,7 +85,8 @@ const OrderDetail = ({ open, onClose, orderId }) => {
       };
 
       const response = await fetch(
-        process.env.REACT_APP_API_URL + `customer/${custid}/orders/${orderId}/refund`,
+        process.env.REACT_APP_API_URL +
+          `customer/${custid}/orders/${props.orderId}/refund`,
         {
           method: "PATCH",
           headers: {
@@ -102,7 +103,7 @@ const OrderDetail = ({ open, onClose, orderId }) => {
 
         dispatch(fetchCustOrders());
 
-        onClose();
+        props.onClose();
 
         alert(`Amount to be returned: ${amountToReturn}`);
       } else {
@@ -126,7 +127,7 @@ const OrderDetail = ({ open, onClose, orderId }) => {
   }
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
+    <Dialog open={props.open} onClose={props.onClose} maxWidth="md" fullWidth>
       <DialogTitle>Order Details</DialogTitle>
       <DialogContent>
         <p>
@@ -169,7 +170,7 @@ const OrderDetail = ({ open, onClose, orderId }) => {
         </p>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="primary">
+        <Button onClick={props.onClose} color="primary">
           Close
         </Button>
         <Button onClick={handleRefund} color="primary">

@@ -17,7 +17,7 @@ import "../Customer/css/neworder.css";
 import { fetchCategories } from "../../app/features/categories";
 import { fetchSuppliers } from "../../app/features/supplier";
 
-const AddProduct = ({ open, onClose }) => {
+const AddProduct = (props) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchCategories());
@@ -59,7 +59,7 @@ const AddProduct = ({ open, onClose }) => {
       } else {
         alert(response.message);
       }
-      onClose();
+      props.onClose();
       setProduct({
         name: "",
         price: 0,
@@ -74,7 +74,7 @@ const AddProduct = ({ open, onClose }) => {
 
   return (
     <div>
-      <Dialog className="dialog" id="dialog" open={open} onClose={onClose}>
+      <Dialog className="dialog" id="dialog" open={props.open} onClose={props.onClose}>
         <DialogTitle>Add Product</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -129,7 +129,7 @@ const AddProduct = ({ open, onClose }) => {
             </Stack>
           </DialogContentText>
           <DialogActions>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={props.onClose}>Cancel</Button>
             <Button onClick={addproduct}>Add</Button>
           </DialogActions>
         </DialogContent>

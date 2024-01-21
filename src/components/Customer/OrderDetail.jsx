@@ -17,7 +17,7 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchCustOrders } from "../../app/features/customer";
 
-const OrderDetail = ({ open, onClose, orderId }) => {
+const OrderDetail = (props) => {
   let customerName = "";
   const dispatch = useDispatch();
   useEffect(() => {
@@ -26,7 +26,7 @@ const OrderDetail = ({ open, onClose, orderId }) => {
   }, [dispatch]);
   const customers = useSelector((state) => state.customers.custOrders);
   const orderCustomer = customers.find((customer) =>
-    customer.orders.find((order) => order._id === orderId)
+    customer.orders.find((order) => order._id === props.orderId)
   );
 
   if (orderCustomer) {
@@ -41,7 +41,7 @@ const OrderDetail = ({ open, onClose, orderId }) => {
       [],
       customers.map((customer) => customer.orders)
     );
-    return allOrders.find((order) => order._id === orderId);
+    return allOrders.find((order) => order._id === props.orderId);
   });
   const products = useSelector((state) => state.products.products);
 
@@ -55,7 +55,7 @@ const OrderDetail = ({ open, onClose, orderId }) => {
   }
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
+    <Dialog open={props.open} onClose={props.onClose} maxWidth="md" fullWidth>
       <DialogTitle>Order Details</DialogTitle>
       <DialogContent>
         <p>Customer Name: {customerName}</p>
@@ -124,7 +124,7 @@ const OrderDetail = ({ open, onClose, orderId }) => {
         </p>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="primary">
+        <Button onClick={props.onClose} color="primary">
           Close
         </Button>
       </DialogActions>

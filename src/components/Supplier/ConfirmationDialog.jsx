@@ -11,7 +11,7 @@ import "./order.css";
 import "../Customer/css/neworder.css";
 import { useSelector } from "react-redux";
 
-const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
+const ConfirmationDialog = (props) => {
   const selectedSupplier = useSelector(
     (state) => state.suppliers.selectedSupplier
   );
@@ -32,13 +32,12 @@ const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
         },
         body: JSON.stringify({
           orderDate: new Date(),
-          totalAmount: totalPrice,
+          totalAmount: props.totalPrice,
           paymentStatus: "Pending",
         }),
       });
       const response = await data.json();
       const orderid = response.id;
-      console.log("Response: " + response);
       if (response.message === "jwt expired") {
         localStorage.removeItem("token");
         window.location.reload();
@@ -80,7 +79,7 @@ const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
   }
   return (
     <div>
-      <Dialog open={open} onClose={onClose} fullWidth={true} maxWidth="md">
+      <Dialog open={props.open} onClose={props.onClose} fullWidth={true} maxWidth="md">
         <DialogTitle>Confirm Order</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -93,7 +92,7 @@ const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
                   <th>Total</th>
                 </tr>
               </thead>
-              <tbody>{tabledata}</tbody>
+              <tbody>{props.tabledata}</tbody>
               <tbody>
                 <tr>
                   <td></td>
@@ -102,13 +101,13 @@ const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
                   <td className="border">
                     <b>Total</b>
                   </td>
-                  <td className="border">{totalPrice}</td>
+                  <td className="border">{props.totalPrice}</td>
                 </tr>
               </tbody>
             </table>
           </DialogContentText>
           <DialogActions>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={props.onClose}>Cancel</Button>
             <Button onClick={addOrder}>Add</Button>
           </DialogActions>
         </DialogContent>

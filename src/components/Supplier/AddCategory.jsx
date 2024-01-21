@@ -16,7 +16,7 @@ import "./order.css";
 import "../Customer/css/neworder.css";
 import { fetchCategories } from "../../app/features/categories";
 
-const AddCategory = ({ open, onClose }) => {
+const AddCategory = (props) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchCategories());
@@ -56,7 +56,7 @@ const AddCategory = ({ open, onClose }) => {
         alert(response.message);
         await dispatch(fetchCategories());
       }
-      onClose();
+      props.onClose();
       setCategory({ name: "" });
     } catch (err) {
       console.log(err);
@@ -65,7 +65,7 @@ const AddCategory = ({ open, onClose }) => {
 
   return (
     <div>
-      <Dialog className="dialog" id="dialog" open={open} onClose={onClose}>
+      <Dialog className="dialog" id="dialog" open={props.open} onClose={props.onClose}>
         <DialogTitle>Add Category</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -86,7 +86,7 @@ const AddCategory = ({ open, onClose }) => {
             </Stack>
           </DialogContentText>
           <DialogActions>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={props.onClose}>Cancel</Button>
             <Button onClick={addcategory}>Add</Button>
           </DialogActions>
         </DialogContent>

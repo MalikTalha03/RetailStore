@@ -9,10 +9,10 @@ import {
   TextField,
 } from "@mui/material";
 
-const Payment = ({ onClose, open, totalAmount, custid }) => {
+const Payment = (props) => {
   const [paymentAmount, setPaymentAmount] = useState(0);
   const [payMethod, setPayMethod] = useState("Cash");
-  const customerid = custid;
+  const customerid = props.custid;
   const handlePaymentAmountChange = (event) => {
     const amount = event.target.valueAsNumber || 0;
     setPaymentAmount(amount);
@@ -42,21 +42,21 @@ const Payment = ({ onClose, open, totalAmount, custid }) => {
     } else if (response.message === "Transaction Added") {
       alert("Payment Successful");
       window.location = "/neworder";
-      onClose();
+      props.onClose();
     } else {
       alert("Payment Failed : ", +response.message);
     }
   };
 
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={props.open} onClose={props.onClose}>
       <DialogTitle>{`Payment for Order ${orderid}`}</DialogTitle>
       <DialogContent>
         <TextField
           id="total-amount"
           label="Total Amount"
           type="number"
-          value={totalAmount}
+          value={props.totalAmount}
           InputProps={{ inputProps: { min: 0 } }}
           disabled
           fullWidth
@@ -82,7 +82,7 @@ const Payment = ({ onClose, open, totalAmount, custid }) => {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} variant="outlined">
+        <Button onClick={props.onClose} variant="outlined">
           Cancel
         </Button>
         <Button

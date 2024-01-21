@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 import Payment from "./Payment";
 import { useEffect } from "react";
 
-const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
+const ConfirmationDialog = (props) => {
   const selectedCustomer = useSelector(
     (state) => state.customers.selectedCustomer
   );
@@ -149,10 +149,10 @@ const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
       <Payment
         onClose={() => dispatch(setDialog7(false))}
         open={dialog7}
-        totalAmount={totalPrice}
+        totalAmount={props.totalPrice}
         custid = {selectedCustomer._id}
       />
-      <Dialog open={open} onClose={onClose} fullWidth={true} maxWidth="md">
+      <Dialog open={props.open} onClose={props.onClose} fullWidth={true} maxWidth="md">
         <DialogTitle>Confirm Order</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -165,7 +165,7 @@ const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
                   <th>Total</th>
                 </tr>
               </thead>
-              <tbody>{tabledata}</tbody>
+              <tbody>{props.tabledata}</tbody>
               <tbody>
                 <tr>
                   <td></td>
@@ -174,13 +174,13 @@ const ConfirmationDialog = ({ open, onClose, tabledata, totalPrice }) => {
                   <td className="border">
                     <b>Total</b>
                   </td>
-                  <td className="border">{totalPrice}</td>
+                  <td className="border">{props.totalPrice}</td>
                 </tr>
               </tbody>
             </table>
           </DialogContentText>
           <DialogActions>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={props.onClose}>Cancel</Button>
             <Button onClick={addOrder}>Add</Button>
           </DialogActions>
         </DialogContent>
