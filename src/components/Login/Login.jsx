@@ -27,7 +27,7 @@ const Login = () => {
         window.location.href = "/dashboard";
       }
     } catch (err) {
-      console.error(err);
+      console.log(err)
     }
   };
   tokenCheck();
