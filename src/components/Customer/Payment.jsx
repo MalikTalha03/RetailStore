@@ -26,7 +26,6 @@ const Payment = (props) => {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
         },
         body: JSON.stringify({
           totalAmount: paymentAmount,
