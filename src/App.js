@@ -11,6 +11,7 @@ import AllOrders from "./components/Customer/AllOrders";
 import NotFound from "./components/404/NotFound";
 import AllCustomers from "./components/Customer/AllCustomers";
 import AllSuppliers from "./components/Supplier/AllSuppliers.jsx";
+import OnlineOrders from "./components/Customer/OnlineOrders.jsx";
 
 function App() {
   return (
@@ -78,6 +79,15 @@ function App() {
             <>
               <Drawer />
               <AllSuppliers />
+            </>
+          }
+          />
+          <Route 
+          path='/weborders'
+          element = {
+            <>
+            <Drawer />
+            <OnlineOrders />
             </>
           }
           />
