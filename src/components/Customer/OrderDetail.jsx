@@ -46,7 +46,7 @@ const OrderDetail = (props) => {
   const products = useSelector((state) => state.products.products);
 
   if (!order) {
-    return <div>Order not found</div>;
+    return <div></div>;
   }
 
   function prodname(id) {
