@@ -64,7 +64,7 @@ function App() {
             </>
           }
         />
-        <Route 
+        <Route
           path="/customers"
           element={
             <>
@@ -72,8 +72,8 @@ function App() {
               <AllCustomers />
             </>
           }
-          />
-          <Route
+        />
+        <Route
           path="/suppliers"
           element={
             <>
@@ -81,16 +81,16 @@ function App() {
               <AllSuppliers />
             </>
           }
-          />
-          <Route 
-          path='/weborders'
-          element = {
+        />
+        <Route
+          path="/weborders"
+          element={
             <>
-            <Drawer />
-            <OnlineOrders />
+              <Drawer />
+              <OnlineOrders />
             </>
           }
-          />
+        />
         <Route path="/" element={<NewOrder />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
