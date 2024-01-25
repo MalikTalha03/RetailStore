@@ -13,7 +13,6 @@ import { useState } from "react";
 import Collapse from "@mui/material/Collapse";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import { Divider } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import {
   setDialog5,
@@ -52,14 +51,6 @@ const closedMixin = (theme) => ({
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
 });
-
-const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "flex-end",
-  padding: theme.spacing(0, 1),
-  ...theme.mixins.toolbar,
-}));
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -133,6 +124,11 @@ export default function MiniDrawer() {
           title: "Get Paid",
           icon: <FaIcons.FaCartArrowDown />,
           onClick: () => dispatch(setDialog8(!dialog8)),
+        },
+        {
+          title: "Web Orders",
+          path: "/weborders",
+          icon: <FaIcons.FaCartArrowDown />,
         },
         {
           title: "Refund an Order",
