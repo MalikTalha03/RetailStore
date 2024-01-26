@@ -91,7 +91,12 @@ function App() {
             </>
           }
         />
-        <Route path="/" element={<NewOrder />} />
+        <Route path="/" element={
+            <>
+              <Drawer />
+              <NewOrder />
+            </>
+        } />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
