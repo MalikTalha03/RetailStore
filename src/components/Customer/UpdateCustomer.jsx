@@ -79,7 +79,9 @@ const UpdateCustomer = (props) => {
                   setSelectedCustomer(value);
                 }}
                 style={{ width: 300 }}
-                renderInput={(params) => <TextField {...params} label="Customer" />}
+                renderInput={(params) => (
+                  <TextField {...params} label="Customer" />
+                )}
               />
             </div>
             {selectedCustomer && (
@@ -92,7 +94,10 @@ const UpdateCustomer = (props) => {
                     name="firstname"
                     value={newCustomerData.firstname}
                     onChange={(e) =>
-                      setNewCustomerData({ ...newCustomerData, firstname: e.target.value })
+                      setNewCustomerData({
+                        ...newCustomerData,
+                        firstname: e.target.value,
+                      })
                     }
                     InputLabelProps={{
                       shrink: true,
@@ -107,7 +112,10 @@ const UpdateCustomer = (props) => {
                     name="lastname"
                     value={newCustomerData.lastname}
                     onChange={(e) =>
-                      setNewCustomerData({ ...newCustomerData, lastname: e.target.value })
+                      setNewCustomerData({
+                        ...newCustomerData,
+                        lastname: e.target.value,
+                      })
                     }
                     InputLabelProps={{
                       shrink: true,
@@ -122,21 +130,33 @@ const UpdateCustomer = (props) => {
                     name="contact"
                     value={newCustomerData.contact}
                     onChange={(e) =>
-                      setNewCustomerData({ ...newCustomerData, contact: e.target.value })
+                      setNewCustomerData({
+                        ...newCustomerData,
+                        contact: e.target.value,
+                      })
                     }
                     InputLabelProps={{
                       shrink: true,
                     }}
                   />
                 </div>
-                {/* Add other fields as needed */}
               </>
             )}
           </Stack>
         </DialogContent>
         <DialogActions>
           <Button onClick={props.onClose}>Cancel</Button>
-          <Button onClick={handleUpdate}>Update</Button>
+          <Button
+            onClick={handleUpdate}
+            disabled={
+              !selectedCustomer ||
+              !newCustomerData.firstname ||
+              !newCustomerData.lastname ||
+              !newCustomerData.contact
+            }
+          >
+            Update
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
