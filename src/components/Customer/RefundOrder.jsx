@@ -172,7 +172,11 @@ const OrderDetail = (props) => {
         <Button onClick={props.onClose} color="primary">
           Close
         </Button>
-        <Button onClick={handleRefund} color="primary">
+        <Button
+          onClick={handleRefund}
+          color="primary"
+          disabled={!editableOrderDetails.length}
+        >
           Refund
         </Button>
       </DialogActions>
