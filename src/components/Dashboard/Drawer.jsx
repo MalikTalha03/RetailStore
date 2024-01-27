@@ -20,6 +20,7 @@ import {
   setDialog3,
   setDialog6,
   setDialog8,
+  setDialog9,
 } from "../../app/features/dialogslice";
 import { useDispatch, useSelector } from "react-redux";
 import Addsupplier from "../Supplier/Addsupplier";
@@ -28,6 +29,7 @@ import AddCategory from "../Supplier/AddCategory";
 import { Link } from "react-router-dom";
 import SupplierPayment from "../Supplier/SupplierPayment";
 import GetPaid from "../Customer/GetPaid";
+import UpdateCustomer from "../Customer/UpdateCustomer";
 
 const drawerWidth = 240;
 
@@ -75,6 +77,7 @@ export default function MiniDrawer() {
   const dialog4 = useSelector((state) => state.dialog.dialog4);
   const dialog6 = useSelector((state) => state.dialog.dialog6);
   const dialog8 = useSelector((state) => state.dialog.dialog8);
+  const dialog9 = useSelector((state) => state.dialog.dialog9);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
@@ -181,8 +184,8 @@ export default function MiniDrawer() {
         },
         {
           title: "Update Customer",
-          path: "/customers/update",
           icon: <FaIcons.FaUserEdit />,
+          onClick: () => dispatch(setDialog9(!dialog9)),
         },
       ],
     },
@@ -346,6 +349,10 @@ export default function MiniDrawer() {
       <SupplierPayment
         open={dialog6}
         onClose={() => dispatch(setDialog6(!dialog6))}
+      />
+      <UpdateCustomer
+        open={dialog9}
+        onClose={() => dispatch(setDialog9(!dialog9))}
       />
       <GetPaid open={dialog8} onClose={() => dispatch(setDialog8(!dialog8))} />
     </Box>
