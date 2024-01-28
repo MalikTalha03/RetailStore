@@ -174,12 +174,10 @@ export default function MiniDrawer() {
       subOptions: [
         {
           title: "Find Customer",
-          path: "/customers/add",
           icon: <FaIcons.FaUserPlus />,
         },
         {
           title: "All Customers",
-          path: "/customers/all",
           icon: <FaIcons.FaList />,
         },
         {
@@ -211,12 +209,10 @@ export default function MiniDrawer() {
         },
         {
           title: "All Suppliers",
-          path: "/suppliers/all",
           icon: <FaIcons.FaList />,
         },
         {
           title: "Update Supplier",
-          path: "/suppliers/update",
           icon: <FaIcons.FaUserEdit />,
         },
       ],
@@ -228,17 +224,14 @@ export default function MiniDrawer() {
       subOptions: [
         {
           title: "Add Employee",
-          path: "/employees/add",
           icon: <FaIcons.FaUserPlus />,
         },
         {
           title: "All Employees",
-          path: "/employees/all",
           icon: <FaIcons.FaList />,
         },
         {
           title: "Update Employee",
-          path: "/employees/update",
           icon: <FaIcons.FaUserEdit />,
         },
       ],
@@ -251,7 +244,6 @@ export default function MiniDrawer() {
     },
     {
       title: "Settings",
-      path: "/settings",
       icon: <FaIcons.FaCog />,
       cName: "nav-text",
       subOptions: [],
