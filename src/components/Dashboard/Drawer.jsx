@@ -30,6 +30,7 @@ import { Link } from "react-router-dom";
 import SupplierPayment from "../Supplier/SupplierPayment";
 import GetPaid from "../Customer/GetPaid";
 import UpdateCustomer from "../Customer/UpdateCustomer";
+import AddEmployee from "../Employee/AddEmployee";
 
 const drawerWidth = 240;
 
@@ -80,6 +81,7 @@ export default function MiniDrawer() {
   const dialog9 = useSelector((state) => state.dialog.dialog9);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [addEmp, setAddEmp] = useState(false);
   const dispatch = useDispatch();
 
   const [openSubmenus, setOpenSubmenus] = useState({});
@@ -228,6 +230,7 @@ export default function MiniDrawer() {
         {
           title: "Add Employee",
           icon: <FaIcons.FaUserPlus />,
+          onClick: () => setAddEmp(!addEmp),
         },
         {
           title: "All Employees",
@@ -350,6 +353,7 @@ export default function MiniDrawer() {
         onClose={() => dispatch(setDialog9(!dialog9))}
       />
       <GetPaid open={dialog8} onClose={() => dispatch(setDialog8(!dialog8))} />
+      <AddEmployee open={addEmp} onClose={() => setAddEmp(!addEmp)} />
     </Box>
   );
 }
