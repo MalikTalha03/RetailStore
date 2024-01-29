@@ -7,12 +7,10 @@ import {
   Button,
   TextField,
 } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchEmployeeById, updateEmployee } from "../../app/features/employee";
+import checkToken from "../loggedin";
 
 const EditEmployee = ({ open, handleClose, employeeid }) => {
-  const dispatch = useDispatch();
-  const employee = useSelector((state) => state.employees.employee);
+  checkToken();
   const [editedEmployee, setEditedEmployee] = useState({
     firstname: "",
     lastname: "",
@@ -26,15 +24,32 @@ const EditEmployee = ({ open, handleClose, employeeid }) => {
 
   useEffect(() => {
     if (open && employeeid) {
-      dispatch(fetchEmployeeById(employeeid));
+      fetchEmployeeById(employeeid);
     }
-  }, [open, dispatch, employeeid]);
+  }, [open, employeeid]);
 
-  useEffect(() => {
-    if (employee) {
-      setEditedEmployee(employee);
+  const fetchEmployeeById = async (id) => {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}employee/${id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch employee");
+      }
+
+      const employeeData = await response.json();
+      setEditedEmployee(employeeData);
+    } catch (error) {
+      console.error("Error fetching employee:", error.message);
     }
-  }, [employee]);
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -44,9 +59,31 @@ const EditEmployee = ({ open, handleClose, employeeid }) => {
     }));
   };
 
-  const handleUpdateEmployee = () => {
-    dispatch(updateEmployee(editedEmployee));
-    handleClose();
+  const handleUpdateEmployee = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}employee/${editedEmployee._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          body: JSON.stringify(editedEmployee),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to update employee");
+      }
+
+      const updatedEmployeeData = await response.json();
+      console.log("Updated Employee Data:", updatedEmployeeData);
+
+      handleClose();
+    } catch (error) {
+      console.error("Error updating employee:", error.message);
+    }
   };
 
   return (
@@ -112,6 +149,16 @@ const EditEmployee = ({ open, handleClose, employeeid }) => {
           type="text"
           name="position"
           value={editedEmployee.position}
+          onChange={handleInputChange}
+          fullWidth
+          margin="normal"
+        />
+
+        <TextField
+          label="Password"
+          type="password"
+          name="password"
+          value={editedEmployee.password}
           onChange={handleInputChange}
           fullWidth
           margin="normal"
