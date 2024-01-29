@@ -47,7 +47,7 @@ const EditEmployee = ({ open, handleClose, employeeid }) => {
       const employeeData = await response.json();
       setEditedEmployee(employeeData);
     } catch (error) {
-      console.error("Error fetching employee:", error.message);
+      alert("Error fetching employee:", error.message);
     }
   };
 
@@ -78,7 +78,7 @@ const EditEmployee = ({ open, handleClose, employeeid }) => {
       }
 
       const updatedEmployeeData = await response.json();
-      console.log("Updated Employee Data:", updatedEmployeeData);
+      alert("Updated Employee Data:", updatedEmployeeData);
 
       handleClose();
     } catch (error) {
@@ -156,7 +156,7 @@ const EditEmployee = ({ open, handleClose, employeeid }) => {
 
         <TextField
           label="Password"
-          type="password"
+          type="text"
           name="password"
           value={editedEmployee.password}
           onChange={handleInputChange}
