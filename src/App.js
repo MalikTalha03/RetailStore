@@ -12,6 +12,7 @@ import NotFound from "./components/404/NotFound";
 import AllCustomers from "./components/Customer/AllCustomers";
 import AllSuppliers from "./components/Supplier/AllSuppliers.jsx";
 import OnlineOrders from "./components/Customer/OnlineOrders.jsx";
+import AllEmployees from "./components/Employee/AllEmployees.jsx";
 
 function App() {
   return (
@@ -91,12 +92,24 @@ function App() {
             </>
           }
         />
-        <Route path="/" element={
+        <Route
+          path="/"
+          element={
             <>
               <Drawer />
               <NewOrder />
             </>
-        } />
+          }
+        />
+        <Route
+          path="/employees"
+          element={
+            <>
+              <Drawer />
+              <AllEmployees />
+            </>
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
