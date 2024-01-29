@@ -12,8 +12,10 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
+import checkToken from "../loggedin";
 
 const Addsupplier = (props) => {
+  checkToken();
   const [supplier, setSupplier] = useState({
     name: "",
     address: "",

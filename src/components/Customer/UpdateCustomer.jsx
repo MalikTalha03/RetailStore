@@ -11,8 +11,10 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCustomers } from "../../app/features/customer";
+import checkToken from "../loggedin";
 
 const UpdateCustomer = (props) => {
+  checkToken();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchCustomers());

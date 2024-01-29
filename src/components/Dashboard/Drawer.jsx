@@ -234,6 +234,7 @@ export default function MiniDrawer() {
         },
         {
           title: "All Employees",
+          path: "/employees",
           icon: <FaIcons.FaList />,
         },
         {

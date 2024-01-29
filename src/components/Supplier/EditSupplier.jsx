@@ -9,8 +9,10 @@ import {
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchSuppOrders } from "../../app/features/supplier";
+import checkToken from "../loggedin";
 
 const EditSupplier = (props) => {
+  checkToken();
   const dispatch = useDispatch();
   const { open, handleClose, supplierid } = props;
     const [name, setName] = React.useState("");

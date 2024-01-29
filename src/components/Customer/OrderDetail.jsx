@@ -16,8 +16,10 @@ import { fetchProducts } from "../../app/features/products";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchCustOrders } from "../../app/features/customer";
+import checkToken from "../loggedin";
 
 const OrderDetail = (props) => {
+  checkToken();
   let customerName = "";
   const dispatch = useDispatch();
   useEffect(() => {

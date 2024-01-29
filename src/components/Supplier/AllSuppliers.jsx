@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchSuppOrders } from "../../app/features/supplier";
 import Button from "@mui/material/Button";
 import EditSupplier from "./EditSupplier";
+import checkToken from "../loggedin";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -73,6 +74,7 @@ const columns = [
 ];
 
 const AllSuppliers = () => {
+  checkToken();
   const classes = useStyles();
   const dispatch = useDispatch();
   const [page, setPage] = useState(0);

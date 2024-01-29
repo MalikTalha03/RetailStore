@@ -13,9 +13,10 @@ import { useSelector } from "react-redux";
 import { setDialog7 } from "../../app/features/dialogslice";
 import { useDispatch } from "react-redux";
 import Payment from "./Payment";
-import { useEffect } from "react";
+import checkToken from "../loggedin";
 
 const ConfirmationDialog = (props) => {
+  checkToken();
   const selectedCustomer = useSelector(
     (state) => state.customers.selectedCustomer
   );

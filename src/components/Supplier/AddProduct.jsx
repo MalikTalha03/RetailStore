@@ -16,8 +16,10 @@ import "./order.css";
 import "../Customer/css/neworder.css";
 import { fetchCategories } from "../../app/features/categories";
 import { fetchSuppliers } from "../../app/features/supplier";
+import checkToken from "../loggedin";
 
 const AddProduct = (props) => {
+  checkToken();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchCategories());
@@ -74,7 +76,12 @@ const AddProduct = (props) => {
 
   return (
     <div>
-      <Dialog className="dialog" id="dialog" open={props.open} onClose={props.onClose}>
+      <Dialog
+        className="dialog"
+        id="dialog"
+        open={props.open}
+        onClose={props.onClose}
+      >
         <DialogTitle>Add Product</DialogTitle>
         <DialogContent>
           <DialogContentText>

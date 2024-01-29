@@ -8,8 +8,10 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
+import checkToken from "../loggedin";
 
 const Payment = (props) => {
+  checkToken();
   const [paymentAmount, setPaymentAmount] = useState(0);
   const [payMethod, setPayMethod] = useState("Cash");
   const customerid = props.custid;
