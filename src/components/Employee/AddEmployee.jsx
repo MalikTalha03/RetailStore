@@ -1,4 +1,3 @@
-// AddEmployee.js
 import React, { useState, useEffect } from "react";
 import {
   Dialog,
@@ -8,6 +7,7 @@ import {
   Button,
   TextField,
 } from "@mui/material";
+import checkToken from "../loggedin";
 
 const AddEmployee = ({ open, onClose }) => {
   const initialFormData = {
