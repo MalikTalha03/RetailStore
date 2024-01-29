@@ -178,6 +178,7 @@ export default function MiniDrawer() {
         },
         {
           title: "All Customers",
+          path: "/customers",
           icon: <FaIcons.FaList />,
         },
         {
@@ -209,10 +210,12 @@ export default function MiniDrawer() {
         },
         {
           title: "All Suppliers",
+          path: "/suppliers",
           icon: <FaIcons.FaList />,
         },
         {
           title: "Update Supplier",
+          path: "/suppliers",
           icon: <FaIcons.FaUserEdit />,
         },
       ],
