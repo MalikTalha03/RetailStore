@@ -8,14 +8,56 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import TextField from "@mui/material/TextField";
-import { makeStyles } from "@mui/styles";
-import { useSelector, useDispatch } from "react-redux";
-import employee, { fetchEmployees } from "../../app/features/employee";  // Update the import path
 import Button from "@mui/material/Button";
-import EditEmployee from "./EditEmployee";  // Assuming you have an EditEmployee component
+import EditEmployee from "./EditEmployee";
+import { makeStyles } from "@mui/styles";
+import checkToken from "../loggedin";
 
 const useStyles = makeStyles((theme) => ({
-  // Your existing styles
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    marginTop: "4rem",
+  },
+  tableContainer: {
+    width: "89%",
+    "& th:first-child": {
+      borderRadius: "1em 0 0 1em",
+    },
+    "& th:last-child": {
+      borderRadius: "0 1em 1em 0",
+    },
+  },
+  thead: {
+    "& th:first-child": {
+      borderRadius: "1em 0 0 1em",
+    },
+    "& th:last-child": {
+      borderRadius: "0 1em 1em 0",
+    },
+  },
+  oddRow: {
+    backgroundColor: "#f9f9f9",
+  },
+  evenRow: {
+    backgroundColor: "#ffffff",
+  },
+  searchBarContainer: {
+    width: "89%",
+    display: "flex",
+    justifyContent: "flex-end",
+    marginBottom: "1rem",
+  },
+  searchBar: {
+    width: "20%",
+  },
+  button: {
+    color: "#ffffff",
+    "&:hover": {
+      backgroundColor: "green",
+    },
+  },
 }));
 
 const columns = [
@@ -26,23 +68,35 @@ const columns = [
     minWidth: 170,
   },
   { id: "contact", label: "Contact", minWidth: 100 },
-  // Add more columns as needed
 ];
 
 const AllEmployees = () => {
+  checkToken();
   const classes = useStyles();
-  const dispatch = useDispatch();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState("");
   const [open, setOpen] = useState(false);
-  const [eid, setEid] = useState("");  // Assuming employee id
+  const [employees, setEmployees] = useState([]);
+  const [eid, setEid] = useState("");
+
+  const fetchEmployees = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}employee`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch employees");
+      }
+
+      const employeesData = await response.json();
+      setEmployees(employeesData);
+    } catch (error) {
+      console.error("Error fetching employees:", error.message);
+    }
+  };
 
   useEffect(() => {
-    dispatch(fetchEmployees());  // Dispatch action to fetch employees
-  }, [dispatch]);
-
-  const employees = useSelector((state) => state.employees.employees);  // Update the selector
+    fetchEmployees();
+  }, []); // Fetch employees on component mount
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
