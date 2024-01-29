@@ -82,7 +82,15 @@ const AllEmployees = () => {
 
   const fetchEmployees = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}employee`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}employee`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            'Authorization': `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch employees");
       }
@@ -96,7 +104,7 @@ const AllEmployees = () => {
 
   useEffect(() => {
     fetchEmployees();
-  }, []); // Fetch employees on component mount
+  }, []);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
