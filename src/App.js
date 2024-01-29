@@ -10,9 +10,9 @@ import AllProducts from "./components/Supplier/AllProducts";
 import AllOrders from "./components/Customer/AllOrders";
 import NotFound from "./components/404/NotFound";
 import AllCustomers from "./components/Customer/AllCustomers";
-import AllSuppliers from "./components/Supplier/AllSuppliers.jsx";
-import OnlineOrders from "./components/Customer/OnlineOrders.jsx";
-import AllEmployees from "./components/Employee/AllEmployees.jsx";
+import AllSuppliers from "./components/Supplier/AllSuppliers";
+import OnlineOrders from "./components/Customer/OnlineOrders";
+import AllEmployees from "./components/Employee/AllEmployees";
 
 function App() {
   return (
