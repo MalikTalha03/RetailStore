@@ -29,19 +29,19 @@ const Dashboard = () => {
   }, [dispatch]);
   return (
     <div className="cardscontainer">
-      <div className="card">
+      <div className="card" onClick={() => window.location.assign("/allorders")}>
         <div className="cardtitle">Today Total Orders</div>
         <div className="cardvalue">{tord}</div>
       </div>
-      <div className="card">
+      <div className="card" onClick={() => window.location.assign("/products")}>
         <div className="cardtitle">Total Products</div>
         <div className="cardvalue">{tprod}</div>
       </div>
-      <div className="card">
+      <div className="card" onClick={() => window.location.assign("/customers")}>
         <div className="cardtitle">Total Customers</div>
         <div className="cardvalue">{tcust}</div>
       </div>
-      <div className="card">
+      <div className="card" onClick={() => window.location.assign("/suppliers")}>
         <div className="cardtitle">Total Suppliers</div>
         <div className="cardvalue">{tsup}</div>
       </div>
