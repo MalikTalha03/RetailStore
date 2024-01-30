@@ -1,6 +1,5 @@
 import "./App.css";
 import Login from "./components/Login/Login";
-import Register from "./components/Register/Register";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NewOrder from "./components/Customer/NewOrder";
 import OrderDetails from "./components/Customer/OrderDetails";
@@ -19,7 +18,6 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
         <Route
           path="/neworder"
           element={

@@ -1,6 +1,5 @@
 import React from "react";
 import "./login.css";
-import { Link } from "react-router-dom";
 
 const Login = () => {
   const apiurl = process.env.REACT_APP_API_URL + "auth/login";
@@ -71,10 +70,6 @@ const Login = () => {
           <input type="password" id="password" name="password" />
           <button type="submit">Login</button>
         </form>
-        <p>
-          Don't have an Account yet?
-          <Link to="/signup"> Sign Up</Link>
-        </p>
       </div>
     </div>
   );
