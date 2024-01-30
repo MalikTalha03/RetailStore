@@ -10,6 +10,7 @@ import {
 import checkToken from "../loggedin";
 
 const AddEmployee = ({ open, onClose }) => {
+  checkToken();
   const initialFormData = {
     firstname: "",
     lastname: "",
