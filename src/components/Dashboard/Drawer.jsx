@@ -239,6 +239,7 @@ export default function MiniDrawer() {
         },
         {
           title: "Update Employee",
+          path: "/employees",
           icon: <FaIcons.FaUserEdit />,
         },
       ],
