@@ -31,6 +31,7 @@ import SupplierPayment from "../Supplier/SupplierPayment";
 import GetPaid from "../Customer/GetPaid";
 import UpdateCustomer from "../Customer/UpdateCustomer";
 import AddEmployee from "../Employee/AddEmployee";
+import { Button } from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -176,6 +177,7 @@ export default function MiniDrawer() {
       subOptions: [
         {
           title: "Find Customer",
+          path: "/customers",
           icon: <FaIcons.FaUserPlus />,
         },
         {
@@ -258,10 +260,41 @@ export default function MiniDrawer() {
     },
   ];
 
+  const logout = () => {
+    console.log("logout");
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
   return (
     <Box sx={{ display: "flex" }}>
-      <div className="nav" style={{ marginLeft: "66px" }}>
+      <div
+        className="nav"
+        style={{
+          marginLeft: "66px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <h1 style={{ marginLeft: "20px" }}>Sufi Traders</h1>
+        <Button
+          onClick={logout}
+          variant="contained"
+          style={{
+            marginRight: "150px",
+            backgroundColor: "#FF0000",
+            color: "#fff",
+            fontWeight: "bold",
+            fontSize: "14px",
+            borderRadius: "50px",
+            padding: "10px",
+            textTransform: "capitalize",
+            width: "100px",
+          }}
+        >
+          Logout
+        </Button>
       </div>
       <Drawer variant="permanent" open={open}>
         <List
