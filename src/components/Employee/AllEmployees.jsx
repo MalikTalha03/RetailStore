@@ -61,13 +61,36 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const columns = [
-  { id: "firstname", label: "First Name", minWidth: 170 },
+  {
+    id: "username",
+    label: "Username",
+    minWidth: 110,
+  },
+  {
+    id: "firstname",
+    label: "First Name",
+    minWidth: 100,
+  },
   {
     id: "lastname",
     label: "Last Name",
-    minWidth: 170,
+    minWidth: 100,
   },
-  { id: "contact", label: "Contact", minWidth: 100 },
+  {
+    id: "contact",
+    label: "Contact",
+    minWidth: 100,
+  },
+  {
+    id: "address",
+    label: "Address",
+    minWidth: 100,
+  },
+  {
+    id: "position",
+    label: "Position",
+    minWidth: 100,
+  },
 ];
 
 const AllEmployees = () => {
@@ -82,15 +105,13 @@ const AllEmployees = () => {
 
   const fetchEmployees = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}employee`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            'Authorization': `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const response = await fetch(`${process.env.REACT_APP_API_URL}employee`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       if (!response.ok) {
         throw new Error("Failed to fetch employees");
       }
@@ -124,6 +145,45 @@ const AllEmployees = () => {
     );
   });
 
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("username");
+
+  const handleRequestSort = (property) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
+    setOrderBy(property);
+  };
+
+  const stableSort = (array, comparator) => {
+    const stabilizedThis = array.map((el, index) => [el, index]);
+    stabilizedThis.sort((a, b) => {
+      const order = comparator(a[0], b[0]);
+      if (order !== 0) return order;
+      return a[1] - b[1];
+    });
+    return stabilizedThis.map((el) => el[0]);
+  };
+
+  const getComparator = (order, orderBy) => {
+    return order === "desc"
+      ? (a, b) => descendingComparator(a, b, orderBy)
+      : (a, b) => -descendingComparator(a, b, orderBy);
+  };
+
+  const descendingComparator = (a, b, orderBy) => {
+    if (b[orderBy] < a[orderBy]) {
+      return -1;
+    }
+    if (b[orderBy] > a[orderBy]) {
+      return 1;
+    }
+    return 0;
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
   return (
     <div className={classes.root}>
       <Paper className={classes.tableContainer}>
@@ -132,7 +192,7 @@ const AllEmployees = () => {
             className={classes.searchBar}
             label="Search Employee"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={handleSearchChange}
           />
         </div>
         <TableContainer>
@@ -147,10 +207,19 @@ const AllEmployees = () => {
                       minWidth: column.minWidth,
                       fontWeight: "bold",
                       backgroundColor: "#9f9f9f",
-                      color: "#000000",
                     }}
                   >
-                    {column.label}
+                    <Button
+                      onClick={() => handleRequestSort(column.id)}
+                      variant="text"
+                      style={{ 
+                        color: "#000000",
+                        fontWeight: "bold",
+                        fontSize: "1rem",
+                       }}
+                    >
+                      {column.label}
+                    </Button>
                   </TableCell>
                 ))}
                 <TableCell
@@ -158,6 +227,7 @@ const AllEmployees = () => {
                   style={{
                     minWidth: 170,
                     fontWeight: "bold",
+                    fontSize: "1rem",
                     backgroundColor: "#9f9f9f",
                     color: "#000000",
                   }}
@@ -167,7 +237,7 @@ const AllEmployees = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredEmployees
+              {stableSort(filteredEmployees, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((employee, index) => (
                   <TableRow
