@@ -111,7 +111,7 @@ export default function MiniDrawer() {
   const sidebarItems = [
     {
       title: "Dashboard",
-      path: "/dashboard",
+      path: "/",
       icon: <FaIcons.FaHome />,
       cName: "nav-text",
       subOptions: [],
