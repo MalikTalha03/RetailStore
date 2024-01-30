@@ -10,7 +10,7 @@ import TableRow from "@mui/material/TableRow";
 import TextField from "@mui/material/TextField";
 import { makeStyles } from "@mui/styles";
 import { useSelector, useDispatch } from "react-redux";
-import customer, { fetchCustomers } from "../../app/features/customer";
+import { fetchCustomers } from "../../app/features/customer";
 import Button from "@mui/material/Button";
 import EditCustomer from "./EditCustomer";
 import checkToken from "../loggedin";

@@ -11,9 +11,7 @@ import {
   setSelectedSupplier,
 } from "../../app/features/supplier";
 import {
-  setDialog1,
   setDialog2,
-  setDialog3,
 } from "../../app/features/dialogslice";
 import { setOrderdata } from "../../app/features/orderdata";
 import { useState } from "react";
