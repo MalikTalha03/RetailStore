@@ -96,7 +96,7 @@ function App() {
           element={
             <>
               <Drawer />
-              <NewOrder />
+              <Dashboard />
             </>
           }
         />
