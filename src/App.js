@@ -12,6 +12,7 @@ import AllCustomers from "./components/Customer/AllCustomers";
 import AllSuppliers from "./components/Supplier/AllSuppliers";
 import OnlineOrders from "./components/Customer/OnlineOrders";
 import AllEmployees from "./components/Employee/AllEmployees";
+import Dashboard from "./components/Dashboard/Dashboard";
 
 function App() {
   return (

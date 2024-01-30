@@ -1,5 +1,5 @@
 import React from 'react'
-import checkToken from './components/loggedin';
+import checkToken from '../loggedin';
 
 const Dashboard = () => {
   checkToken();
