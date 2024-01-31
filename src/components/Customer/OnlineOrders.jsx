@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchCustOrders } from "../../app/features/customer"; 
+import { fetchCustOrders } from "../../app/features/customer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -12,12 +12,7 @@ import TableRow from "@mui/material/TableRow";
 import TextField from "@mui/material/TextField";
 import { makeStyles } from "@mui/styles";
 import OrderDetail from "./OrderDetail";
-import {
-  FormControl,
-  MenuItem,
-  Select,
-  Typography,
-} from "@mui/material";
+import { FormControl, MenuItem, Select, Typography } from "@mui/material";
 import RefundOrder from "./RefundOrder";
 import checkToken from "../loggedin";
 
@@ -164,6 +159,39 @@ const OnlineOrders = () => {
     return 0;
   });
 
+  const markAsCompleted = async (e) => {
+    const oid = e;
+    const customer = customers.find((customer) =>
+      customer.orders.find((order) => order._id === oid)
+    );
+    const cid = customer._id;
+    try {
+      const response = await fetch(
+        process.env.REACT_APP_API_URL +
+          `customer/${cid}/orders/${oid}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({ orderStatus: "Completed" }),
+        }
+      );
+  
+      if (!response.ok) {
+        throw new Error("Something went wrong");
+      }
+  
+      const data = await response.json();
+      alert("Order marked as completed");
+      window.location.reload();
+    } catch (error) {
+      alert("Error marking order as completed:", error.message);
+    }
+  };
+  
+
   return (
     <div className={classes.root}>
       <div className={classes.searchBarContainer}>
@@ -277,6 +305,26 @@ const OnlineOrders = () => {
                       >
                         Refund
                       </button>
+                      {order.orderStatus === "Completed" ? (
+                        <button
+                          className={classes.button}
+                          onClick={() => {
+                            setOpen(true);
+                            setOrderid(order._id);
+                          }}
+                        >
+                          Completed
+                        </button>
+                      ) : (
+                        <button
+                          className={classes.button}
+                          onClick={() => {
+                            markAsCompleted(order._id);
+                          }}
+                        >
+                          Mark as Completed
+                        </button>
+                      )}
                     </TableCell>
                   </TableRow>
                 ))}
