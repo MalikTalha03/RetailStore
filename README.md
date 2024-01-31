@@ -1,11 +1,6 @@
 
 <a name="readme-top"></a>
 
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 <br />
@@ -37,6 +32,9 @@
       <a href="#about-the-project">About The Project</a>
       <ul>
         <li><a href="#built-with">Built With</a></li>
+      </ul>
+      <ul>
+        <li><a href="#live-demo">Live Demo</a></li>
       </ul>
     </li>
     <li>
@@ -81,6 +79,10 @@ This section should list any major frameworks/libraries used to bootstrap your p
 - [![React Router][React-Router.js]][React-Router-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Live Demo
+
+[![Vercel][vercel.js]][(https://retail-store-mu.vercel.app/)]
 
 ## Getting Started
 
