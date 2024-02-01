@@ -42,6 +42,8 @@ const logedin = () => {
   }
 };
 
+logedin();
+
 function App() {
   return (
     <BrowserRouter>
@@ -120,6 +122,15 @@ function App() {
           }
         />
         <Route path="/" element={<Login />} />
+        <Route
+          path="/dashboard"
+          element={
+            <>
+              <Drawer />
+              <Dashboard />
+            </>
+          }
+        />
         <Route
           path="/employees"
           element={
