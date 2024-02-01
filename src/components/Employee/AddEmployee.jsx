@@ -7,10 +7,8 @@ import {
   Button,
   TextField,
 } from "@mui/material";
-import checkToken from "../loggedin";
 
 const AddEmployee = ({ open, onClose }) => {
-  checkToken();
   const initialFormData = {
     firstname: "",
     lastname: "",

@@ -11,7 +11,6 @@ import TextField from "@mui/material/TextField";
 import { makeStyles } from "@mui/styles";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchProducts } from "../../app/features/products";
-import checkToken from "../loggedin";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -72,7 +71,6 @@ const columns = [
 ];
 
 const AllProducts = () => {
-  checkToken();
   const classes = useStyles();
   const dispatch = useDispatch();
   const [page, setPage] = useState(0);

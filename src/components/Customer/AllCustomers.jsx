@@ -13,7 +13,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchCustomers } from "../../app/features/customer";
 import Button from "@mui/material/Button";
 import EditCustomer from "./EditCustomer";
-import checkToken from "../loggedin";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,7 +73,6 @@ const columns = [
 ];
 
 const AllCustomers = () => {
-  checkToken();
   const classes = useStyles();
   const dispatch = useDispatch();
   const [page, setPage] = useState(0);

@@ -11,7 +11,6 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import EditEmployee from "./EditEmployee";
 import { makeStyles } from "@mui/styles";
-import checkToken from "../loggedin";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -94,7 +93,6 @@ const columns = [
 ];
 
 const AllEmployees = () => {
-  checkToken();
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);

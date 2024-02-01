@@ -7,10 +7,8 @@ import {
   Button,
   TextField,
 } from "@mui/material";
-import checkToken from "../loggedin";
 
 const EditEmployee = ({ open, handleClose, employeeid }) => {
-  checkToken();
   const [editedEmployee, setEditedEmployee] = useState({
     firstname: "",
     lastname: "",

@@ -14,7 +14,6 @@ import { makeStyles } from "@mui/styles";
 import OrderDetail from "./OrderDetail";
 import { FormControl, MenuItem, Select, Typography } from "@mui/material";
 import RefundOrder from "./RefundOrder";
-import checkToken from "../loggedin";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -90,7 +89,6 @@ const sortOptions = [
 ];
 
 const OnlineOrders = () => {
-  checkToken();
   const classes = useStyles();
   const dispatch = useDispatch();
   const customers = useSelector((state) => state.customers.custOrders);

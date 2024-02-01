@@ -16,10 +16,8 @@ import {
 } from "../../app/features/customer";
 import { setDialog1 } from "../../app/features/dialogslice";
 import ConfirmDialog from "./ConfirmDialog";
-import checkToken from "../loggedin";
 
 const NewOrder = () => {
-  checkToken();
   const dispatch = useDispatch();
   const products = useSelector((state) =>
     state.products.products

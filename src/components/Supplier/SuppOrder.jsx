@@ -16,10 +16,8 @@ import {
 import { setOrderdata } from "../../app/features/orderdata";
 import { useState } from "react";
 import ConfirmationDialog from "./ConfirmationDialog";
-import checkToken from "../loggedin";
 
 const SuppOrder = () => {
-  checkToken();
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products.products);
   const suppliers = useSelector((state) => state.suppliers.suppliers);

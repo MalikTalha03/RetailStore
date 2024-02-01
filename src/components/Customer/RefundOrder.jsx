@@ -13,12 +13,10 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TextField from "@mui/material/TextField";
 import Paper from "@mui/material/Paper";
-import checkToken from "../loggedin";
 import { fetchCustOrders } from "../../app/features/customer";
 import { fetchProducts } from "../../app/features/products";
 
 const OrderDetail = (props) => {
-  checkToken();
   const dispatch = useDispatch();
   const customers = useSelector((state) => state.customers.custOrders);
   const order = useSelector((state) => {

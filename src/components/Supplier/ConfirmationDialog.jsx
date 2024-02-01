@@ -10,10 +10,8 @@ import {
 import "./order.css";
 import "../Customer/css/neworder.css";
 import { useSelector } from "react-redux";
-import checkToken from "../loggedin";
 
 const ConfirmationDialog = (props) => {
-  checkToken();
   const selectedSupplier = useSelector(
     (state) => state.suppliers.selectedSupplier
   );

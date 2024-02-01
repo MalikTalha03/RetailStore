@@ -15,10 +15,8 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { fetchSuppOrders } from "../../app/features/supplier";
 import { useEffect } from "react";
-import checkToken from "../loggedin";
 
 const SupplierPayment = (props) => {
-  checkToken();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchSuppOrders());

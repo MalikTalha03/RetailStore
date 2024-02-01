@@ -16,10 +16,8 @@ import "./order.css";
 import "../Customer/css/neworder.css";
 import { fetchCategories } from "../../app/features/categories";
 import { fetchSuppliers } from "../../app/features/supplier";
-import checkToken from "../loggedin";
 
 const AddProduct = (props) => {
-  checkToken();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchCategories());

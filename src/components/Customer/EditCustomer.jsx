@@ -7,12 +7,10 @@ import {
   Button,
   TextField,
 } from "@mui/material";
-import checkToken from "../loggedin";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCustomers } from "../../app/features/customer";
 
 const EditCustomer = (props) => {
-  checkToken();
   const dispatch = useDispatch();
   const { open, handleClose, customerid } = props;
   const [firstname, setFirstname] = React.useState("");

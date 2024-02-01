@@ -14,10 +14,8 @@ import { useSelector, useDispatch } from "react-redux";
 import "./order.css";
 import "../Customer/css/neworder.css";
 import { fetchCategories } from "../../app/features/categories";
-import checkToken from "../loggedin";
 
 const AddCategory = (props) => {
-  checkToken();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchCategories());

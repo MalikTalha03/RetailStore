@@ -15,10 +15,8 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCustOrders } from "../../app/features/customer";
 import { useEffect } from "react";
-import checkToken from "../loggedin";
 
 const GetPaid = (props) => {
-  checkToken();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchCustOrders());

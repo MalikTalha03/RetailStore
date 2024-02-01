@@ -13,10 +13,8 @@ import {
   DialogContentText,
   DialogActions,
 } from "@mui/material";
-import checkToken from "../loggedin";
 
 const OrderDetails = () => {
-  checkToken();
   const [open, setOpen] = useState(false);
   const handleclick = () => {
     setOpen(!open);

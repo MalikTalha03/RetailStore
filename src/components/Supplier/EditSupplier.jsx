@@ -9,15 +9,13 @@ import {
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchSuppOrders } from "../../app/features/supplier";
-import checkToken from "../loggedin";
 
 const EditSupplier = (props) => {
-  checkToken();
   const dispatch = useDispatch();
   const { open, handleClose, supplierid } = props;
-    const [name, setName] = React.useState("");
-    const [contact, setContact] = React.useState("");
-    const [address, setAddress] = React.useState("");
+  const [name, setName] = React.useState("");
+  const [contact, setContact] = React.useState("");
+  const [address, setAddress] = React.useState("");
   const suppliers = useSelector((state) => state.suppliers.supplierOrders);
   const apiurl = process.env.REACT_APP_API_URL;
   const supp = suppliers.filter((supp) => supp._id === supplierid);
@@ -32,8 +30,8 @@ const EditSupplier = (props) => {
   const saveSupplier = async () => {
     const data = {
       name: name,
-        contact: contact,
-        address: address,
+      contact: contact,
+      address: address,
     };
     const response = await fetch(`${apiurl}supplier/${supplierid}`, {
       method: "PATCH",

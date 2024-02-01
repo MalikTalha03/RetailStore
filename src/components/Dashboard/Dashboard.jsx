@@ -1,5 +1,4 @@
 import React from "react";
-import checkToken from "../loggedin";
 import { fetchTodayOrders } from "../../app/features/orders";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -9,9 +8,6 @@ import { fetchCustomers } from "../../app/features/customer";
 import "./navbar.css";
 
 const Dashboard = () => {
-  useEffect(() => {
-    checkToken();
-  }, []);
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.orders.orders);
   const suppliers = useSelector((state) => state.suppliers.suppliers);
