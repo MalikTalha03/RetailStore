@@ -23,7 +23,7 @@ const Login = () => {
         localStorage.removeItem("token");
         window.location.reload();
       } else {
-        window.location.href = "/dashboard";
+        window.location.href = "/neworder";
       }
     } catch (err) {
       console.log(err)
