@@ -14,6 +14,34 @@ import OnlineOrders from "./components/Customer/OnlineOrders";
 import AllEmployees from "./components/Employee/AllEmployees";
 import Dashboard from "./components/Dashboard/Dashboard";
 
+const logedin = () => {
+  const token = localStorage.getItem("token");
+  if (token === null || token === undefined) {
+    if (window.location.pathname !== "/login") {
+      window.location.href = "/login";
+    }
+  }
+  if (localStorage.getItem("token")) {
+    const url = process.env.REACT_APP_API_URL + "auth/login/";
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((response) => {
+      if (response.status === 200 || response.message === "JWT OK") {
+        return true;
+      } else {
+        localStorage.removeItem("token");
+        if (window.location.pathname !== "/login") {
+          window.location.href = "/login";
+        }
+      }
+    });
+  }
+};
+
 function App() {
   return (
     <BrowserRouter>
@@ -91,15 +119,7 @@ function App() {
             </>
           }
         />
-        <Route
-          path="/"
-          element={
-            <>
-              <Drawer />
-              <Dashboard />
-            </>
-          }
-        />
+        <Route path="/" element={<Login />} />
         <Route
           path="/employees"
           element={
